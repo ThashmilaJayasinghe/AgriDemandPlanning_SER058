@@ -1,23 +1,23 @@
 const mongoose = require('mongoose');
 
 const farmerSchema = mongoose.Schema({
-    Name: {
+    name: {
         type: String,
         required: [true, 'please enter name']
     },
-    Address: {
+    address: {
         type: String,
         required: [true, 'please enter address']
     },
-    Email: {
+    email: {
         type: String,
         required: [true, 'please enter email']
     },
-    Categories: [{
+    categories: [{
         type: String,
         required: [true, 'please enter category']
     }],
-    Hectare: {
+    hectare: {
         type: Number,
         required: [true, 'please enter number of hectares']
     }
