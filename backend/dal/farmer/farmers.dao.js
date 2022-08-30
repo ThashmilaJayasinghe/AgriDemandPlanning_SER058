@@ -33,8 +33,8 @@ const updateById = async (id, {name, address, email, categories, hectare}) => {
     return farmer;
 };
 
-const removeById = /*async*/ (id) => {
-    return Farmer.findByIdAndDelete(id)
+const removeById = async (id) => {
+    await Farmer.findByIdAndDelete(id)
 };
 
 
