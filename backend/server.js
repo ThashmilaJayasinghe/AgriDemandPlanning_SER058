@@ -11,4 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 
+app.use('/api/farmers', require('./routes/farmers.routes'));
+
+
 app.listen(port, ()=>console.log(`Server is running on port no : ${port}`))

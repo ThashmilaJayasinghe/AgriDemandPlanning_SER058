@@ -1,4 +1,4 @@
-const Farmer = require('farmer.model');
+const Farmer = require('./farmer.model');
 
 
 const save = async ({name, address, email, categories, hectare}) => {
@@ -9,6 +9,7 @@ const save = async ({name, address, email, categories, hectare}) => {
         categories,
         hectare
     });
+    console.log({name, address, email, categories, hectare});
     return farmer;
 };
 
