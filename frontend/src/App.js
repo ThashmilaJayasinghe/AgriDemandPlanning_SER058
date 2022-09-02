@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 import Login from './pages/Login';
-import Admin from './components/layouts/admin/Admin';
+import Admin from './components/layouts/Admin';
 
 function App() {
   return (
