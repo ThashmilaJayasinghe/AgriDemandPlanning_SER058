@@ -6,9 +6,9 @@ import FarmerLayout from './components/layouts/Farmer';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Router>
-        <div className='container'>
+        <div>
           <Routes>
               <Route path='/' element={<Login />} />
               <Route path='/admin/*' element={<Admin />} />
