@@ -1,3 +1,4 @@
+// import React from "@types/react";
 
 export default function UpdateFarmer() {
 
@@ -5,3 +6,6 @@ export default function UpdateFarmer() {
         <h1>Update Farmer</h1>
     </>
 }
+
+
+

@@ -46,79 +46,64 @@ export default function AllFarmers() {
                 <i className='bx bx-search'></i>
             </div>
             {/*End of Search Bar*/}
-            <div className="mt-8 flex flex-col">
-                <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                        <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-300">
-                                <thead className="bg-gray-50">
-                                <tr>
-                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                        <a href="#" className="group inline-flex">
-                                            Name
-                                            <span className="ml-2 flex-none rounded bg-gray-200 text-gray-900 group-hover:bg-gray-300">
-                                                <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-                                            </span>
-                                        </a>
-                                    </th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        <a href="#" className="group inline-flex">
-                                            Email
-                                            <span className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
-                                                <ChevronDownIcon
-                                                    className="invisible ml-2 h-5 w-5 flex-none rounded text-gray-400 group-hover:visible group-focus:visible"
-                                                    aria-hidden="true"
-                                                />
-                                            </span>
-                                        </a>
-                                    </th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        <a href="#" className="group inline-flex">
-                                            Size of Land (Hectares)
-                                            <span className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
-                                                <ChevronDownIcon
-                                                    className="invisible ml-2 h-5 w-5 flex-none rounded text-gray-400 group-hover:visible group-focus:visible"
-                                                    aria-hidden="true"
-                                                />
-                                            </span>
-                                        </a>
-                                    </th>
-                                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                        <span className="sr-only">Edit</span>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 bg-white">
-                                {farmers
-                                    .filter((farmer) => {
-                                        if(search === "") {
-                                            return farmer
-                                        }else if(farmer.name.toString().toLowerCase().includes(search.toLowerCase())
-                                            || farmer.email.toString().toLowerCase().includes(search.toLowerCase())
-                                            || farmer.hectare.toString().toLowerCase().includes(search.toLowerCase())
-                                        ) {
-                                            return farmer
-                                        }
-                                    })
-                                    .map((farmer) => (
-                                    <tr key={farmer.email}>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {farmer.name}
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{farmer.email}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{farmer.hectare}</td>
-                                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                            <a onClick={() => setFarmer(farmer)} href="/admin/farmerProfile" className="text-indigo-600 hover:text-indigo-900">
-                                                View Profile<span className="sr-only">, {farmer.name}</span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-300">
+                    <thead className="bg-gray-50">
+                    <tr>
+                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                            Name
+                        </th>
+                        <th
+                            scope="col"
+                            className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                        >
+                            Email
+                        </th>
+                        <th
+                            scope="col"
+                            className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                        >
+                            Size of Land (Hectares)
+                        </th>
+                        <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                            <span className="sr-only">View Profile</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 bg-white">
+                    {farmers
+                        .filter((farmer) => {
+                            if(search === "") {
+                                return farmer
+                            }else if(farmer.name.toString().toLowerCase().includes(search.toLowerCase())
+                                || farmer.email.toString().toLowerCase().includes(search.toLowerCase())
+                                || farmer.hectare.toString().toLowerCase().includes(search.toLowerCase())
+                            ) {
+                                return farmer
+                            }
+                        })
+                        .map((farmer) => (
+                            <tr key={farmer.email}>
+                                <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+                                    {farmer.name}
+                                    <dl className="font-normal lg:hidden">
+                                        <dt className="sr-only">Email</dt>
+                                        <dd className="mt-1 truncate text-gray-700">{farmer.email}</dd>
+                                        <dt className="sr-only sm:hidden">Land Size</dt>
+                                        <dd className="mt-1 truncate text-gray-500 sm:hidden">{farmer.hectare}</dd>
+                                    </dl>
+                                </td>
+                                <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{farmer.email}</td>
+                                <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{farmer.hectare}</td>
+                                <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                    <a onClick={() => setFarmer(farmer)} href="/admin/farmerProfile" className="text-indigo-600 hover:text-indigo-900">
+                                        View Profile<span className="sr-only">, {farmer.name}</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     )
