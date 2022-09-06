@@ -1,25 +1,53 @@
 const mongoose = require('mongoose');
 
 const farmerSchema = mongoose.Schema({
-    name: {
+    fullName: {
         type: String,
         required: [true, 'please enter name']
+    },
+    NIC: {
+        type: String,
+        required: [true, 'please enter NIC']
+    },
+    gender:{
+        type: String,
+        required: [true, 'please enter gender']
     },
     address: {
         type: String,
         required: [true, 'please enter address']
     },
+    province: {
+        type: String,
+        required: [true, 'please enter province']
+    },
+    district: {
+        type: String,
+        required: [true, 'please enter district']
+    },
     email: {
         type: String,
         required: [true, 'please enter email']
     },
+    contactNumber:{
+        type: String,
+        required: [true, 'please enter contact number']
+    },
+    // userName: {
+    //     type: String,
+    //     required: [true, 'please enter user name ']
+    // },
+    // password: {
+    //     type: String,
+    //     required: [true, 'please enter password']
+    // },
     categories: [{
         type: String,
-        required: [true, 'please enter category']
+        // required: [true, 'please enter category']
     }],
     hectare: {
         type: Number,
-        required: [true, 'please enter number of hectares']
+        // required: [true, 'please enter number of hectares']
     }
 });
 

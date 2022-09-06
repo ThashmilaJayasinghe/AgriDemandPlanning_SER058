@@ -3,13 +3,18 @@ const { save, getAll, getById, updateById, removeById } = require('../dal/farmer
 
 const createFarmer = async (req, res) => {
     console.log(req.body);
-    const{name, address, email, categories, hectare} = req.body;
-    console.log(name, address, email, categories, hectare);
+    const{fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare} = req.body;
+    console.log(fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare);
     try {
         const farmer = await save({
-            name,
+            fullName,
+            NIC,
+            gender,
             address,
+            province,
+            district,
             email,
+            contactNumber,
             categories: [categories],
             hectare
         });
@@ -41,13 +46,18 @@ const getFarmer = async (req, res) => {
 };
 
 const updateFarmer = async (req, res) => {
-    const {name, address, email, categories, hectare} = req.body;
+    const {fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare} = req.body;
     try {
         const farmer = await updateById(req.params.id, {
-            name,
+            fullName,
+            NIC,
+            gender,
             address,
+            province,
+            district,
             email,
-            categories,
+            contactNumber,
+            categories: [categories],
             hectare
         });
         res.status(200).json(farmer);
