@@ -17,6 +17,8 @@ import {
 import AdminHeader from "../headers/AdminHeader";
 import Dashboard from "../../pages/AdminDash";
 import AllFarmers from "../../pages/AllFarmers";
+import FarmerProfile from "../../pages/FarmerProfile";
+import UpdateFarmer from "../../pages/UpdateFarmer";
 
 
 const navigation = [
@@ -184,6 +186,8 @@ export default function AdminLayout() {
                             <Routes>
                                 <Route path="/dash" element={<Dashboard />} />
                                 <Route path="/farmers" element={<AllFarmers />} />
+                                <Route path="/farmerProfile" element={<FarmerProfile />} />
+                                <Route path="/updateFarmer" element={<UpdateFarmer />} />
                             </Routes>
                             {/* /End replace */}
                         </div>
