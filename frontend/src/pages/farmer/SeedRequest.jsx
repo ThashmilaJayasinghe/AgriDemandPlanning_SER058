@@ -2,6 +2,7 @@ import React, { useState, Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { useEffect } from "react";
+import FormWrapper from "../../components/wrappers/FormWrapper";
 
 const staticCategories = [
   {
@@ -34,24 +35,22 @@ const SeedRequest = () => {
   const [categories, setCategories] = useState(staticCategories);
   const [selectedCategory, setSelectedCategory] = useState(staticCategories[0]);
   const [selectedType, setSelectedType] = useState("Select type . . .");
-  const [size, setSize] = useState(0.00);
-  const [weight, setWeight] = useState(0.00)
-  const [location, setLocation] = useState('')
+  const [size, setSize] = useState(0.0);
+  const [weight, setWeight] = useState(0.0);
+  const [location, setLocation] = useState("");
 
   useEffect(() => {
     setSelectedType(selectedCategory.types[0]);
   }, [selectedCategory]);
 
   const handleSubmit = () => {
-    console.log(selectedCategory.title, selectedType, size, weight, location)
+    console.log(selectedCategory.title, selectedType, size, weight, location);
 
     // use axios calls and save data in DB
-
-  }
+  };
 
   return (
-    // use a wrapper to wrap all the items at once
-    <div className=" mx-8  md:mx-32 lg:mx-52">
+    <FormWrapper>
       <>
         <div className="my-16">
           <p className="font-semibold text-2xl text-center">Seed Request</p>
@@ -186,7 +185,9 @@ const SeedRequest = () => {
             id="size"
             autoComplete="given-name"
             className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
-            onChange={(event) => {setSize(event.target.value)}}
+            onChange={(event) => {
+              setSize(event.target.value);
+            }}
           />
           <label
             htmlFor="weight"
@@ -200,7 +201,9 @@ const SeedRequest = () => {
             id="weight"
             autoComplete="given-name"
             className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
-            onChange={(event) => {setWeight(event.target.value)}}
+            onChange={(event) => {
+              setWeight(event.target.value);
+            }}
           />
           <label
             htmlFor="location"
@@ -214,11 +217,14 @@ const SeedRequest = () => {
             id="location"
             autoComplete="given-name"
             className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
-            onChange={(event) => {setLocation(event.target.value)}}
+            onChange={(event) => {
+              setLocation(event.target.value);
+            }}
           />
 
           <div className="flex items-center justify-center mt-10">
-            <div className="px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors cursor-pointer"
+            <div
+              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors cursor-pointer"
               onClick={handleSubmit}
             >
               Submit
@@ -226,7 +232,7 @@ const SeedRequest = () => {
           </div>
         </div>
       </>
-    </div>
+    </FormWrapper>
   );
 };
 
