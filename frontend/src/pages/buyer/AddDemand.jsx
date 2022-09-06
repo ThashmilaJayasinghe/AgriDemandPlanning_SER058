@@ -1,16 +1,39 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import FormWrapper from "../../components/wrappers/FormWrapper";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const staticCategories = [
+  {
+    id: "7c1a427f-6318-48f9-a256-91b2fd924aab",
+    title: "Seeds",
+    types: ["Melon", "Pumpkin", "Black papper", "Sunflower"],
+  },
+  {
+    id: "bc022097-96e1-475a-b3dd-09255580036e",
+    title: "Rise",
+    types: ["Kalu Heenati", "Keeri Samba", "Pachchaperumal", "Suwandal"],
+  },
+  {
+    id: "baf1cf1b-30e7-42d8-a8d3-fb81720a360c",
+    title: "Vegitables",
+    types: ["Beetroot", "Carrot", "Kohila", "Potato", "Radish", "Lotus root"],
+  },
+  {
+    id: "a1f6d244-3e91-48ef-b104-08b1328607e9",
+    title: "Fruits",
+    types: ["Mango", "Papaya", "Pineapple", "Avacado", "Banana"],
+  },
+];
+
 const AddDemand = () => {
-  const [categories, setCategories] = useState([]);
-  const [types, setTypes] = useState();
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState(staticCategories);
+  const [types, setTypes] = useState(staticCategories[0].types[0]);
+  const [selectedCategory, setSelectedCategory] = useState(staticCategories[0]);
   const [selectedType, setSelectedType] = useState("");
   const [sellings, setSellings] = useState(0.0);
   const [unitPrice, setUnitPrice] = useState(0.0);
@@ -18,8 +41,12 @@ const AddDemand = () => {
 
   const handleSubmit = () => {
     console.log("Submitted");
-    console.log(selectedCategory, selectedType, sellings, unitPrice, remarks);
+    console.log(selectedCategory.title, selectedType, sellings, unitPrice, remarks);
   };
+
+  useEffect(() => {
+    setSelectedType(selectedCategory.types[0])
+  }, [selectedCategory])
 
   return (
     <FormWrapper>
@@ -123,7 +150,7 @@ const AddDemand = () => {
             >
               <Menu.Items className="absolute mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-emerald-400 ring-opacity-5 focus:outline-none overflow-visible z-50">
                 <div className="py-1">
-                  {/* {selectedCategory.types.map((item, idx) => {
+                  {selectedCategory.types.map((item, idx) => {
                     return (
                       <Menu.Item key={item}>
                         {({ active }) => (
@@ -141,7 +168,7 @@ const AddDemand = () => {
                         )}
                       </Menu.Item>
                     );
-                  })} */}
+                  })}
                 </div>
               </Menu.Items>
             </Transition>
