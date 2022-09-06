@@ -12,6 +12,7 @@ app.use(express.json());
 
 
 app.use('/api/farmers', require('./routes/farmers.routes'));
+app.use('/api/buyer',require('./routes/buyers.routes'));
 app.use('/api/seller', require('./routes/sellers.routes'));
 
 
