@@ -19,6 +19,8 @@ import {
   UserGroupIcon,
   ViewGridIcon,
   XIcon,
+  DocumentAddIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -26,29 +28,23 @@ import { Link } from "react-router-dom";
 
 const solutions = [
   {
-    name: "Analytics",
+    name: "New Request",
     description:
       "Get a better understanding of where your traffic is coming from.",
-    href: "#",
-    icon: ChartBarIcon,
+    path: "/farmer/seedRequest",
+    icon: DocumentAddIcon,
   },
   {
-    name: "Engagement",
+    name: "My Requests",
     description: "Speak directly to your customers in a more meaningful way.",
-    href: "#",
-    icon: CursorClickIcon,
+    path: "/farmer/mySeedRequests",
+    icon: DocumentTextIcon,
   },
   {
-    name: "Security",
+    name: "Evaluated Requests",
     description: "Your customers' data will be safe and secure.",
-    href: "#",
+    path: "#",
     icon: ShieldCheckIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools that you're already using.",
-    href: "#",
-    icon: ViewGridIcon,
   },
 ];
 const callsToAction = [
@@ -120,15 +116,43 @@ const FarmerHeader = () => {
             </div>
 
             {/* items of header */}
+            {isLoggedIn == true && (
+              <div className="-mr-2 -my-2 md:hidden">
+                <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
+                  <span className="sr-only">Open menu</span>
+                  <MenuIcon className="h-6 w-6" aria-hidden="true" />
+                </Popover.Button>
+              </div>
+            )}
 
-            <div className="-mr-2 -my-2 md:hidden">
-              <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                <span className="sr-only">Open menu</span>
-                <MenuIcon className="h-6 w-6" aria-hidden="true" />
-              </Popover.Button>
-            </div>
-            <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
-              <Popover.Group as="nav" className="flex space-x-10">
+            <div
+              className={classNames(
+                !isLoggedIn ? "relative" : "hidden",
+                "md:flex-1 md:flex md:items-center md:justify-between"
+              )}
+            >
+              {isLoggedIn == true && (
+                <Popover.Group as="nav" className="flex space-x-10">
+                  <Link to="/farmer/seedRequest">
+                    <div className="inline-flex items-center justify-center px-3 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors">
+                      + New Request
+                    </div>
+                  </Link>
+                  <Link
+                    to="/farmer/mySeedRequests"
+                    className="text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    My Requests
+                  </Link>
+                  <a
+                    href="#"
+                    className="text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    Evaluated Requests
+                  </a>
+
+                  {/* If you want dropdown for header, use this */}
+                  {/* 
                 <Popover>
                   {({ open }) => (
                     <>
@@ -215,25 +239,9 @@ const FarmerHeader = () => {
                       </Transition>
                     </>
                   )}
-                </Popover>
-                <Link to="/farmer/seedRequest">
-                  <div className="ml-8 inline-flex items-center justify-center px-3 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors">
-                    + New Request
-                  </div>
-                </Link>
-                <a
-                  href="#"
-                  className="text-base font-medium text-gray-500 hover:text-gray-900"
-                >
-                  My Requests
-                </a>
-                <a
-                  href="#"
-                  className="text-base font-medium text-gray-500 hover:text-gray-900"
-                >
-                  Evaluated Requests
-                </a>
-              </Popover.Group>
+                </Popover> */}
+                </Popover.Group>
+              )}
 
               {isLoggedIn === true ? (
                 <>
@@ -242,16 +250,21 @@ const FarmerHeader = () => {
                 </>
               ) : (
                 <>
-                  <div className="flex items-center md:ml-12">
+                  <div
+                    className={classNames(
+                      !isLoggedIn && "-mt-5 md:mt-0",
+                      "absolute right-0 flex items-center"
+                    )}
+                  >
                     <a
                       href="#"
-                      className="text-base font-medium text-gray-500 hover:text-gray-900"
+                      className="text-base font-medium text-gray-500 hover:text-gray-900 whitespace-nowrap"
                     >
                       Sign in
                     </a>
                     <a
                       href="#"
-                      className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors"
+                      className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors whitespace-nowrap "
                     >
                       Sign up
                     </a>
@@ -275,7 +288,7 @@ const FarmerHeader = () => {
             focus
             className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
           >
-            <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
+            <div className="rounded-lg shadow-lg ring-1 ring-emerald-500 ring-opacity-5 bg-white divide-y-2 divide-gray-50">
               <div className="pt-5 pb-6 px-5 sm:pb-8">
                 <div className="flex items-center justify-between">
                   <div>
@@ -286,7 +299,7 @@ const FarmerHeader = () => {
                     />
                   </div>
                   <div className="-mr-2">
-                    <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                    <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                       <span className="sr-only">Close menu</span>
                       <XIcon className="h-6 w-6" aria-hidden="true" />
                     </Popover.Button>
@@ -294,103 +307,53 @@ const FarmerHeader = () => {
                 </div>
                 <div className="mt-6 sm:mt-8">
                   <nav>
-                    <div className="grid gap-7 sm:grid-cols-2 sm:gap-y-8 sm:gap-x-4">
+                    <div className="grid gap-y-4 sm:gap-x-4">
                       {solutions.map((item) => (
-                        <a
+                        <Link to = {item.path}
                           key={item.name}
                           href={item.href}
                           className="-m-3 flex items-center p-3 rounded-lg hover:bg-gray-50"
                         >
-                          <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white sm:h-12 sm:w-12">
+                          <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-emerald-500 text-white sm:h-12 sm:w-12">
                             <item.icon className="h-6 w-6" aria-hidden="true" />
                           </div>
                           <div className="ml-4 text-base font-medium text-gray-900">
                             {item.name}
                           </div>
-                        </a>
+                        </Link>
                       ))}
-                    </div>
-                    <div className="mt-8 text-base">
-                      <a
-                        href="#"
-                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                      >
-                        {" "}
-                        View all products <span aria-hidden="true">&rarr;</span>
-                      </a>
                     </div>
                   </nav>
                 </div>
               </div>
-              <div className="py-6 px-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <a
-                    href="#"
-                    className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Pricing
-                  </a>
-
-                  <a
-                    href="#"
-                    className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Docs
-                  </a>
-
-                  <a
-                    href="#"
-                    className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Company
-                  </a>
-
-                  <a
-                    href="#"
-                    className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Resources
-                  </a>
-
-                  <a
-                    href="#"
-                    className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Blog
-                  </a>
-
-                  <a
-                    href="#"
-                    className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    Contact Sales
-                  </a>
+              <div className="py-6 px-5 mt-6">
+                <div className="text-center text-sm text-gray-400">
+                  -- All rights reserved for SLIIT --
                 </div>
-                <div className="mt-6">
-                  {isLoggedIn === false ? (
-                    <>
-                      <div className="items-center md:ml-12">
+
+                {isLoggedIn === false ? (
+                  <>
+                    <div className="items-center md:ml-12">
+                      <a
+                        href="#"
+                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600"
+                      >
+                        Sign up
+                      </a>
+                      <p className="mt-3 text-center text-base font-medium text-gray-500">
+                        Existing customer?{" "}
                         <a
                           href="#"
-                          className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600"
+                          className="text-emerald-600 hover:text-emarald-500"
                         >
-                          Sign up
+                          Sign in
                         </a>
-                        <p className="mt-3 text-center text-base font-medium text-gray-500">
-                          Existing customer?{" "}
-                          <a
-                            href="#"
-                            className="text-emerald-600 hover:text-emarald-500"
-                          >
-                            Sign in
-                          </a>
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <>{/* Display whatever when user login */}</>
-                  )}
-                </div>
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <>{/* Display whatever when user login */}</>
+                )}
               </div>
             </div>
           </Popover.Panel>
