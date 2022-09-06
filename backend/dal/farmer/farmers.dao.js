@@ -1,15 +1,19 @@
 const Farmer = require('./farmer.model');
 
-
-const save = async ({name, address, email, categories, hectare}) => {
+const save = async ({fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare}) => {
     const farmer = await Farmer.create({
-        name,
+        fullName,
+        NIC,
+        gender,
         address,
+        province,
+        district,
         email,
+        contactNumber,
         categories,
         hectare
     });
-    console.log({name, address, email, categories, hectare});
+    console.log({fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare});
     return farmer;
 };
 
@@ -23,11 +27,16 @@ const getById = async (id) => {
     return farmer;
 };
 
-const updateById = async (id, {name, address, email, categories, hectare}) => {
+const updateById = async (id, {fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare}) => {
     const farmer = await Farmer.findByIdAndUpdate(id, {
-        name,
+        fullName,
+        NIC,
+        gender,
         address,
+        province,
+        district,
         email,
+        contactNumber,
         categories,
         hectare
     })
