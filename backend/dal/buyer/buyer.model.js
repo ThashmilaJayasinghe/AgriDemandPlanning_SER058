@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const farmerSchema = mongoose.Schema({
+const buyerSchema = mongoose.Schema({
     fullName: {
         type: String,
         required: [true, 'please enter name']
@@ -8,6 +8,10 @@ const farmerSchema = mongoose.Schema({
     NIC: {
         type: String,
         required: [true, 'please enter NIC']
+    },
+    ShopName: {
+        type: String,
+        required: [true, 'please enter shop name' ]
     },
     gender:{
         type: String,
@@ -41,14 +45,6 @@ const farmerSchema = mongoose.Schema({
     //     type: String,
     //     required: [true, 'please enter password']
     // },
-    categories: [{
-        type: String,
-        // required: [true, 'please enter category']
-    }],
-    hectare: {
-        type: Number,
-        // required: [true, 'please enter number of hectares']
-    }
 });
 
-module.exports = mongoose.model('Farmer', farmerSchema);
+module.exports = mongoose.model('Buyer', buyerSchema);
