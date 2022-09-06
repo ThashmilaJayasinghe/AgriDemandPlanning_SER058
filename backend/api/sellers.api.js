@@ -1,4 +1,4 @@
-const { addProductDemand } = require("../dal/seller/seller.dao");
+const { addProductDemand, getProductDemand} = require("../dal/seller/seller.dao");
 
 const addDemand = async (req, res) => {
   const buyerID = req.params.id;
@@ -22,4 +22,14 @@ const addDemand = async (req, res) => {
   }
 };
 
-module.exports = addDemand;
+const getDemands = async (req,res) => {
+  try {
+    const demands = await getProductDemand();
+    res.status(200).json(demands);
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+  }
+}
+
+module.exports = {addDemand,getDemands};

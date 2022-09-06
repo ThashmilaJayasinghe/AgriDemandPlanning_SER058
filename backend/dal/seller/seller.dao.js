@@ -33,4 +33,9 @@ console.log(haveDemand);
 
 };
 
-module.exports = { addProductDemand };
+const getProductDemand = async () =>{
+  const demands = await Demand.find();
+  return demands;
+}
+
+module.exports = { addProductDemand , getProductDemand};
