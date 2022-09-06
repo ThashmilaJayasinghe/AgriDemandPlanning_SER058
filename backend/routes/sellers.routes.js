@@ -2,6 +2,6 @@ const express = require('express');
 const addDemand = require('../api/sellers.api');
 const router = express.Router();
 
-router.post('/addDemand', addDemand);
+router.post('/addDemand/:id', addDemand);
 
 module.exports = router;
