@@ -25,7 +25,7 @@ export default function AllFarmers() {
         <div className="px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
                 <div className="sm:flex-auto">
-                    <h1 className="text-xl font-semibold text-gray-900">Users</h1>
+                    <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
                     <p className="mt-2 text-sm text-gray-700">
                         A list of all the users in your account including their name, title, email and role.
                     </p>
