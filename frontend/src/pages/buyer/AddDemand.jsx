@@ -3,6 +3,8 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import React, { Fragment, useEffect, useState } from "react";
 import { createProductDemand } from "../../api/ProductDemandAPI";
 import FormWrapper from "../../components/wrappers/FormWrapper";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -43,14 +45,39 @@ const AddDemand = () => {
   const [userId, setUserId] = useState("6316e8f38ec2b4c57b170a34");
 
   const handleSubmit = async () => {
-    await createProductDemand({
-      buyerID: userId,
-      category: selectedCategory.title,
-      type: selectedType,
-      sellings,
-      unitPrice,
-      remarks
-    }, setIsCreationSuccess).then(() => console.log("Demand added success"));
+    await createProductDemand(
+      {
+        buyerID: userId,
+        category: selectedCategory.title,
+        type: selectedType,
+        sellings,
+        unitPrice,
+        remarks,
+      },
+      setIsCreationSuccess
+    )
+      .then(() => {
+        toast.success("Data added successfully !", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch(() => {
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   useEffect(() => {
@@ -61,6 +88,7 @@ const AddDemand = () => {
     <FormWrapper>
       <>
         <div className="my-16">
+          <ToastContainer/>
           <p className="font-semibold text-2xl text-center">
             Add demand for a product
           </p>

@@ -10,6 +10,8 @@ import {
 import moment from "moment/moment";
 import { FiAlertCircle } from "react-icons/fi";
 import CircularProgress from "@mui/material/CircularProgress";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SeedRequestList = () => {
   const [myRequests, setMyRequests] = useState([]);
@@ -38,9 +40,29 @@ const SeedRequestList = () => {
   const onDelete = async (requestId) => {
     console.log("onDelete - ", requestId);
 
-    await deleteSeedRequest(requestId, setIsDeleteSuccess).then(() => {
-      console.log("Request deleted successfully");
-    });
+    await deleteSeedRequest(requestId, setIsDeleteSuccess)
+      .then(() => {
+        toast.success("Request deleted!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch(() => {
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
     await viewFarmerSeedRequest(
       userId,
       setMyRequests,
@@ -79,6 +101,33 @@ const SeedRequestList = () => {
     }
   }, [searchQuery]);
 
+  // to notify whether delete is success or not
+  useEffect(() => {
+    if (isDeleteSuccess === true) {
+      console.log("Delete successed");
+      // toast.success("Request deleted!", {
+      //   position: "top-right",
+      //   autoClose: 3000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
+    } else {
+      console.log("Delete unsuccess");
+      // toast.error("Something went wrong!", {
+      //   position: "top-right",
+      //   autoClose: 3000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
+    }
+  }, [isDeleteSuccess]);
+
   return (
     <div>
       <MyRequestsWrapper>
@@ -86,7 +135,8 @@ const SeedRequestList = () => {
           {" "}
           My Requests{" "}
         </div>
-
+        {/* added toast container here, because of my easyness */}
+        <ToastContainer />
         <div className="pb-4">
           <input
             type="text"
