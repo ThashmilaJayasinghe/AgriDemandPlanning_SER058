@@ -25,7 +25,7 @@ export const createSeedRequest = async (
   }
 };
 
-export const viewFarmerSeedRequest = async (farmerId, setMyRequests) => {
+export const viewFarmerSeedRequest = async (farmerId, setMyRequests, setFilteredRequests, setIsSearchResultExists) => {
   try {
     await axios
       .get(`${BACKEND_URL}/seed-request/view-seed-request`, {
@@ -34,8 +34,12 @@ export const viewFarmerSeedRequest = async (farmerId, setMyRequests) => {
       .then((result) => {
         if (result.data.success === true) {
           setMyRequests(result.data.data);
+          setFilteredRequests(result.data.data)
+          setIsSearchResultExists(result.data.success)
         } else {
           setMyRequests([]);
+          setFilteredRequests([])
+          setIsSearchResultExists(result.data.success)
         }
       });
   } catch (err) {
