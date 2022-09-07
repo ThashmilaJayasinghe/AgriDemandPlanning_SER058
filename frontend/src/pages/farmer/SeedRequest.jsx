@@ -3,6 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { useEffect } from "react";
 import FormWrapper from "../../components/wrappers/FormWrapper";
+import { createSeedRequest } from "../../api/SeedRequestAPI";
 
 const staticCategories = [
   {
@@ -38,15 +39,27 @@ const SeedRequest = () => {
   const [size, setSize] = useState(0.0);
   const [weight, setWeight] = useState(0.0);
   const [location, setLocation] = useState("");
+  const [isCreationSuccess, setIsCreationSuccess] = useState(false);
+  const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
 
   useEffect(() => {
     setSelectedType(selectedCategory.types[0]);
   }, [selectedCategory]);
 
-  const handleSubmit = () => {
-    console.log(selectedCategory.title, selectedType, size, weight, location);
-
-    // use axios calls and save data in DB
+  const handleSubmit = async () => {
+    await createSeedRequest(
+      {
+        farmerId: userId,
+        category: selectedCategory.title,
+        type: selectedType,
+        sizeOfLand: size,
+        weight,
+        location,
+      },
+      setIsCreationSuccess
+    ).then(() => {
+      console.log("Data added success");
+    });
   };
 
   return (
