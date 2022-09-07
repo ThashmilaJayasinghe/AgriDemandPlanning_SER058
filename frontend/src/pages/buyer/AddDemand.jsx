@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import React, { Fragment, useEffect, useState } from "react";
+import { createProductDemand } from "../../api/ProductDemandAPI";
 import FormWrapper from "../../components/wrappers/FormWrapper";
 
 function classNames(...classes) {
@@ -38,15 +39,23 @@ const AddDemand = () => {
   const [sellings, setSellings] = useState(0.0);
   const [unitPrice, setUnitPrice] = useState(0.0);
   const [remarks, setRemarks] = useState("");
+  const [isCreationSuccess, setIsCreationSuccess] = useState(false);
+  const [userId, setUserId] = useState("6316e8f38ec2b4c57b170a34");
 
-  const handleSubmit = () => {
-    console.log("Submitted");
-    console.log(selectedCategory.title, selectedType, sellings, unitPrice, remarks);
+  const handleSubmit = async () => {
+    await createProductDemand({
+      buyerID: userId,
+      category: selectedCategory.title,
+      type: selectedType,
+      sellings,
+      unitPrice,
+      remarks
+    }, setIsCreationSuccess).then(() => console.log("Demand added success"));
   };
 
   useEffect(() => {
-    setSelectedType(selectedCategory.types[0])
-  }, [selectedCategory])
+    setSelectedType(selectedCategory.types[0]);
+  }, [selectedCategory]);
 
   return (
     <FormWrapper>
