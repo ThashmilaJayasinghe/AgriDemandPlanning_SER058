@@ -8,6 +8,7 @@ import {
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 import { AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { viewFarmerSeedRequest } from "../../api/SeedRequestAPI";
 
 const positions = [
   {
@@ -66,9 +67,22 @@ const staticRequests = [
 const SeedRequestList = () => {
   const [myRequests, setMyRequests] = useState(staticRequests);
   const [searchQuery, setSearchQuery] = useState("");
+  const [userId, setUserId] = useState("630e177910470806f04c70ad");
+  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false)
+
+  useEffect(() => {
+    async function getRequests(){
+      await viewFarmerSeedRequest({farmerId: userId}, setMyRequests).then(() => {
+        console.log("Data retrieved success")
+      })
+    }
+    getRequests();
+  }, [])
 
   const onDelete = (requestId) => {
     console.log("onDelete - ", requestId);
+
+    // use axios calls and delete from db
   };
 
   const onUpdate = (requestId) => {
@@ -83,7 +97,7 @@ const SeedRequestList = () => {
           My Requests{" "}
         </div>
 
-        <div className="">
+        <div className="pb-4">
           <input
             type="text"
             name="searchRequests"
@@ -93,7 +107,7 @@ const SeedRequestList = () => {
             onChange={(event) => {
               setSearchQuery(event.target.value);
             }}
-            placeholder= 'Search . . .'
+            placeholder="Search . . ."
           />
         </div>
 
