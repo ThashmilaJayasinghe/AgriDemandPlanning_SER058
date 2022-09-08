@@ -77,7 +77,6 @@ const deleteFarmer = async (req, res) => {
     }
 };
 
-
 module.exports = {
     createFarmer,
     getFarmers,

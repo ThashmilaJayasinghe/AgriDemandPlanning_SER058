@@ -8,17 +8,14 @@ import FarmerHeader from "../headers/FarmerHeader";
 
 function FarmerLayout() {
   return (
-    <div >
-      {/* farmer header */}
+    <div>
       <FarmerHeader />
-      {/* farmer routes */}
       <Routes>
         <Route path="/seedRequest" element={<SeedRequest />} />
         <Route path="/mySeedRequests" element={<SeedRequestList />} />
-        
+
         {/* For just testing only, this should move to buyer routes */}
         <Route path="/add-demand" element={<AddDemand />} />
-
       </Routes>
     </div>
   );
