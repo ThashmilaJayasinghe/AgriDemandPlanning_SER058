@@ -25,6 +25,7 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AiOutlineHome } from "react-icons/ai";
 
 const solutions = [
   {
@@ -103,16 +104,9 @@ const FarmerHeader = () => {
         />
         <div className="relative z-20">
           <div className="max-w-full mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-4 lg:px-8 md:justify-start md:space-x-10">
-            {/* Logo */}
+            {/* Home logo */}
             <div>
-              <a href="#" className="flex">
-                <span className="sr-only">Workflow</span>
-                <img
-                  className="h-8 w-auto sm:h-10"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                  alt=""
-                />
-              </a>
+              <AiOutlineHome size={34} color="#1a8a38" />
             </div>
 
             {/* items of header */}
@@ -246,7 +240,13 @@ const FarmerHeader = () => {
               {isLoggedIn === true ? (
                 <>
                   {/* User profile icon here */}
-                  <FaRegUserCircle size={40} />
+                  <div>
+                    <img
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+                      alt="Profile image"
+                      className="rounded-full w-10 h-10"
+                    />
+                  </div>
                 </>
               ) : (
                 <>
@@ -309,7 +309,8 @@ const FarmerHeader = () => {
                   <nav>
                     <div className="grid gap-y-4 sm:gap-x-4">
                       {solutions.map((item) => (
-                        <Link to = {item.path}
+                        <Link
+                          to={item.path}
                           key={item.name}
                           href={item.href}
                           className="-m-3 flex items-center p-3 rounded-lg hover:bg-gray-50"
