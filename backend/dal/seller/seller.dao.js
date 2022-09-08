@@ -38,4 +38,17 @@ const getProductDemand = async () =>{
   return demands;
 }
 
-module.exports = { addProductDemand , getProductDemand};
+const getOneProductDemand = async (buyerID)=>{
+  try{
+    let demands = await Demand.findOne({buyerID})
+    if(demands){
+      return demands;
+    }else {
+      return null;
+    }
+  }catch (err){
+    return err;
+  }
+}
+
+module.exports = { addProductDemand , getProductDemand,getOneProductDemand};
