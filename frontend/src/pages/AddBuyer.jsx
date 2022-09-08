@@ -1,8 +1,46 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import FormWrapper from "../components/wrappers/FormWrapper";
+import axios from "axios";
 
 export default function AddBuyer() {
+
+    const [fullName, setFullName] = useState("");
+    const [nic , setNic] = useState("");
+    const [shopName, setShopName] = useState("");
+    const [gender, setGender] = useState("");
+    const [address, setAddress] = useState("");
+    const [district, setDistrict] = useState("");
+    const [province, setProvince] = useState("");
+    const [email, setEmail] = useState("");
+    const [contactNumber, setContactNumber] = useState("");
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = () => {
+      const newBuyer = {
+          fullName,
+          NIC:nic,
+          ShopName:shopName,
+          gender,
+          address,
+          district,
+          province,
+          email,
+          contactNumber,
+          userName,
+          password
+      }
+
+      axios.post('http://localhost:8000/api/buyer/',newBuyer)
+          .then(()=>{
+              alert('Request Sent')
+          })
+          .catch((err)=>{
+              alert(err);
+          })
+    }
+
         return (
             <div>
                 <FormWrapper>
@@ -26,6 +64,7 @@ export default function AddBuyer() {
                                                     id="fullName"
                                                     placeholder="Buyer's Full Name"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setFullName(e.target.value))}
                                                 />
                                             </div>
                                         </div>
@@ -41,6 +80,7 @@ export default function AddBuyer() {
                                                     id="nic"
                                                     placeholder="Buyer's NIC Number"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setNic(e.target.value))}
                                                 />
                                             </div>
                                         </div>
@@ -56,6 +96,7 @@ export default function AddBuyer() {
                                                     id="shopName"
                                                     placeholder="Buyer's Shop Name"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setShopName(e.target.value))}
                                                 />
                                             </div>
                                         </div>
@@ -71,8 +112,10 @@ export default function AddBuyer() {
                                                         name="push-gender"
                                                         type="radio"
                                                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                        value="Male"
+                                                        onChange={(e)=>(setGender(e.target.value))}
                                                     />
-                                                    <label htmlFor="push-everything" className="ml-3 block text-sm font-medium text-gray-700">
+                                                    <label className="ml-3 block text-sm font-medium text-gray-700">
                                                         Male
                                                     </label>
                                                 </div>
@@ -82,8 +125,10 @@ export default function AddBuyer() {
                                                         name="push-gender"
                                                         type="radio"
                                                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                        value="Female"
+                                                        onChange={(e)=>(setGender(e.target.value))}
                                                     />
-                                                    <label htmlFor="push-email" className="ml-3 block text-sm font-medium text-gray-700">
+                                                    <label className="ml-3 block text-sm font-medium text-gray-700">
                                                         Female
                                                     </label>
                                                 </div>
@@ -100,7 +145,7 @@ export default function AddBuyer() {
                                     </div>
                                     <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                                         <div className="sm:col-span-6">
-                                            <label htmlFor="Address" className="block text-sm font-medium text-gray-700">
+                                            <label className="block text-sm font-medium text-gray-700">
                                                 Address
                                             </label>
                                             <div className="mt-1">
@@ -110,6 +155,7 @@ export default function AddBuyer() {
                                                     id="address"
                                                     placeholder="Buyer's Shop Address"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setAddress(e.target.value))}
                                                 />
                                             </div>
                                         </div>
@@ -124,7 +170,9 @@ export default function AddBuyer() {
                                                     name="district"
                                                     placeholder="Shop's District"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setDistrict(e.target.value))}
                                                 >
+                                                    <option>District of the Shop</option>
                                                     <option>Colombo</option>
                                                     <option>Gampaha</option>
                                                     <option>Kalutara</option>
@@ -163,7 +211,9 @@ export default function AddBuyer() {
                                                     name="province"
                                                     placeholder="Shop's Province"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setProvince(e.target.value))}
                                                 >
+                                                    <option>Province of the Shop</option>
                                                     <option>Western</option>
                                                     <option>Central</option>
                                                     <option>Southern</option>
@@ -187,7 +237,7 @@ export default function AddBuyer() {
                                     </div>
                                     <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                                         <div className="sm:col-span-6">
-                                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                            <label className="block text-sm font-medium text-gray-700">
                                                 Email Address
                                             </label>
                                             <div className="mt-1">
@@ -197,6 +247,7 @@ export default function AddBuyer() {
                                                     id="email"
                                                     placeholder="Buyer's Email Address"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setEmail(e.target.value))}
                                                 />
                                             </div>
                                         </div>
@@ -212,6 +263,7 @@ export default function AddBuyer() {
                                                     id="number"
                                                     placeholder="Buyer's Contact Number"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setContactNumber(e.target.value))}
                                                 />
                                             </div>
                                         </div>
@@ -226,7 +278,7 @@ export default function AddBuyer() {
                                     </div>
                                     <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                                         <div className="sm:col-span-6">
-                                            <label htmlFor="userName" className="block text-sm font-medium text-gray-700">
+                                            <label className="block text-sm font-medium text-gray-700">
                                                 User Name
                                             </label>
                                             <div className="mt-1">
@@ -236,12 +288,13 @@ export default function AddBuyer() {
                                                     id="userName"
                                                     placeholder="Buyer's User Name"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setUserName(e.target.value))}
                                                 />
                                             </div>
                                         </div>
 
                                         <div className="sm:col-span-6">
-                                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                            <label className="block text-sm font-medium text-gray-700">
                                                 Password
                                             </label>
                                             <div className="mt-1">
@@ -251,12 +304,13 @@ export default function AddBuyer() {
                                                     id="password"
                                                     placeholder="Buyer's Password"
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                    onChange={(e)=>(setPassword(e.target.value))}
                                                 />
                                             </div>
                                         </div>
 
                                         <div className="sm:col-span-6">
-                                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                            <label className="block text-sm font-medium text-gray-700">
                                                 Conform Password
                                             </label>
                                             <div className="mt-1">
@@ -284,6 +338,7 @@ export default function AddBuyer() {
                                     <button
                                         type="submit"
                                         className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        onClick={handleSubmit}
                                     >
                                         Save
                                     </button>
