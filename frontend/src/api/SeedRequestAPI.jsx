@@ -25,8 +25,12 @@ export const createSeedRequest = async (
   }
 };
 
-// this function has some issues
-export const viewFarmerSeedRequest = async (farmerId, setMyRequests) => {
+export const viewFarmerSeedRequest = async (
+  farmerId,
+  setMyRequests,
+  setFilteredRequests,
+  setIsSearchResultExists
+) => {
   try {
     await axios
       .get(`${BACKEND_URL}/seed-request/view-seed-request`, {
@@ -35,8 +39,12 @@ export const viewFarmerSeedRequest = async (farmerId, setMyRequests) => {
       .then((result) => {
         if (result.data.success === true) {
           setMyRequests(result.data.data);
+          setFilteredRequests(result.data.data);
+          setIsSearchResultExists(result.data.success);
         } else {
           setMyRequests([]);
+          setFilteredRequests([]);
+          setIsSearchResultExists(result.data.success);
         }
       });
   } catch (err) {
@@ -47,7 +55,9 @@ export const viewFarmerSeedRequest = async (farmerId, setMyRequests) => {
 export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
   try {
     await axios
-      .delete(`${BACKEND_URL}/seed-request/delete-seed-request`, { requestId })
+      .delete(`${BACKEND_URL}/seed-request/delete-seed-request`, {
+        params: { requestId },
+      })
       .then((result) => {
         setIsDeleteSuccess(result.data.success);
       });

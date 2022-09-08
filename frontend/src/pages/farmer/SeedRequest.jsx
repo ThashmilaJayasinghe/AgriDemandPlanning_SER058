@@ -4,6 +4,8 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import { useEffect } from "react";
 import FormWrapper from "../../components/wrappers/FormWrapper";
 import { createSeedRequest } from "../../api/SeedRequestAPI";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const staticCategories = [
   {
@@ -57,14 +59,35 @@ const SeedRequest = () => {
         location,
       },
       setIsCreationSuccess
-    ).then(() => {
-      console.log("Data added success");
-    });
+    )
+      .then(() => {
+        toast.success("Data added successfully !", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch(() => {
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   return (
     <FormWrapper>
       <>
+        <ToastContainer />
         <div className="my-16">
           <p className="font-semibold text-2xl text-center">Seed Request</p>
 
