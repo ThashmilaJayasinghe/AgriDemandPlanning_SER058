@@ -30,7 +30,7 @@ const farmerSchema = mongoose.Schema({
         required: [true, 'please enter email']
     },
     contactNumber:{
-        type: String,
+        type: Number,
         required: [true, 'please enter contact number']
     },
     // userName: {
@@ -42,7 +42,7 @@ const farmerSchema = mongoose.Schema({
     //     required: [true, 'please enter password']
     // },
     categories: [{
-        type: String,
+        type: Array,
         // required: [true, 'please enter category']
     }],
     hectare: {
