@@ -75,7 +75,7 @@ export default function AllFarmers() {
                         .filter((farmer) => {
                             if(search === "") {
                                 return farmer
-                            }else if(farmer.name.toString().toLowerCase().includes(search.toLowerCase())
+                            }else if(farmer.fullName.toString().toLowerCase().includes(search.toLowerCase())
                                 || farmer.email.toString().toLowerCase().includes(search.toLowerCase())
                                 || farmer.hectare.toString().toLowerCase().includes(search.toLowerCase())
                             ) {
@@ -85,7 +85,7 @@ export default function AllFarmers() {
                         .map((farmer) => (
                             <tr key={farmer.email}>
                                 <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                                    {farmer.name}
+                                    {farmer.fullName}
                                     <dl className="font-normal lg:hidden">
                                         <dt className="sr-only">Email</dt>
                                         <dd className="mt-1 truncate text-gray-700">{farmer.email}</dd>
@@ -97,7 +97,7 @@ export default function AllFarmers() {
                                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{farmer.hectare}</td>
                                 <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                     <a onClick={() => setFarmer(farmer)} href="/admin/farmerProfile" className="text-indigo-600 hover:text-indigo-900">
-                                        View Profile<span className="sr-only">, {farmer.name}</span>
+                                        View Profile<span className="sr-only">, {farmer.fullName}</span>
                                     </a>
                                 </td>
                             </tr>

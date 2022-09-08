@@ -12,6 +12,6 @@ export default function FarmerProfile() {
 
     return <>
         <h1>Farmer Profile</h1>
-        <h3>Name: {farmer.name}</h3>
+        <h3>Name: {farmer.fullName}</h3>
     </>
 }

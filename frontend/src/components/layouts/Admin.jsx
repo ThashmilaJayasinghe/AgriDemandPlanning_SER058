@@ -15,10 +15,10 @@ import {
 } from '@heroicons/react/outline'
 
 import AdminHeader from "../headers/AdminHeader";
-import Dashboard from "../../pages/AdminDash";
-import AllFarmers from "../../pages/AllFarmers";
-import FarmerProfile from "../../pages/FarmerProfile";
-import UpdateFarmer from "../../pages/UpdateFarmer";
+import Dashboard from "../../pages/admin/AdminDash";
+import AllFarmers from "../../pages/admin/AllFarmers";
+import FarmerProfile from "../../pages/admin/FarmerProfile";
+import UpdateFarmer from "../../pages/admin/UpdateFarmer";
 
 
 const navigation = [
