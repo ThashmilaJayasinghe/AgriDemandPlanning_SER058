@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "../../pages/AdminDash";
+import Dashboard from "../../pages/admin/AdminDash";
 import AddDemand from "../../pages/buyer/AddDemand";
 import SeedRequest from "../../pages/farmer/SeedRequest";
 import SeedRequestList from "../../pages/farmer/SeedRequestList";
