@@ -8,7 +8,11 @@ import {
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 import { AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { viewFarmerSeedRequest } from "../../api/SeedRequestAPI";
+import {
+  deleteSeedRequest,
+  viewFarmerSeedRequest,
+} from "../../api/SeedRequestAPI";
+import moment from "moment/moment";
 
 const positions = [
   {
@@ -65,24 +69,33 @@ const staticRequests = [
 ];
 
 const SeedRequestList = () => {
-  const [myRequests, setMyRequests] = useState(staticRequests);
+  const [myRequests, setMyRequests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userId, setUserId] = useState("630e177910470806f04c70ad");
-  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false)
+  const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
+  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+  const [isSearchResultExists, setIsSearchResultExists] = useState(false);
 
   useEffect(() => {
-    async function getRequests(){
-      await viewFarmerSeedRequest({farmerId: userId}, setMyRequests).then(() => {
-        console.log("Data retrieved success")
-      })
+    async function getRequests() {
+      await viewFarmerSeedRequest(userId, setMyRequests).then(() => {
+        console.log("Data retrieved success");
+      });
     }
     getRequests();
-  }, [])
+  }, []);
 
-  const onDelete = (requestId) => {
+  const onDelete = async (requestId) => {
     console.log("onDelete - ", requestId);
 
     // use axios calls and delete from db
+    await deleteSeedRequest(requestId, setIsDeleteSuccess).then(() => {
+      console.log("Request deleted successfully");
+    });
+
+    // get remaining data
+    await viewFarmerSeedRequest(userId, setMyRequests).then(() => {
+      console.log("Data retrieved success");
+    });
   };
 
   const onUpdate = (requestId) => {
@@ -111,75 +124,100 @@ const SeedRequestList = () => {
           />
         </div>
 
-        {myRequests.map((request) => (
-          <div
-            key={request.id}
-            className="bg-emerald-100 shadow overflow-hidden sm:rounded-md my-4"
-          >
-            <div className="block">
-              <div className="px-4 py-4 sm:px-6">
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-gray-500">
-                    Category
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    : {request.category}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5 ">
-                  <p className="flex col-span-1 items-center text-sm text-gray-500 ">
-                    Type
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    : {request.type}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-gray-500">
-                    Hectares
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    : {request.Hectares}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-gray-500">
-                    Added date
-                  </p>
-                  <p className="md:mt-0 col-span-2 flex items-center text-sm text-gray-500">
-                    : {request.createdAt}
-                  </p>
-                </div>
-                <div className="grid grid-cols-5 ">
-                  <div className="col-start-4 col-span-1 justify-end flex">
-                    <button
-                      className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                      onClick={() => onDelete(request.id)}
-                    >
-                      <RiDeleteBin6Line
-                        className="mt-0 mr-0 md:mt-1 md:mr-1"
-                        size={18}
-                      />
-                      <p className="hidden md:block">Delete</p>
-                    </button>
+        {myRequests
+          .filter((request) => {
+            if (searchQuery === "") {
+              return request;
+            } else if (
+              request.category.toLowerCase().includes(searchQuery.toLowerCase())
+            ) {
+              return request;
+            } else if (
+              request.type.toLowerCase().includes(searchQuery.toLowerCase())
+            ) {
+              return request;
+            } else if (
+              !request.type.toLowerCase().includes(searchQuery.toLowerCase())
+            ) {
+            }
+          })
+          .map((request, index) => (
+            <div
+              key={request._id}
+              className="bg-emerald-100 shadow overflow-hidden sm:rounded-md my-4"
+            >
+              <div className="block">
+                <div className="px-4 py-4 sm:px-6">
+                  <div className="mt-2 grid grid-cols-5">
+                    <p className="flex col-span-1 items-center text-sm text-gray-500">
+                      Category
+                    </p>
+                    <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                      : {request.category}
+                    </p>
                   </div>
-                  <div className="col-span-1 justify-center flex">
-                    <button
-                      className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                      onClick={() => onUpdate(request.id)}
-                    >
-                      <AiOutlineEdit
-                        className="mt-0 mr-0 md:mt-1 md:mr-1"
-                        size={18}
-                      />
-                      <p className="hidden md:block"> Update</p>
-                    </button>
+                  <div className="mt-2 grid grid-cols-5 ">
+                    <p className="flex col-span-1 items-center text-sm text-gray-500 ">
+                      Type
+                    </p>
+                    <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                      : {request.type}
+                    </p>
+                  </div>
+                  <div className="mt-2 grid grid-cols-5">
+                    <p className="flex col-span-1 items-center text-sm text-gray-500">
+                      Hectares
+                    </p>
+                    <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                      : {request.sizeOfLand}
+                    </p>
+                  </div>
+                  <div className="mt-3 md:mt-2 grid grid-cols-5">
+                    <p className="flex col-span-1 items-center text-sm text-gray-500">
+                      Added date
+                    </p>
+                    <p className="md:mt-0 col-span-2 flex items-center text-sm text-gray-500">
+                      : {moment(request.createdAt).format("MMMM Do YYYY")}{" "}
+                      <br></br>
+                      &nbsp; {moment(request.createdAt).format("LTS")}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-5 ">
+                    <div className="col-start-4 col-span-1 justify-end flex">
+                      <button
+                        className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                        onClick={() => onDelete(request._id)}
+                      >
+                        <RiDeleteBin6Line
+                          className="mt-0 mr-0 md:mt-1 md:mr-1"
+                          size={18}
+                        />
+                        <p className="hidden md:block">Delete</p>
+                      </button>
+                    </div>
+                    <div className="col-span-1 justify-center flex">
+                      <button
+                        className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                        onClick={() => onUpdate(request._id)}
+                      >
+                        <AiOutlineEdit
+                          className="mt-0 mr-0 md:mt-1 md:mr-1"
+                          size={18}
+                        />
+                        <p className="hidden md:block"> Update</p>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+
+        {isSearchResultExists === false && (
+          <>
+            <div>No results found</div>
+          </>
+        )}
       </MyRequestsWrapper>
     </div>
   );

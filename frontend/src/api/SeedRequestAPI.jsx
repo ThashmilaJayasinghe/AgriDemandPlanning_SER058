@@ -25,7 +25,6 @@ export const createSeedRequest = async (
   }
 };
 
-// this function has some issues
 export const viewFarmerSeedRequest = async (farmerId, setMyRequests) => {
   try {
     await axios
@@ -47,7 +46,7 @@ export const viewFarmerSeedRequest = async (farmerId, setMyRequests) => {
 export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
   try {
     await axios
-      .delete(`${BACKEND_URL}/seed-request/delete-seed-request`, { requestId })
+      .delete(`${BACKEND_URL}/seed-request/delete-seed-request`, { params: {requestId} })
       .then((result) => {
         setIsDeleteSuccess(result.data.success);
       });
