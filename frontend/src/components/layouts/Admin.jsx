@@ -23,7 +23,7 @@ import UpdateFarmer from "../../pages/admin/UpdateFarmer";
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
-    { name: 'All Farmers', href: '/admin/farmers', icon: UsersIcon, current: false },
+    { name: 'All Farmers', href: '/admin/all-farmers', icon: UsersIcon, current: false },
     { name: 'All Buyers', href: '#', icon: FolderIcon, current: false },
     { name: 'Seed Requests', href: '#', icon: CalendarIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
@@ -185,9 +185,9 @@ export default function AdminLayout() {
                             {/*</div>*/}
                             <Routes>
                                 <Route path="/dash" element={<Dashboard />} />
-                                <Route path="/farmers" element={<AllFarmers />} />
-                                <Route path="/farmerProfile" element={<FarmerProfile />} />
-                                <Route path="/updateFarmer" element={<UpdateFarmer />} />
+                                <Route path="/all-farmers" element={<AllFarmers />} />
+                                <Route path="/farmer-profile" element={<FarmerProfile />} />
+                                <Route path="/update-farmer" element={<UpdateFarmer />} />
                             </Routes>
                             {/* /End replace */}
                         </div>
