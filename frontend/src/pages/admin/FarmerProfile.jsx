@@ -1,17 +1,73 @@
 import React, {useEffect, useState} from "react";
-import moment from "moment/moment";
+import {useNavigate} from 'react-router-dom';
 import {RiDeleteBin6Line} from "react-icons/ri";
 import {AiOutlineEdit} from "react-icons/ai";
+import {BiMessageDetail} from "react-icons/bi";
+import {toast} from "react-toastify";
+
+import { deleteFarmer } from '../../api/FarmerAPI'
 
 
 export default function FarmerProfile() {
 
     const [farmer, setFarmer] = useState({});
+    const [isSuccess, setIsSuccess] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setFarmer(JSON.parse(localStorage.getItem('Farmer')));
-        console.log(farmer);
-    }, []);
+
+        if(isSuccess){
+            navigate('/admin/all-farmers')
+        };
+
+    }, [isSuccess, navigate]);
+
+    //delete farmer function
+    const onDelete = async (farmerId) => {
+
+        if (window.confirm("Delete farmer?")) {
+
+            await deleteFarmer(farmerId)
+                .then(() => {
+                    toast.success("Farmer deleted", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    setIsSuccess(true);
+                })
+                .catch(() => {
+                    toast.error("Something went wrong!", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                });
+
+        }
+    };
+
+    //directing to update farmer page
+    const onUpdate = (farmer) => {
+        localStorage.setItem('Farmer', JSON.stringify(farmer));
+        navigate('/admin/update-farmer')
+    };
+
+    //To be developed in the 2nd sprint
+    const onSendMessage = (farmerId) => {
+        console.log('Send message to ' + farmerId);
+    };
+
 
     return(
         <div className="px-4 sm:x-6 lg:px-8">
@@ -22,48 +78,86 @@ export default function FarmerProfile() {
             </div>
 
             <div className="-mx-4 mt-8 overflow-hidden bg-emerald-50 shadow ring-1 ring-emerald-500 ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
-            {/*<div className="mx-6 md:mx-32 lg:mx-44 overflow-hidden bg-emerald-50 shadow ring-1 ring-emerald-500 ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">*/}
                 <div className="block">
                     <div className="px-4 py-4 sm:px-6">
                         <div className="mt-2 grid grid-cols-5">
                             <p className="flex col-span-1 items-center text-sm text-gray-500">
-                                Category
+                                Full Name
                             </p>
                             <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                : {farmer.category}
-                            </p>
-                        </div>
-                        <div className="mt-2 grid grid-cols-5 ">
-                            <p className="flex col-span-1 items-center text-sm text-gray-500 ">
-                                Type
-                            </p>
-                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                : {farmer.type}
+                                : {farmer.fullName}
                             </p>
                         </div>
                         <div className="mt-2 grid grid-cols-5">
                             <p className="flex col-span-1 items-center text-sm text-gray-500">
-                                Hectares
+                                NIC
                             </p>
                             <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                : {farmer.sizeOfLand}
+                                : {farmer.NIC}
                             </p>
                         </div>
-                        <div className="mt-3 md:mt-2 grid grid-cols-5">
+                        <div className="mt-2 grid grid-cols-5">
                             <p className="flex col-span-1 items-center text-sm text-gray-500">
-                                Added date
+                                Address
                             </p>
-                            <p className="md:mt-0 col-span-2 flex items-center text-sm text-gray-500">
-                                : {moment(farmer.createdAt).format("MMMM Do YYYY")}{" "}
-                                <br></br>
-                                &nbsp; {moment(farmer.createdAt).format("LTS")}
+                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                : {farmer.address}
+                            </p>
+                        </div>
+                        <div className="mt-2 grid grid-cols-5">
+                            <p className="flex col-span-1 items-center text-sm text-gray-500">
+                                Province
+                            </p>
+                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                : {farmer.province}
+                            </p>
+                        </div>
+                        <div className="mt-2 grid grid-cols-5">
+                            <p className="flex col-span-1 items-center text-sm text-gray-500">
+                                District
+                            </p>
+                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                : {farmer.district}
+                            </p>
+                        </div>
+                        <div className="mt-2 grid grid-cols-5">
+                            <p className="flex col-span-1 items-center text-sm text-gray-500">
+                                Email
+                            </p>
+                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                : {farmer.email}
+                            </p>
+                        </div>
+                        <div className="mt-2 grid grid-cols-5">
+                            <p className="flex col-span-1 items-center text-sm text-gray-500">
+                                Contact Number
+                            </p>
+                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                : {farmer.contactNumber}
+                            </p>
+                        </div>
+                        <div className="mt-2 grid grid-cols-5">
+                            <p className="flex col-span-1 items-center text-sm text-gray-500">
+                                Land Size (Hectare)
+                            </p>
+                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                : {farmer.hectare}
+                            </p>
+                        </div>
+                        <div className="mt-2 grid grid-cols-5">
+                            <p className="flex col-span-1 items-center text-sm text-gray-500">
+                                Categories
+                            </p>
+                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                : {farmer.categories}
                             </p>
                         </div>
                         <div className="grid grid-cols-5 ">
+                            {/*Button for delete function*/}
                             <div className="col-start-4 col-span-1 justify-end flex">
                                 <button
                                     className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                                    // onClick={() => onDelete(farmer._id)}
+                                    onClick={() => onDelete(farmer._id)}
                                 >
                                     <RiDeleteBin6Line
                                         className="mt-0 mr-0 md:mt-1 md:mr-1"
@@ -72,26 +166,29 @@ export default function FarmerProfile() {
                                     <p className="hidden md:block">Delete</p>
                                 </button>
                             </div>
+                            {/*Button for navigating to update page*/}
                             <div className="col-span-1 justify-center flex">
-                                <button
+                                <a
                                     className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                                    // onClick={() => onUpdate(farmer._id)}
+                                    onClick={() => onUpdate(farmer)}
+                                    href="/admin/update-farmer"
                                 >
                                     <AiOutlineEdit
                                         className="mt-0 mr-0 md:mt-1 md:mr-1"
                                         size={18}
                                     />
                                     <p className="hidden md:block"> Update</p>
-                                </button>
+                                </a>
                             </div>
                         </div>
+                        {/*Button for navigating to send message page*/}
                         <div className="grid grid-cols-12 ">
                             <div className="col-start-4 col-span-1 justify-end flex">
                                 <button
                                     className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                                    // onClick={() => onDelete(farmer._id)}
+                                    onClick={() => onSendMessage(farmer._id)}
                                 >
-                                    <RiDeleteBin6Line
+                                    <BiMessageDetail
                                         className="mt-0 mr-0 md:mt-1 md:mr-1"
                                         size={18}
                                     />

@@ -2,29 +2,6 @@ import axios from "axios";
 
 const BACKEND_URL = "http://localhost:8000/api";
 
-// export const createSeedRequest = async (
-//     { farmerId, category, type, sizeOfLand, weight, location },
-//     setIsCreationSuccess
-// ) => {
-//     try {
-//         await axios
-//             .post(`${BACKEND_URL}/seed-request/create-seed-request`, {
-//                 farmerId,
-//                 category,
-//                 type,
-//                 sizeOfLand,
-//                 weight,
-//                 location,
-//             })
-//             .then((result) => {
-//                 setIsCreationSuccess(result.data.success);
-//             });
-//     } catch (err) {
-//         console.log(err);
-//         setIsCreationSuccess(false);
-//     }
-// };
-
 export const getFarmers = async (setFarmers) => {
     try {
         await axios
@@ -40,15 +17,38 @@ export const getFarmers = async (setFarmers) => {
 };
 
 
-// export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
-//     try {
-//         await axios
-//             .delete(`${BACKEND_URL}/seed-request/delete-seed-request`, { params: {requestId} })
-//             .then((result) => {
-//                 setIsDeleteSuccess(result.data.success);
-//             });
-//     } catch (err) {
-//         console.log(err);
-//         setIsDeleteSuccess(false);
-//     }
-// };
+export const deleteFarmer = async (id) => {
+    try {
+        await axios
+            .delete(`${BACKEND_URL}/farmers/` + id)
+            .then((res) => {
+            });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const updateFarmer = async (id, farmer, setFarmer) => {
+    try {
+        await axios
+            .put(`${BACKEND_URL}/farmers/` + id, farmer)
+            .then((res) => {
+                setFarmer(res.data);
+            });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const getFarmer = async (id, setFarmer) => {
+    try {
+        await axios
+            .get(`${BACKEND_URL}/farmers/` + id)
+            .then((res) => {
+                setFarmer(res.data);
+            });
+    } catch (err) {
+        console.log(err);
+        setFarmer({});
+    }
+};
