@@ -70,10 +70,10 @@ const viewFarmerSeedRequests = async (req, res) => {
 
 const deleteSeedRequest = async (req, res) => {
   const { requestId } = req.query;
-  
+
   try {
     const deletedRequest = await removeSeedRequest({ requestId });
-    // console.log(deletedRequest)
+
     if (deletedRequest) {
       res.status(200).json({
         success: true,

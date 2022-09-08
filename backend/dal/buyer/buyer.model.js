@@ -34,7 +34,7 @@ const buyerSchema = mongoose.Schema({
         required: [true, 'please enter email']
     },
     contactNumber:{
-        type: String,
+        type: Number,
         required: [true, 'please enter contact number']
     },
     // userName: {

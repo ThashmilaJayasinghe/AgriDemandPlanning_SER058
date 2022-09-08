@@ -15,15 +15,13 @@ import {
 } from '@heroicons/react/outline'
 
 import AdminHeader from "../headers/AdminHeader";
-import Dashboard from "../../pages/admin/AdminDash";
-import AllFarmers from "../../pages/admin/AllFarmers";
-import FarmerProfile from "../../pages/admin/FarmerProfile";
-import UpdateFarmer from "../../pages/admin/UpdateFarmer";
+import Dashboard from "../../pages/AdminDash";
+import AllFarmers from "../../pages/AllFarmers";
 
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
-    { name: 'All Farmers', href: '/admin/all-farmers', icon: UsersIcon, current: false },
+    { name: 'All Farmers', href: '/admin/farmers', icon: UsersIcon, current: false },
     { name: 'All Buyers', href: '#', icon: FolderIcon, current: false },
     { name: 'Seed Requests', href: '#', icon: CalendarIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
@@ -185,9 +183,7 @@ export default function AdminLayout() {
                             {/*</div>*/}
                             <Routes>
                                 <Route path="/dash" element={<Dashboard />} />
-                                <Route path="/all-farmers" element={<AllFarmers />} />
-                                <Route path="/farmer-profile" element={<FarmerProfile />} />
-                                <Route path="/update-farmer" element={<UpdateFarmer />} />
+                                <Route path="/farmers" element={<AllFarmers />} />
                             </Routes>
                             {/* /End replace */}
                         </div>
