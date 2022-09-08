@@ -26,11 +26,10 @@ const addSeedRequest = async ({
 };
 
 const retrieveFarmerRequests = async (farmerId) => {
-    console.log(farmerId)
+
 
   try {
     const farmerRequests = await SeedRequest.find( {farmerId: farmerId} );
-    console.log(farmerRequests)
     return farmerRequests;
   } catch (err) {
     console.log(err);
