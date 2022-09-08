@@ -27,7 +27,7 @@ const getById = async (id) => {
     return farmer;
 };
 
-const updateById = async (id, {fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare}) => {
+const updateById = async (id, {fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare, profileImg}) => {
     const farmer = await Farmer.findByIdAndUpdate(id, {
         fullName,
         NIC,
@@ -38,7 +38,8 @@ const updateById = async (id, {fullName,NIC,gender, address,province, district, 
         email,
         contactNumber,
         categories,
-        hectare
+        hectare,
+        profileImg
     })
     return farmer;
 };
