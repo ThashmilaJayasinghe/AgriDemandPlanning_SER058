@@ -17,12 +17,15 @@ import {
 import AdminHeader from "../headers/AdminHeader";
 import Dashboard from "../../pages/AdminDash";
 import AllFarmers from "../../pages/AllFarmers";
+import AllBuyers from "../../pages/AllBuyers";
+import AddBuyer from "../../pages/AddBuyer";
+import AddFarmer from "../../pages/AddFarmer";
 
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
     { name: 'All Farmers', href: '/admin/farmers', icon: UsersIcon, current: false },
-    { name: 'All Buyers', href: '#', icon: FolderIcon, current: false },
+    { name: 'All Buyers', href: '/admin/buyers', icon: FolderIcon, current: false },
     { name: 'Seed Requests', href: '#', icon: CalendarIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
     { name: 'Announcements', href: '#', icon: ChartBarIcon, current: false },
@@ -184,6 +187,9 @@ export default function AdminLayout() {
                             <Routes>
                                 <Route path="/dash" element={<Dashboard />} />
                                 <Route path="/farmers" element={<AllFarmers />} />
+                                <Route path="/buyers" element={<AllBuyers/>}/>
+                                <Route path="/buyers/add" element={<AddBuyer/>}/>
+                                <Route path="/farmers/add" element={<AddFarmer/>}/>
                             </Routes>
                             {/* /End replace */}
                         </div>

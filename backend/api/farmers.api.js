@@ -57,7 +57,7 @@ const updateFarmer = async (req, res) => {
             district,
             email,
             contactNumber,
-            categories: [categories],
+            categories,
             hectare
         });
         res.status(200).json(farmer);
