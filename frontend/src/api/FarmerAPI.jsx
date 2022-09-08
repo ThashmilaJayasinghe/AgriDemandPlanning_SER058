@@ -38,6 +38,8 @@ export const getFarmers = async (setFarmers) => {
         setFarmers([]);
     }
 };
+
+
 // export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
 //     try {
 //         await axios

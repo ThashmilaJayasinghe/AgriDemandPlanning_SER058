@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { AiOutlineEye } from "react-icons/ai";
 
-import {AiOutlineEye} from "react-icons/ai";
+import { getFarmers } from "../../api/FarmerAPI";
+
 
 export default function AllFarmers() {
 
@@ -13,26 +14,28 @@ export default function AllFarmers() {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/farmers/')
-            .then((res) => {
-                setFarmers(res.data);
+        async function viewAllFarmers() {
+            await getFarmers(setFarmers).then(() => {
+                console.log('All Farmers retrieved successfully');
             });
+        }
+        viewAllFarmers();
     }, []);
 
     return (
-        <div className="px-4 sm:px-6 lg:px-8">
-            <div className="sm:flex sm:items-center">
-                <div className="sm:flex-auto my-12">
-                    <h1 className="text-2xl text-center font-semibold">All Farmers</h1>
+        <div className="px-4 sm:x-6 lg:px-8">
+            <div className="sm:flex sm:items-center my-10">
+                <div className="sm:flex-auto mb-3">
+                    <h1 className="text-2xl font-semibold text-gray-900">All Farmers</h1>
                 </div>
-                {/*<div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">*/}
-                {/*    <button*/}
-                {/*        type="button"*/}
-                {/*        className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"*/}
-                {/*    >*/}
-                {/*        Add Farmer*/}
-                {/*    </button>*/}
-                {/*</div>*/}
+                <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                    <button
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+                    >
+                        + Add Farmer
+                    </button>
+                </div>
             </div>
 
             {/*Search Bar*/}
@@ -94,7 +97,7 @@ export default function AllFarmers() {
                                     <a
                                         className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-emerald-600 transition-colors"
                                         onClick={() => setFarmer(farmer)}
-                                        href="/admin/farmerProfile"
+                                        href="/admin/farmer-profile"
                                     >
                                         <AiOutlineEye
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"
