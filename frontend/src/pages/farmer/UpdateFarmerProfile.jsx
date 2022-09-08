@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import storage from "./firebaseConfig.js"
+import {ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 export default function UpdateFarmerProfile(){
 
@@ -10,6 +12,9 @@ export default function UpdateFarmerProfile(){
     const [contactNumber, setTelephone] = useState('');
     const [hectare, setHectares] = useState('');
     const [district, setDistrict] = useState('');
+    const [percent, setPercent] = useState(0);
+    // State to store uploaded file
+    const [file, setFile] = useState("");
 
     useEffect(()=>{
         setID(localStorage.getItem('id'))
@@ -41,7 +46,55 @@ export default function UpdateFarmerProfile(){
                 alert(err.message)
             })
     }
+    //
+    // state = {
+    //     selectedFile : null
+    // }
+    //
+    // const fileHandler = (event) =>{
+    //     console.log(event.target.files[0])
+    //     this.setState({
+    //         selectedFile : event.target.files[0]
+    //     })
+    // }
+    //
+    //
+    // const fileUploadHandler = ()=>{
+    //
+    // }
 
+    function handleUpload() {
+        if (!file) {
+            alert("Please choose a file first!")
+        }
+
+        const storageRef = ref(storage, `/files/${file.name}`)
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const percent = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+
+                // update progress
+                setPercent(percent);
+            },
+            (err) => console.log(err),
+            () => {
+                // download url
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                    console.log(url);
+                });
+            }
+        );
+    }
+
+    // Handle file upload event and update state
+    function handleChange(event) {
+        setFile(event.target.files[0]);
+    }
 
     return(
         <div className=" mx-8  md:mx-32 lg:mx-52">
@@ -55,6 +108,13 @@ export default function UpdateFarmerProfile(){
                     >
                         Name :
                     </label>
+
+                    {/*<input type={'file'} onChange={fileHandler}/>*/}
+                    {/*<button onClick={fileUploadHandler}>Upload</button>*/}
+
+                    <input type="file" onChange={handleChange} accept="" />
+                    <button onClick={handleUpload}>Upload to Firebase</button>
+                    <p>{percent} "% done"</p>
 
                     <input
                         type="text"
