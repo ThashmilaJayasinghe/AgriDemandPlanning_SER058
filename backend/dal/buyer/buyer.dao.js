@@ -1,7 +1,8 @@
 const Buyer = require('./buyer.model')
+const bcrypt = require('bcrypt')
 
-const save = async ({fullName,NIC,ShopName,gender, address,province, district,  email, contactNumber}) => {
-    const buyer = await Buyer.create({
+const save = async ({fullName,NIC,ShopName,gender, address,province, district,  email, contactNumber,userName,password}) => {
+    const buyer = await Buyer({
         fullName,
         NIC,
         ShopName,
@@ -11,9 +12,19 @@ const save = async ({fullName,NIC,ShopName,gender, address,province, district,  
         district,
         email,
         contactNumber,
+        userName,
+        password
     });
-    console.log({fullName,NIC,ShopName,gender, address,province, district,  email, contactNumber});
-    return buyer;
+
+    bcrypt.hash(password,7, async (err,hash)=>{
+        buyer.password = hash
+        const newBuyer = await buyer.save()
+
+        if(newBuyer){
+            console.log({fullName,NIC,ShopName,gender, address,province, district,  email, contactNumber,userName,password});
+            return buyer;
+        }
+    })
 };
 
 const getAll = async () => {
