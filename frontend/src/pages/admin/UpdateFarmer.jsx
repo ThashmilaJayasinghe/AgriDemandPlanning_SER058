@@ -73,57 +73,6 @@ export default function UpdateFarmer() {
         };
     };
 
-    const onAddCategory = async() => {
-        // await addQualification(email, newQualification)
-        //     .then(async() => {
-        //         console.log("new qualification added")
-        //
-        //         toast.success('New qualification added!', {
-        //             position: "top-right",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //         });
-        //
-        //         await getStaff(email, setStaffDetails)
-        //             .then((res) => {
-        //                 console.log("staff data retrieved")
-        //             })
-        //     })
-
-        setCategories([...categories, newCategory]) //simple value
-    }
-
-    const onDeleteCategory = async(arrItem) => {
-        // await deleteQualification(email, arrItem)
-        //     .then(async() =>
-        //     {
-        //         console.log("Delete success")
-        //
-        //         toast.info('Qualification removed!', {
-        //             position: "top-right",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //         });
-        //
-        //
-        //
-        //         await getStaff(email, setStaffDetails)
-        //             .then((res) => {
-        //                 console.log("staff data retrieved")
-        //             })
-        //     })
-
-
-
-    }
 
     useEffect(() => {
 
@@ -378,79 +327,79 @@ export default function UpdateFarmer() {
                                         />
                                     </div>
                                 </div>
-
-                                <div className="sm:col-span-6">
-                                    <label  className="block text-sm font-medium text-gray-700">
-                                        Categories
-                                    </label>
-                                    <table className="min-w-full divide-y divide-gray-300 shadow-sm border-gray-300 rounded-md">
-                                        <tbody className="divide-y divide-gray-200 bg-white">
-                                        {categories ? (<>
-                                            {categories
-                                                .map((category) => (
-                                                    <tr key={farmer._id}>
-                                                        <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                                                            {category}
-                                                        </td>
-                                                        <td className="py-4 px-3 text-right text-sm font-medium sm:pr-6">
-                                                            <button
-                                                                className="flex w-fit text-white bg-red-500 py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                                                                onClick={() => onDeleteCategory()}
-                                                            >
-                                                                <RiDeleteBin6Line
-                                                                    className="mt-0 mr-0 md:mt-1 md:mr-1"
-                                                                    size={18}
-                                                                />
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                        </>) : (<>
-                                            <tr key={farmer._id}>
-                                                <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                                                    No categories added yet
-                                                </td>
-                                            </tr>
-                                        </>)}
-                                        {isAddCategory ? (<>
-                                            <div className="sm:col-span-6">
-                                                <label  className="block text-sm font-medium text-gray-700">
-                                                    New Category
-                                                </label>
-                                                <div className="mt-1">
-                                                    <input
-                                                        type="text"
-                                                        name="category"
-                                                        id="category"
-                                                        placeholder="category"
-                                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                                        onChange={(e)=>(setEmail(e.target.value))}
-                                                    />
-                                                    <button
-                                                        className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-emerald-600 transition-colors"
-                                                        onClick={() => (setIsAddCategory(false), onAddCategory())}
-                                                    >
-                                                        <p className="hidden md:block">Add</p>
-                                                    </button>
-                                                    <button
-                                                        className="flex w-fit text-white bg-red-500 py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                                                        onClick={() => (setIsAddCategory(false))}
-                                                    >
-                                                        <p className="hidden md:block">Cancel</p>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </>) : (<>
-                                            <button
-                                                className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                                                onClick={() => setIsAddCategory(true)}
-                                            >
-                                                <p className="hidden md:block">+ Add Category</p>
-                                            </button>
-                                        </>)}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                {/*Category Section*/}
+                                {/*<div className="sm:col-span-6">*/}
+                                {/*    <label  className="block text-sm font-medium text-gray-700">*/}
+                                {/*        Categories*/}
+                                {/*    </label>*/}
+                                {/*    <table className="min-w-full divide-y divide-gray-300 shadow-sm border-gray-300 rounded-md">*/}
+                                {/*        <tbody className="divide-y divide-gray-200 bg-white">*/}
+                                {/*        {categories ? (<>*/}
+                                {/*            {categories*/}
+                                {/*                .map((category) => (*/}
+                                {/*                    <tr key={farmer._id}>*/}
+                                {/*                        <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">*/}
+                                {/*                            {category}*/}
+                                {/*                        </td>*/}
+                                {/*                        <td className="py-4 px-3 text-right text-sm font-medium sm:pr-6">*/}
+                                {/*                            <button*/}
+                                {/*                                className="flex w-fit text-white bg-red-500 py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"*/}
+                                {/*                                onClick={() => onDeleteCategory()}*/}
+                                {/*                            >*/}
+                                {/*                                <RiDeleteBin6Line*/}
+                                {/*                                    className="mt-0 mr-0 md:mt-1 md:mr-1"*/}
+                                {/*                                    size={18}*/}
+                                {/*                                />*/}
+                                {/*                            </button>*/}
+                                {/*                        </td>*/}
+                                {/*                    </tr>*/}
+                                {/*                ))}*/}
+                                {/*        </>) : (<>*/}
+                                {/*            <tr key={farmer._id}>*/}
+                                {/*                <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">*/}
+                                {/*                    No categories added yet*/}
+                                {/*                </td>*/}
+                                {/*            </tr>*/}
+                                {/*        </>)}*/}
+                                {/*        {isAddCategory ? (<>*/}
+                                {/*            <div className="sm:col-span-6">*/}
+                                {/*                <label  className="block text-sm font-medium text-gray-700">*/}
+                                {/*                    New Category*/}
+                                {/*                </label>*/}
+                                {/*                <div className="mt-1">*/}
+                                {/*                    <input*/}
+                                {/*                        type="text"*/}
+                                {/*                        name="category"*/}
+                                {/*                        id="category"*/}
+                                {/*                        placeholder="category"*/}
+                                {/*                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"*/}
+                                {/*                        onChange={(e)=>(setEmail(e.target.value))}*/}
+                                {/*                    />*/}
+                                {/*                    <button*/}
+                                {/*                        className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-emerald-600 transition-colors"*/}
+                                {/*                        onClick={() => (setIsAddCategory(false), onAddCategory())}*/}
+                                {/*                    >*/}
+                                {/*                        <p className="hidden md:block">Add</p>*/}
+                                {/*                    </button>*/}
+                                {/*                    <button*/}
+                                {/*                        className="flex w-fit text-white bg-red-500 py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"*/}
+                                {/*                        onClick={() => (setIsAddCategory(false))}*/}
+                                {/*                    >*/}
+                                {/*                        <p className="hidden md:block">Cancel</p>*/}
+                                {/*                    </button>*/}
+                                {/*                </div>*/}
+                                {/*            </div>*/}
+                                {/*        </>) : (<>*/}
+                                {/*            <button*/}
+                                {/*                className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"*/}
+                                {/*                onClick={() => setIsAddCategory(true)}*/}
+                                {/*            >*/}
+                                {/*                <p className="hidden md:block">+ Add Category</p>*/}
+                                {/*            </button>*/}
+                                {/*        </>)}*/}
+                                {/*        </tbody>*/}
+                                {/*    </table>*/}
+                                {/*</div>*/}
 
                             </div>
                         </div>
