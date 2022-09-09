@@ -10,31 +10,28 @@ export const options = {
     plugins: {
         title: {
             display: true,
-            text: 'Chart.js Pie Chart',
+            text: 'Supply - Demand Relationship',
         },
     },
 };
 export const data = {
 
-    labels: ['Red', 'Blue', 'Green'],
+    labels: ['Demand', 'Supply'],
     datasets: [
         {
             label: '# of Votes',
-            data: [12, 19, 23],
+            data: [60, 40],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
+                'rgba(99, 255, 132, 0.5)',
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(75, 192, 192, 1)',
+                'rgba(99, 255, 132, 1)',
             ],
             hoverBackgroundColor: [
                 'rgba(255, 99, 132)',
-                'rgba(54, 162, 235)',
-                'rgba(75, 192, 192)',
+                'rgba(54, 262, 35)',
 
             ],
             //   radius: 100,
@@ -45,7 +42,7 @@ export const data = {
 
 const Piechart = () => {
     return (
-        <Doughnut data={data} height={250}   options={options}
+        <Doughnut data={data} height={240}   options={options}
 
         />
     )

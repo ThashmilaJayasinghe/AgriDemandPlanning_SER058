@@ -24,26 +24,26 @@ export const options = {
     maintainAspectRatio: false,
     plugins: {
         legend: {
-            position: 'top',
+            display: false
         },
 
         title: {
             display: true,
-            text: 'Chart.js Bar Chart',
+            text: 'Completed Supply of Crops',
         },
     },
 };
 
-const labels = ['Samba', 'Naadu', 'GreenGram', 'Basmati', 'Kawpi'];
+const labels = ['Rice', 'Grains', 'Legumes', 'Vegetables(L)', 'Vegetables(H)'];
 
 export const data = {
     labels,
     datasets: [
         {
-            label: 'Rice',
+            // label: 'Rice',
             data: [45,64,32,78,91],
             // data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-            backgroundColor: ["#fefce8", "#fed7aa","#22c55e","#fde68a","#ca8a04"],
+            backgroundColor: ["#a3e635", "#66bb6a","#b2ff59","#d9f99d","#65a30d"],
             barThickness: 60,
         },
     ],
@@ -51,7 +51,7 @@ export const data = {
 
 const Barchart = () => {
     return (
-        <Bar  data={data} width={100} height={520} options={options}  />
+        <Bar  data={data} width={100} height={320} options={options}  />
     )
 }
 

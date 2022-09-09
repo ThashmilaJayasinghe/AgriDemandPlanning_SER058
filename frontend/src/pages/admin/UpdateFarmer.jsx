@@ -6,6 +6,7 @@ import {MdOutlineCancel} from "react-icons/md";
 import {AiOutlineEdit, AiOutlineEye} from "react-icons/ai";
 import {RiDeleteBin6Line} from "react-icons/ri";
 import {toast} from "react-toastify";
+import {Redirect} from 'react-router-dom';
 
 import { getFarmer, updateFarmer } from '../../api/FarmerAPI';
 
@@ -29,7 +30,7 @@ export default function UpdateFarmer() {
     const navigate = useNavigate;
 
     const onUpdate = async (farmerId) => {
-        if (window.confirm("Do you wish to update farmer?")) {
+        // if (window.confirm("Do you wish to update farmer?")) {
 
             const updatedFarmer = {
                 fullName,
@@ -45,19 +46,19 @@ export default function UpdateFarmer() {
             };
 
             await updateFarmer(farmerId, updatedFarmer, setFarmer)
-                .then(async () => {
-                    toast.success("Farmer updated", {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                    navigate('/admin/farmer-profile');
+                .then(() => {
+                    // toast.success("Farmer updated", {
+                    //     position: "top-right",
+                    //     autoClose: 3000,
+                    //     hideProgressBar: false,
+                    //     closeOnClick: true,
+                    //     pauseOnHover: true,
+                    //     draggable: true,
+                    //     progress: undefined,
+                    // });
+                    // setIsSuccess(true);
+                    // navigate('/admin/farmer-profile');
                     alert('updated!');
-                    await setIsSuccess(true);
                 })
                 .catch(() => {
                     toast.error("Something went wrong!", {
@@ -70,7 +71,7 @@ export default function UpdateFarmer() {
                         progress: undefined,
                     });
                 });
-        };
+        // };
     };
 
     const onAddCategory = async() => {
@@ -334,7 +335,7 @@ export default function UpdateFarmer() {
                                             id="email"
                                             value={email}
                                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            onChange={(e)=>(setNewCategory(e.target.value))}
+                                            onChange={(e)=>(setEmail(e.target.value))}
                                         />
                                     </div>
                                 </div>
@@ -345,7 +346,7 @@ export default function UpdateFarmer() {
                                     </label>
                                     <div className="mt-1">
                                         <input
-                                            type="number"
+                                            type="tel"
                                             name="number"
                                             id="number"
                                             value={contactNumber}
@@ -373,7 +374,7 @@ export default function UpdateFarmer() {
                                             id="hectare"
                                             value={hectare}
                                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            onChange={(e)=>(setEmail(e.target.value))}
+                                            onChange={(e)=>(setHectare(e.target.value))}
                                         />
                                     </div>
                                 </div>
@@ -471,7 +472,7 @@ export default function UpdateFarmer() {
                         </div>
                         {/*Button to update*/}
                         <div className="col-span-1 justify-center flex">
-                            <button
+                            <a
                                 className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-emerald-600 transition-colors"
                                 onClick={() => onUpdate(farmer._id)}
                             >
@@ -480,7 +481,7 @@ export default function UpdateFarmer() {
                                     size={18}
                                 />
                                 <p className="hidden md:block">Update</p>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </form>
