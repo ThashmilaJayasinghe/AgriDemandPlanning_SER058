@@ -46,8 +46,6 @@ export default function UpdateFarmer() {
 
             await updateFarmer(farmerId, updatedFarmer, setFarmer)
                 .then(async () => {
-                    alert('updated!');
-                    navigate('/admin/farmer-profile')
                     toast.success("Farmer updated", {
                         position: "top-right",
                         autoClose: 3000,
@@ -57,6 +55,8 @@ export default function UpdateFarmer() {
                         draggable: true,
                         progress: undefined,
                     });
+                    navigate('/admin/farmer-profile');
+                    alert('updated!');
                     await setIsSuccess(true);
                 })
                 .catch(() => {
@@ -72,6 +72,56 @@ export default function UpdateFarmer() {
                 });
         };
     };
+
+    const onAddCategory = async() => {
+        // await addQualification(email, newQualification)
+        //     .then(async() => {
+        //         console.log("new qualification added")
+        //
+        //         toast.success('New qualification added!', {
+        //             position: "top-right",
+        //             autoClose: 3000,
+        //             hideProgressBar: false,
+        //             closeOnClick: true,
+        //             pauseOnHover: true,
+        //             draggable: true,
+        //             progress: undefined,
+        //         });
+        //
+        //         await getStaff(email, setStaffDetails)
+        //             .then((res) => {
+        //                 console.log("staff data retrieved")
+        //             })
+        //     })
+
+        setCategories([...categories, newCategory]) //simple value
+    }
+
+    const onDeleteCategory = async(arrItem) => {
+        // await deleteQualification(email, arrItem)
+        //     .then(async() =>
+        //     {
+        //         console.log("Delete success")
+        //
+        //         toast.info('Qualification removed!', {
+        //             position: "top-right",
+        //             autoClose: 3000,
+        //             hideProgressBar: false,
+        //             closeOnClick: true,
+        //             pauseOnHover: true,
+        //             draggable: true,
+        //             progress: undefined,
+        //         });
+        //
+        //
+        //
+        //         await getStaff(email, setStaffDetails)
+        //             .then((res) => {
+        //                 console.log("staff data retrieved")
+        //             })
+        //     })
+
+    }
 
 
     useEffect(() => {

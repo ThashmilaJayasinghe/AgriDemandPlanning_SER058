@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { getFarmers } from "../../api/FarmerAPI";
 
@@ -8,6 +9,7 @@ export default function AllFarmers() {
 
     const [farmers, setFarmers] = useState([]);
     const [search, setSearch] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
     const setFarmer = (farmer) => {
         localStorage.setItem('Farmer', JSON.stringify(farmer));
@@ -17,10 +19,22 @@ export default function AllFarmers() {
         async function viewAllFarmers() {
             await getFarmers(setFarmers).then(() => {
                 console.log('All Farmers retrieved successfully');
+                setIsLoading(false);
             });
         }
         viewAllFarmers();
+
     }, []);
+
+    if(isLoading) {
+        return (
+            <div>
+                <div className="flex justify-center mt-24">
+                    <CircularProgress color="success" />
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="px-4 sm:x-6 lg:px-8">
