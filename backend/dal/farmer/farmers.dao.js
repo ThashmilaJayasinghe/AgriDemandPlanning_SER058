@@ -39,7 +39,7 @@ const updateById = async (id, {fullName,NIC,gender, address,province, district, 
         contactNumber,
         categories,
         hectare
-    })
+    }, {new: true})
     return farmer;
 };
 
