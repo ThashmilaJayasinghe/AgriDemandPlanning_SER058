@@ -4,11 +4,15 @@ import {Dialog,DialogTitle,DialogContent,DialogContentText,DialogActions} from "
 import axios from "axios";
 
 import { Link } from "react-router-dom";
+import {RiDeleteBin6Line} from "react-icons/ri";
+import {AiOutlineEdit} from "react-icons/ai";
+import {CgViewList} from "react-icons/cg"
 
 export default function AllBuyers(){
     const [buyers, setBuyers] = useState([]);
     const [buyersDemands,setBuyerDemands] = useState([]);
     const [open, setOpen] = useState(false);
+    const [search,setSearch] = useState("")
 
     const handleOpen = () => {
       setOpen(true)
@@ -37,6 +41,16 @@ export default function AllBuyers(){
                             +Add new
                         </button></Link>
                     </div>
+                </div>
+                <div className="pb-4">
+                    <input
+                        type="text"
+                        name="searchRequests"
+                        id="searchRequests"
+                        className="mt-2 pl-4 p-1 focus:ring-1 min-w-max w-full focus:ring-emerald-400 focus:border-emerald-400 block  shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-3xl"
+                        onChange={(e) => {setSearch(e.target.value)}}
+                        placeholder="Search . . ."
+                    />
                 </div>
             <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
             <table className="min-w-full divide-y divide-gray-300">
@@ -81,7 +95,19 @@ export default function AllBuyers(){
             </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-        {buyers.map((buyer) => {
+        {buyers
+            .filter((buyer) => {
+                if (search == "") {
+                    return buyer
+                } else if (buyer.fullName.toLowerCase().includes(search.toLowerCase())) {
+                    return buyer
+                } else if (buyer.province.toLowerCase().includes(search.toLowerCase())){
+                    return buyer
+                } else if (buyer.district.toLowerCase().includes(search.toLowerCase())){
+                    return buyer
+                }
+            })
+            .map((buyer) => {
 
             const getBuyers = () => {
                 axios.get("http://localhost:8000/api/buyer/")
@@ -126,10 +152,20 @@ export default function AllBuyers(){
                 <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{buyer.province}</td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{buyer.email}</td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{buyer.contactNumber}</td>
-                <td>
-                    <button className="text-white bg-green-600" onClick={()=>(getBuyerDemands(buyer._id),handleOpen())}>View</button>
-                    <button className="text-white bg-amber-600">Update</button>
-                    <button className="text-white bg-red-600" onClick={() => onDelete(buyer._id)}>Delete</button>
+                <td className="px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                    <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 bg-green-600" onClick={()=>(getBuyerDemands(buyer._id),handleOpen())}>
+                        <CgViewList
+                            size={18}
+                        />
+                    </button>
+                    <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 bg-amber-600">
+                        <AiOutlineEdit
+                        size={18}
+                    /></button>
+                    <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 bg-red-600" onClick={() => onDelete(buyer._id)}>
+                        <RiDeleteBin6Line
+                        size={18}
+                    /></button>
 
                 </td>
                 <div>
@@ -145,9 +181,9 @@ export default function AllBuyers(){
 
                                     {/*make title and phara middle*/}
                                     <DialogTitle id="alert-dialog-title">
-                                        <b className="align-middle"> {buyer.fullName}</b>
+                                        <b className="align-middle pb-4"> {buyer.fullName}</b>
                                         <br/>
-                                        <p className="align-middle text-gray-900">{buyer.email}</p>
+                                        <p className="align-middle text-gray-900 pb-4">{buyer.email}</p>
                                     </DialogTitle>
                                     <DialogContent>
                                         <DialogContentText id="alert-dialog-description">

@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
+import validator from 'validator';
+import {FormWithConstraints,
+    FieldFeedbacks,
+    FieldFeedback} from 'react-form-with-constraints'
+
 
 import FormWrapper from "../components/wrappers/FormWrapper";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function AddBuyer() {
@@ -16,6 +22,7 @@ export default function AddBuyer() {
     const [contactNumber, setContactNumber] = useState("");
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+
 
     const handleSubmit = () => {
       const newBuyer = {
@@ -33,7 +40,8 @@ export default function AddBuyer() {
       }
 
       axios.post('http://localhost:8000/api/buyer/',newBuyer)
-          .then(()=>{
+          .then((res)=>{
+              alert(res.json());
               alert('Request Sent')
           })
           .catch((err)=>{
@@ -42,15 +50,19 @@ export default function AddBuyer() {
     }
 
         return (
+            <FormWithConstraints>
             <div>
                 <FormWrapper>
                     <div>
                         <form className="space-y-8 divide-y divide-gray-200">
                             <div className="space-y-8 divide-y divide-gray-200">
                                 <div className="pt-8">
+                                    <h1 className="text-lg leading-8 font-medium text-blue-900">Buyer Registration Form</h1>
+                                </div>
+                                <div className="pt-8">
                                     <div>
                                         <h3 className="text-lg leading-6 font-medium text-gray-900">Personal Information</h3>
-                                        <p className="mt-1 text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
+                                        <p className="mt-1 text-sm text-gray-500">Use correct NIC </p>
                                     </div>
                                     <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                                         <div className="sm:col-span-6">
@@ -63,9 +75,18 @@ export default function AddBuyer() {
                                                     name="fullName"
                                                     id="fullName"
                                                     placeholder="Buyer's Full Name"
+                                                    required minLength={3}
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setFullName(e.target.value))}
                                                 />
+                                                <span>
+                                                <FieldFeedbacks for={fullName}>
+                                                    <FieldFeedback when="tooShort">
+                                                        Too short
+                                                    </FieldFeedback>
+                                                    <FieldFeedback when="*"/>
+                                                </FieldFeedbacks>
+                                                </span>
                                             </div>
                                         </div>
 
@@ -79,6 +100,8 @@ export default function AddBuyer() {
                                                     name="nic"
                                                     id="nic"
                                                     placeholder="Buyer's NIC Number"
+                                                    required={true}
+                                                    required minLength={10}  maxLength={12}
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setNic(e.target.value))}
                                                 />
@@ -95,6 +118,7 @@ export default function AddBuyer() {
                                                     name="shopName"
                                                     id="shopName"
                                                     placeholder="Buyer's Shop Name"
+                                                    required={true}
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setShopName(e.target.value))}
                                                 />
@@ -154,6 +178,8 @@ export default function AddBuyer() {
                                                     name="address"
                                                     id="address"
                                                     placeholder="Buyer's Shop Address"
+                                                    required={true}
+                                                    required minLength={5} maxLength={200}
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setAddress(e.target.value))}
                                                 />
@@ -169,6 +195,7 @@ export default function AddBuyer() {
                                                     id="district"
                                                     name="district"
                                                     placeholder="Shop's District"
+                                                    required={true}
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setDistrict(e.target.value))}
                                                 >
@@ -210,6 +237,7 @@ export default function AddBuyer() {
                                                     id="province"
                                                     name="province"
                                                     placeholder="Shop's Province"
+                                                    required={true}
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setProvince(e.target.value))}
                                                 >
@@ -246,9 +274,13 @@ export default function AddBuyer() {
                                                     name="email"
                                                     id="email"
                                                     placeholder="Buyer's Email Address"
+                                                    required={true}
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                                    onChange={(e)=>(setEmail(e.target.value))}
+                                                    required onChange={(e)=>(setEmail(e.target.value))}
                                                 />
+                                                <FieldFeedbacks for="email">
+                                                    <FieldFeedback when="*" />
+                                                </FieldFeedbacks>
                                             </div>
                                         </div>
 
@@ -262,9 +294,13 @@ export default function AddBuyer() {
                                                     name="number"
                                                     id="number"
                                                     placeholder="Buyer's Contact Number"
+                                                    required={true}
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                                    onChange={(e)=>(setContactNumber(e.target.value))}
+                                                    required onChange={(e)=>(setContactNumber(e.target.value))}
                                                 />
+                                                <FieldFeedbacks for="phone">
+                                                    <FieldFeedback when="*" />
+                                                </FieldFeedbacks>
                                             </div>
                                         </div>
 
@@ -309,32 +345,34 @@ export default function AddBuyer() {
                                             </div>
                                         </div>
 
-                                        <div className="sm:col-span-6">
-                                            <label className="block text-sm font-medium text-gray-700">
-                                                Conform Password
-                                            </label>
-                                            <div className="mt-1">
-                                                <input
-                                                    type="password"
-                                                    name="password"
-                                                    id="password"
-                                                    placeholder="Buyer's Conform Password"
-                                                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                                />
-                                            </div>
-                                        </div>
+                                        {/*<div className="sm:col-span-6">*/}
+                                        {/*    <label className="block text-sm font-medium text-gray-700">*/}
+                                        {/*        Conform Password*/}
+                                        {/*    </label>*/}
+                                        {/*    <div className="mt-1">*/}
+                                        {/*        <input*/}
+                                        {/*            type="password"*/}
+                                        {/*            name="password"*/}
+                                        {/*            id="password"*/}
+                                        {/*            placeholder="Buyer's Conform Password"*/}
+                                        {/*            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"*/}
+                                        {/*        />*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                             </div>
 
                             <div className="pt-5">
                                 <div className="flex justify-end">
+                                    <Link to="/admin/buyers">
                                     <button
                                         type="button"
                                         className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
                                         Cancel
                                     </button>
+                                    </Link>
                                     <button
                                         type="submit"
                                         className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -348,6 +386,7 @@ export default function AddBuyer() {
                     </div>
                 </FormWrapper>
             </div>
+            </FormWithConstraints>
         );
 
 }
