@@ -106,7 +106,9 @@ const FarmerHeader = () => {
           <div className="max-w-full mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-4 lg:px-8 md:justify-start md:space-x-10">
             {/* Home logo */}
             <div>
-              <AiOutlineHome size={34} color="#1a8a38" />
+              <Link to="/farmer">
+                <AiOutlineHome size={34} color="#1a8a38" />
+              </Link>
             </div>
 
             {/* items of header */}
@@ -242,7 +244,7 @@ const FarmerHeader = () => {
                   {/* User profile icon here */}
                   <div>
                     <img
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
                       alt="Profile image"
                       className="rounded-full w-10 h-10"
                     />
@@ -291,13 +293,14 @@ const FarmerHeader = () => {
             <div className="rounded-lg shadow-lg ring-1 ring-emerald-500 ring-opacity-5 bg-white divide-y-2 divide-gray-50">
               <div className="pt-5 pb-6 px-5 sm:pb-8">
                 <div className="flex items-center justify-between">
-                  <div>
+                  {/* <div>
                     <img
                       className="h-8 w-auto"
                       src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                       alt="Workflow"
                     />
-                  </div>
+                  </div> */}
+                  <div></div>
                   <div className="-mr-2">
                     <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                       <span className="sr-only">Close menu</span>
