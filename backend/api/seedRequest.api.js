@@ -2,7 +2,9 @@ const {
   addSeedRequest,
   retrieveFarmerRequests,
   removeSeedRequest,
+  getAllSeedRequests,
 } = require("../dal/seedRequest/request.dao");
+const {getAll} = require("../dal/farmer/farmers.dao");
 
 const createSeedRequest = async (req, res) => {
   const { farmerId, category, type, sizeOfLand, weight, location } = req.body;
@@ -97,8 +99,19 @@ const deleteSeedRequest = async (req, res) => {
   }
 };
 
+const getSeedRequests = async (req, res) => {
+  try {
+    const requests = await getAllSeedRequests();
+    res.status(200).json(requests);
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+  }
+};
+
 module.exports = {
   createSeedRequest,
   viewFarmerSeedRequests,
   deleteSeedRequest,
+  getSeedRequests,
 };

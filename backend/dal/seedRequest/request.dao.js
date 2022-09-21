@@ -1,4 +1,5 @@
 const SeedRequest = require("./request.model");
+const Farmer = require("../farmer/farmer.model");
 
 const addSeedRequest = async ({
   farmerId,
@@ -47,4 +48,9 @@ const removeSeedRequest = async ({ requestId }) => {
   }
 };
 
-module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest };
+const getAllSeedRequests = async () => {
+  const requests =  await SeedRequest.find();
+  return requests;
+};
+
+module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, getAllSeedRequests };
