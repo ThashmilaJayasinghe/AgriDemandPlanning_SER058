@@ -8,6 +8,7 @@ const {getAll} = require("../dal/farmer/farmers.dao");
 
 const createSeedRequest = async (req, res) => {
   const { farmerId, category, type, sizeOfLand, weight, location } = req.body;
+  const status = 'new';
 
   try {
     const request = await addSeedRequest({
@@ -17,6 +18,7 @@ const createSeedRequest = async (req, res) => {
       sizeOfLand,
       weight,
       location,
+      status,
     });
 
     if (request) {

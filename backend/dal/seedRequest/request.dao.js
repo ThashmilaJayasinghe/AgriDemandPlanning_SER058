@@ -8,6 +8,7 @@ const addSeedRequest = async ({
   sizeOfLand,
   weight,
   location,
+  status,
 }) => {
   try {
     const newRequest = await SeedRequest.create({
@@ -17,6 +18,7 @@ const addSeedRequest = async ({
       sizeOfLand,
       weight,
       location,
+      status,
     });
 
     return newRequest;

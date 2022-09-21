@@ -27,6 +27,10 @@ const seedRequestSchema = mongoose.Schema(
       type: String,
       require: [false, "Please enter location of the land"],
     },
+    status: {
+          type: String,
+          require: [false, "Please enter status as new"],
+    },
   },
   {
     timestamps: true,

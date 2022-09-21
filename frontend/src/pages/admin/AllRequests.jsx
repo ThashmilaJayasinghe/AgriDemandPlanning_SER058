@@ -92,8 +92,14 @@ export default function AllRequests() {
                         >
                             Land Size (Hectare)
                         </th>
+                        <th
+                            scope="col"
+                            className="hidden px-3 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                        >
+                            Status
+                        </th>
                         <th scope="col" className="relative py-3.5 pl-4 pr-3 sm:pr-6">
-                            <span className="sr-only">View Profile</span>
+                            <span className="sr-only">View Request</span>
                         </th>
                     </tr>
                     </thead>
@@ -104,6 +110,7 @@ export default function AllRequests() {
                                 return request;
                             }else if(request.farmerName.toLowerCase().includes(search.toLowerCase())
                                 || request.category.toLowerCase().includes(search.toLowerCase())
+                                || request.status.toLowerCase().includes(search.toLowerCase())
                             ) {
                                 return request;
                             }
@@ -120,14 +127,19 @@ export default function AllRequests() {
                                         <dt className="sr-only">Land Size</dt>
                                         <dd className="mt-1 truncate text-gray-900">{request.sizeOfLand}</dd>
                                     </dl>
+                                    <dl className="font-normal lg:hidden">
+                                        <dt className="sr-only">Status</dt>
+                                        <dd className="mt-1 truncate text-gray-900">{request.status}</dd>
+                                    </dl>
                                 </td>
                                 <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.category}</td>
                                 <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.sizeOfLand}</td>
+                                <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.status}</td>
                                 <td className="py-4 px-3 text-right text-sm font-medium sm:pr-6">
                                     <a
                                         className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-emerald-600 transition-colors"
                                         onClick={() => setRequest(request)}
-                                        href="/admin/farmer-profile"
+                                        href="/admin/view-seed-request"
                                     >
                                         <AiOutlineEye
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"
