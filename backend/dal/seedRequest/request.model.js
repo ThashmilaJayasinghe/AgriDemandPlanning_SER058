@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const seedRequestSchema = mongoose.Schema(
   {
     farmerId: {
-      type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Farmer'
     },
 
     category: {

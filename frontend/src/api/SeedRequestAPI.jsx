@@ -66,3 +66,28 @@ export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
     setIsDeleteSuccess(false);
   }
 };
+
+export const getSeedRequests = async (setRequests) => {
+
+  try {
+    const requests = await axios
+        .get(`${BACKEND_URL}/seed-request/all`, {
+        });
+
+    const allRequestData = [];
+
+    for(const request of requests.data) {
+        const farmerId = request.farmerId;
+        const farmer = await axios
+            .get(`${BACKEND_URL}/farmers/` + farmerId);
+        request.farmerName = farmer.data.fullName;
+        allRequestData.push(request);
+    };
+
+    setRequests(allRequestData);
+
+  } catch (err) {
+    console.log(err);
+    setRequests([]);
+  }
+};
