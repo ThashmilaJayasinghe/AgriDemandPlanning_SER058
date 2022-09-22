@@ -53,8 +53,14 @@ export default function FarmerProfile() {
 
     //accepting seed request
     const onAccept = (request) => {
+
+        request.status = 'accepted';
+        localStorage.setItem('Request', JSON.stringify(request));
+        navigate('/admin/view-seed-request');
+
+
         // localStorage.setItem('FarmerId', JSON.stringify(farmer._id));
-        // navigate('/admin/view-seed-request')
+
         console.log('Request accepted');
     };
 
@@ -132,30 +138,14 @@ export default function FarmerProfile() {
                                 : {request.location}
                             </p>
                         </div>
-                        {/*<div className="mt-2 grid grid-cols-5">*/}
-                        {/*    <p className="flex col-span-1 items-center text-sm text-gray-500">*/}
-                        {/*        Contact Number*/}
-                        {/*    </p>*/}
-                        {/*    <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">*/}
-                        {/*        : {farmer.contactNumber}*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="mt-2 grid grid-cols-5">*/}
-                        {/*    <p className="flex col-span-1 items-center text-sm text-gray-500">*/}
-                        {/*        Land Size (Hectare)*/}
-                        {/*    </p>*/}
-                        {/*    <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">*/}
-                        {/*        : {farmer.hectare}*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
-                        {/*<div className="mt-2 grid grid-cols-5">*/}
-                        {/*    <p className="flex col-span-1 items-center text-sm text-gray-500">*/}
-                        {/*        Categories*/}
-                        {/*    </p>*/}
-                        {/*    <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">*/}
-                        {/*        : {farmer.categories}*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
+                        <div className="mt-2 grid grid-cols-5">
+                            <p className="flex col-span-1 items-center text-sm text-gray-500">
+                                Status
+                            </p>
+                            <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                : {request.status}
+                            </p>
+                        </div>
                         <div className="grid grid-cols-5 ">
                             {/*Button for reject function*/}
                             <div className="col-start-4 col-span-1 justify-end flex">
@@ -172,7 +162,7 @@ export default function FarmerProfile() {
                             </div>
                             {/*Button for accept function*/}
                             <div className="col-span-1 justify-center flex">
-                                <a
+                                <button
                                     className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
                                     onClick={() => onAccept(request)}
                                     // href="/admin/update-farmer"
@@ -182,7 +172,7 @@ export default function FarmerProfile() {
                                         size={18}
                                     />
                                     <p className="hidden md:block"> Accept</p>
-                                </a>
+                                </button>
                             </div>
                         </div>
                         {/*Button for navigating to send message page*/}

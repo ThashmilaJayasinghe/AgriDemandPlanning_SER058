@@ -55,4 +55,31 @@ const getAllSeedRequests = async () => {
   return requests;
 };
 
-module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, getAllSeedRequests };
+const updateSeedRequest = async (id, {
+                                farmerId,
+                                category,
+                                type,
+                                sizeOfLand,
+                                weight,
+                                location,
+                                status,
+                              }) => {
+  try {
+    const request = await SeedRequest.findByIdAndUpdate(id, {
+      farmerId,
+      category,
+      type,
+      sizeOfLand,
+      weight,
+      location,
+      status
+    }, {new: true});
+
+    return request;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, getAllSeedRequests, updateSeedRequest };
