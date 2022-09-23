@@ -5,13 +5,13 @@ import {AiOutlineEdit} from "react-icons/ai";
 import {BiMessageDetail} from "react-icons/bi";
 import {toast} from "react-toastify";
 
-import { deleteSeedRequest } from '../../api/SeedRequestAPI'
+import { deleteSeedRequest, updateSeedRequest } from '../../api/SeedRequestAPI'
 
 
 export default function FarmerProfile() {
 
     const [request, setRequest] = useState({});
-    // const [isSuccess, setIsSuccess] = useState(false);
+    const [isAcceptSuccess, setIsAcceptSuccess] = useState(false);
     const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
 
     const navigate = useNavigate();
@@ -52,15 +52,43 @@ export default function FarmerProfile() {
     };
 
     //accepting seed request
-    const onAccept = (request) => {
+    const onAccept = async (id, request) => {
 
-        request.status = 'accepted';
-        localStorage.setItem('Request', JSON.stringify(request));
-        navigate('/admin/view-seed-request');
+        if (window.confirm("Do you wish to accept seed request?")) {
 
+            request.status = 'accepted';
 
-        // localStorage.setItem('FarmerId', JSON.stringify(farmer._id));
+            await updateSeedRequest(id, request, setIsAcceptSuccess)
+                .then(() => {
+                    toast.success("Seed Request Accepted!", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    if(isAcceptSuccess){
+                        localStorage.setItem('Request', JSON.stringify(request));
+                        navigate('/admin/view-seed-request');
+                    }
+                })
+                .catch(() => {
+                    toast.error("Something went wrong!", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                });
 
+            console.log('Request accepted');
+
+        }
         console.log('Request accepted');
     };
 
@@ -164,7 +192,7 @@ export default function FarmerProfile() {
                             <div className="col-span-1 justify-center flex">
                                 <button
                                     className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                                    onClick={() => onAccept(request)}
+                                    onClick={() => onAccept(request._id, request)}
                                     // href="/admin/update-farmer"
                                 >
                                     <AiOutlineEdit

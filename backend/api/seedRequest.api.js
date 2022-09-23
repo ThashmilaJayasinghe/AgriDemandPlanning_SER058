@@ -115,6 +115,8 @@ const getSeedRequests = async (req, res) => {
 const updateRequest = async (req, res) => {
   const { farmerId, category, type, sizeOfLand, weight, location, status } = req.body;
 
+  console.log('statusss: ', status)
+
   try {
     const request = await updateSeedRequest(req.params.id, {
       farmerId,

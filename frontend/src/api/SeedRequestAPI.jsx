@@ -91,3 +91,16 @@ export const getSeedRequests = async (setRequests) => {
     setRequests([]);
   }
 };
+
+export const updateSeedRequest = async (id, request, setIsAcceptSuccess) => {
+    try {
+        await axios
+            .put(`${BACKEND_URL}/seed-request/update/` + id, request)
+            .then((res) => {
+                setIsAcceptSuccess(res.data.success);
+            });
+    } catch (err) {
+        console.log(err);
+        setIsAcceptSuccess(false);
+    }
+};
