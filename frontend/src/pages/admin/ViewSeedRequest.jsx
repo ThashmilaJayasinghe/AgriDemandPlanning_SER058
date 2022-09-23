@@ -11,44 +11,49 @@ import { deleteSeedRequest, updateSeedRequest } from '../../api/SeedRequestAPI'
 export default function FarmerProfile() {
 
     const [request, setRequest] = useState({});
-    const [isAcceptSuccess, setIsAcceptSuccess] = useState(false);
-    const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const navigate = useNavigate();
 
     //reject farmer request function
-    const onReject = async (requestId) => {
+    const onReject = async (id, request) => {
 
-        if (window.confirm("Do you wish to reject request?")) {
+        if (window.confirm("Do you wish to reject seed request?")) {
 
-            // await deleteSeedRequest(requestId, setIsDeleteSuccess)
-            //     .then(() => {
-            //         toast.success("Farmer deleted", {
-            //             position: "top-right",
-            //             autoClose: 3000,
-            //             hideProgressBar: false,
-            //             closeOnClick: true,
-            //             pauseOnHover: true,
-            //             draggable: true,
-            //             progress: undefined,
-            //         });
-            //         // setIsSuccess(true);
-            //     })
-            //     .catch(() => {
-            //         toast.error("Something went wrong!", {
-            //             position: "top-right",
-            //             autoClose: 3000,
-            //             hideProgressBar: false,
-            //             closeOnClick: true,
-            //             pauseOnHover: true,
-            //             draggable: true,
-            //             progress: undefined,
-            //         });
-            //     });
+            request.status = 'rejected';
+
+            await updateSeedRequest(id, request, setIsSuccess)
+                .then(() => {
+                    toast.success("Seed Request Rejected!", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    if(isSuccess){
+                        localStorage.setItem('Request', JSON.stringify(request));
+                        navigate('/admin/view-seed-request');
+                    }
+                })
+                .catch(() => {
+                    toast.error("Something went wrong!", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                });
 
             console.log('Request rejected');
 
         }
+        console.log('Request rejected');
     };
 
     //accepting seed request
@@ -58,7 +63,7 @@ export default function FarmerProfile() {
 
             request.status = 'accepted';
 
-            await updateSeedRequest(id, request, setIsAcceptSuccess)
+            await updateSeedRequest(id, request, setIsSuccess)
                 .then(() => {
                     toast.success("Seed Request Accepted!", {
                         position: "top-right",
@@ -69,7 +74,7 @@ export default function FarmerProfile() {
                         draggable: true,
                         progress: undefined,
                     });
-                    if(isAcceptSuccess){
+                    if(isSuccess){
                         localStorage.setItem('Request', JSON.stringify(request));
                         navigate('/admin/view-seed-request');
                     }
@@ -98,13 +103,9 @@ export default function FarmerProfile() {
     };
 
     useEffect(() => {
+
         setRequest(JSON.parse(localStorage.getItem('Request')));
-
-        if(isDeleteSuccess){
-            navigate('/admin/all-seed-requests')
-        };
-
-    }, [isDeleteSuccess, navigate]);
+    }, []);
 
 
     return(
@@ -179,7 +180,7 @@ export default function FarmerProfile() {
                             <div className="col-start-4 col-span-1 justify-end flex">
                                 <button
                                     className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                                    onClick={() => onReject(request._id)}
+                                    onClick={() => onReject(request._id, request)}
                                 >
                                     <RiDeleteBin6Line
                                         className="mt-0 mr-0 md:mt-1 md:mr-1"
