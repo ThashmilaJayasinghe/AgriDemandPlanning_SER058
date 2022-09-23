@@ -21,6 +21,7 @@ import FarmerProfile from "../../pages/admin/FarmerProfile";
 import UpdateFarmer from "../../pages/admin/UpdateFarmer";
 import AllRequests from "../../pages/admin/AllRequests";
 import ViewSeedRequest from "../../pages/admin/ViewSeedRequest";
+import SendMessage from "../../pages/admin/SendMessage";
 
 
 const navigation = [
@@ -185,6 +186,7 @@ export default function AdminLayout() {
                                 <Route path="/update-farmer" element={<UpdateFarmer />} />
                                 <Route path="/all-seed-requests" element={<AllRequests />} />
                                 <Route path="/view-seed-request" element={<ViewSeedRequest />} />
+                                <Route path="/send-message" element={<SendMessage />} />
                             </Routes>
                         </div>
                     </div>

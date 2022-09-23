@@ -97,9 +97,11 @@ export default function FarmerProfile() {
         console.log('Request accepted');
     };
 
-    //To be developed in the 2nd sprint
+    //navigates to send message page
     const onSendMessage = (farmerId) => {
+        localStorage.setItem('ReceiverId', JSON.stringify(farmerId));
         console.log('Send message to ' + farmerId);
+        navigate('/admin/send-message');
     };
 
     useEffect(() => {
@@ -194,7 +196,6 @@ export default function FarmerProfile() {
                                 <button
                                     className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
                                     onClick={() => onAccept(request._id, request)}
-                                    // href="/admin/update-farmer"
                                 >
                                     <AiOutlineEdit
                                         className="mt-0 mr-0 md:mt-1 md:mr-1"

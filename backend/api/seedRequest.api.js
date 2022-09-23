@@ -5,7 +5,6 @@ const {
   getAllSeedRequests,
   updateSeedRequest,
 } = require("../dal/seedRequest/request.dao");
-const {getAll} = require("../dal/farmer/farmers.dao");
 
 const createSeedRequest = async (req, res) => {
   const { farmerId, category, type, sizeOfLand, weight, location } = req.body;
@@ -114,8 +113,6 @@ const getSeedRequests = async (req, res) => {
 
 const updateRequest = async (req, res) => {
   const { farmerId, category, type, sizeOfLand, weight, location, status } = req.body;
-
-  console.log('statusss: ', status)
 
   try {
     const request = await updateSeedRequest(req.params.id, {
