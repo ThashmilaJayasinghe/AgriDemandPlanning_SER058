@@ -14,19 +14,10 @@ export default function FarmerProfile() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setFarmer(JSON.parse(localStorage.getItem('Farmer')));
-
-        if(isSuccess){
-            navigate('/admin/all-farmers')
-        };
-
-    }, [isSuccess, navigate]);
-
     //delete farmer function
     const onDelete = async (farmerId) => {
 
-        if (window.confirm("Delete farmer?")) {
+        if (window.confirm("Do you wish to delete farmer?")) {
 
             await deleteFarmer(farmerId)
                 .then(() => {
@@ -58,7 +49,7 @@ export default function FarmerProfile() {
 
     //directing to update farmer page
     const onUpdate = (farmer) => {
-        localStorage.setItem('Farmer', JSON.stringify(farmer));
+        // localStorage.setItem('FarmerId', JSON.stringify(farmer._id));
         navigate('/admin/update-farmer')
     };
 
@@ -66,6 +57,15 @@ export default function FarmerProfile() {
     const onSendMessage = (farmerId) => {
         console.log('Send message to ' + farmerId);
     };
+
+    useEffect(() => {
+        setFarmer(JSON.parse(localStorage.getItem('Farmer')));
+
+        if(isSuccess){
+            navigate('/admin/all-farmers')
+        };
+
+    }, [isSuccess, navigate]);
 
 
     return(
@@ -168,7 +168,7 @@ export default function FarmerProfile() {
                             {/*Button for navigating to update page*/}
                             <div className="col-span-1 justify-center flex">
                                 <a
-                                    className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                                    className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
                                     onClick={() => onUpdate(farmer)}
                                     href="/admin/update-farmer"
                                 >
@@ -182,9 +182,9 @@ export default function FarmerProfile() {
                         </div>
                         {/*Button for navigating to send message page*/}
                         <div className="grid grid-cols-12 ">
-                            <div className="col-start-4 col-span-1 justify-end flex">
+                            <div className="col-start-1 col-span-2 mt-3 justify-end flex">
                                 <button
-                                    className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                                    className="flex min-w-fit bg-sky-500 text-white py-1 px-4 rounded-lg hover:bg-sky-600 transition-colors"
                                     onClick={() => onSendMessage(farmer._id)}
                                 >
                                     <BiMessageDetail

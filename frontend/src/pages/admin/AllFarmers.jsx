@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { getFarmers } from "../../api/FarmerAPI";
 
@@ -8,6 +9,7 @@ export default function AllFarmers() {
 
     const [farmers, setFarmers] = useState([]);
     const [search, setSearch] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
     const setFarmer = (farmer) => {
         localStorage.setItem('Farmer', JSON.stringify(farmer));
@@ -17,10 +19,22 @@ export default function AllFarmers() {
         async function viewAllFarmers() {
             await getFarmers(setFarmers).then(() => {
                 console.log('All Farmers retrieved successfully');
+                setIsLoading(false);
             });
         }
         viewAllFarmers();
+
     }, []);
+
+    if(isLoading) {
+        return (
+            <div>
+                <div className="flex justify-center mt-24">
+                    <CircularProgress color="success" />
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="px-4 sm:x-6 lg:px-8">
@@ -29,12 +43,12 @@ export default function AllFarmers() {
                     <h1 className="text-2xl font-semibold text-gray-900">All Farmers</h1>
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                    <button
-                        type="button"
-                        className="inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+                    <a
+                        className="inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+                        href="/admin/dashboard"
                     >
                         + Add Farmer
-                    </button>
+                    </a>
                 </div>
             </div>
 

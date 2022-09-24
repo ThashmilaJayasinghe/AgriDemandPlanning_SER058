@@ -88,7 +88,7 @@ const AddDemand = () => {
     <FormWrapper>
       <>
         <div className="my-16">
-          <ToastContainer/>
+          <ToastContainer />
           <p className="font-semibold text-2xl text-center">
             Add demand for a product
           </p>
@@ -231,7 +231,7 @@ const AddDemand = () => {
             htmlFor="price"
             className="block text-base font-medium text-gray-700 mt-6"
           >
-            Unit price in Rupees (1Kg) :
+            Unit price in Rupees (for 1Kg) :
           </label>
           <input
             type="number"

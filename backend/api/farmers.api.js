@@ -57,9 +57,9 @@ const updateFarmer = async (req, res) => {
             district,
             email,
             contactNumber,
-            categories: [categories],
+            categories,
             hectare,
-            profileImg
+            profileImg,
         });
         res.status(200).json(farmer);
     } catch (err) {

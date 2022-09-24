@@ -37,14 +37,14 @@ const buyerSchema = mongoose.Schema({
         type: Number,
         required: [true, 'please enter contact number']
     },
-    // userName: {
-    //     type: String,
-    //     required: [true, 'please enter user name ']
-    // },
-    // password: {
-    //     type: String,
-    //     required: [true, 'please enter password']
-    // },
+    userName: {
+        type: String,
+        required: [true, 'please enter user name ']
+    },
+    password: {
+        type: String,
+        required: [true, 'please enter password']
+    },
 });
 
 module.exports = mongoose.model('Buyer', buyerSchema);

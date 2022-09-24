@@ -13,6 +13,7 @@ import { FiAlertCircle } from "react-icons/fi";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BsArrowRightCircle } from "react-icons/bs";
 
 const SeedRequestList = () => {
   const [myRequests, setMyRequests] = useState([]);
@@ -106,26 +107,8 @@ const SeedRequestList = () => {
   useEffect(() => {
     if (isDeleteSuccess === true) {
       console.log("Delete successed");
-      // toast.success("Request deleted!", {
-      //   position: "top-right",
-      //   autoClose: 3000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // });
     } else {
       console.log("Delete unsuccess");
-      // toast.error("Something went wrong!", {
-      //   position: "top-right",
-      //   autoClose: 3000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // });
     }
   }, [isDeleteSuccess]);
 
@@ -138,7 +121,27 @@ const SeedRequestList = () => {
         </div>
         {/* added toast container here, because of my easyness */}
         <ToastContainer />
-        <div className="pb-4">
+
+        <div className="bg-red-100 shadow overflow-hidden sm:rounded-md my-4 text-sm text-red-900 p-4">
+          <div className="flex">
+            <BsArrowRightCircle color="black" size={18} />
+            <div className="ml-3">
+              Deadline for your requests is{" "}
+              <i className="text-red-600">
+                <u>2022-09-30</u>
+              </i>
+            </div>
+          </div>
+          <div className="flex pt-1">
+            <BsArrowRightCircle color="black" size={18} />
+            <div className="ml-3">
+              Before the deadline is the only time you can modify or delete your
+              request.
+            </div>
+          </div>
+        </div>
+
+        <div className="pb-4 pt-4">
           <input
             type="text"
             name="searchRequests"
@@ -160,7 +163,7 @@ const SeedRequestList = () => {
             <div className="block">
               <div className="px-4 py-4 sm:px-6">
                 <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-gray-500">
+                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
                     Category
                   </p>
                   <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
@@ -168,7 +171,7 @@ const SeedRequestList = () => {
                   </p>
                 </div>
                 <div className="mt-2 grid grid-cols-5 ">
-                  <p className="flex col-span-1 items-center text-sm text-gray-500 ">
+                  <p className="flex col-span-1 items-center text-sm text-emerald-700 ">
                     Type
                   </p>
                   <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
@@ -176,7 +179,7 @@ const SeedRequestList = () => {
                   </p>
                 </div>
                 <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-gray-500">
+                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
                     Hectares
                   </p>
                   <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
@@ -184,7 +187,7 @@ const SeedRequestList = () => {
                   </p>
                 </div>
                 <div className="mt-3 md:mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-gray-500">
+                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
                     Added date
                   </p>
                   <p className="md:mt-0 col-span-2 flex items-center text-sm text-gray-500">

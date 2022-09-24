@@ -1,7 +1,8 @@
 const Farmer = require('./farmer.model');
+const bcrypt = require('bcrypt')
 
-const save = async ({fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare}) => {
-    const farmer = await Farmer.create({
+const save = async ({fullName,NIC,gender, address,province, district,  email, contactNumber,userName,password, categories, hectare}) => {
+    const farmer = await Farmer({
         fullName,
         NIC,
         gender,
@@ -10,11 +11,20 @@ const save = async ({fullName,NIC,gender, address,province, district,  email, co
         district,
         email,
         contactNumber,
+        userName,
+        password,
         categories,
         hectare
     });
-    console.log({fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare});
-    return farmer;
+    bcrypt.hash(password,7, async (err,hash)=>{
+        farmer.password = hash
+        const newFarmer = await farmer.save()
+
+        if(newFarmer){
+            console.log({fullName,NIC,gender, address,province, district,  email, contactNumber,userName,password, categories, hectare});
+            return farmer;
+        }
+    })
 };
 
 const getAll = async () => {
@@ -40,7 +50,7 @@ const updateById = async (id, {fullName,NIC,gender, address,province, district, 
         categories,
         hectare,
         profileImg
-    })
+    },{new: true})
     return farmer;
 };
 
