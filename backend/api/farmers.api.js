@@ -46,7 +46,7 @@ const getFarmer = async (req, res) => {
 };
 
 const updateFarmer = async (req, res) => {
-    const {fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare, profileImg} = req.body;
+    const {fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare,userName,password, profileImg} = req.body;
     try {
         const farmer = await updateById(req.params.id, {
             fullName,
@@ -59,6 +59,8 @@ const updateFarmer = async (req, res) => {
             contactNumber,
             categories,
             hectare,
+            userName,
+            password,
             profileImg,
         });
         res.status(200).json(farmer);
