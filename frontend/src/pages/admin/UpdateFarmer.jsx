@@ -171,7 +171,7 @@ export default function UpdateFarmer() {
                                             name="fullName"
                                             id="fullName"
                                             value={fullName}
-                                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                             onChange={(e)=>(setFullName(e.target.value))}
                                         />
                                     </div>
@@ -187,7 +187,7 @@ export default function UpdateFarmer() {
                                             name="nic"
                                             id="nic"
                                             value={nic}
-                                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                             onChange={(e)=>(setNic(e.target.value))}
                                         />
                                     </div>
@@ -203,7 +203,7 @@ export default function UpdateFarmer() {
                                                 name="push-gender"
                                                 type="radio"
                                                 value="Male"
-                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                className="focus:ring-emerald-400 h-4 w-4 text-emerald-600 border-gray-300"
                                                 onChange={(e)=>(setGender(e.target.value))}
                                             />
                                             <label className="ml-3 block text-sm font-medium text-gray-700">
@@ -216,7 +216,7 @@ export default function UpdateFarmer() {
                                                 name="push-gender"
                                                 type="radio"
                                                 value="Female"
-                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                className="focus:ring-emerald-400 h-4 w-4 text-emerald-600 border-gray-300"
                                                 onChange={(e)=>(setGender(e.target.value))}
                                             />
                                             <label className="ml-3 block text-sm font-medium text-gray-700">
@@ -244,7 +244,7 @@ export default function UpdateFarmer() {
                                             name="address"
                                             id="address"
                                             value={address}
-                                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                             onChange={(e)=>(setAddress(e.target.value))}
                                         />
                                     </div>
@@ -259,7 +259,7 @@ export default function UpdateFarmer() {
                                             id="district"
                                             name="district"
                                             value={district}
-                                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                             onChange={(e)=>(setDistrict(e.target.value))}
                                         >
                                             <option>Colombo</option>
@@ -300,7 +300,7 @@ export default function UpdateFarmer() {
                                             name="province"
                                             placeholder="Farmer's province"
                                             value={province}
-                                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                             onChange={(e)=>(setProvince(e.target.value))}
                                         >
                                             <option>Western</option>
@@ -334,7 +334,7 @@ export default function UpdateFarmer() {
                                             name="email"
                                             id="email"
                                             value={email}
-                                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                             onChange={(e)=>(setEmail(e.target.value))}
                                         />
                                     </div>
@@ -350,7 +350,7 @@ export default function UpdateFarmer() {
                                             name="number"
                                             id="number"
                                             value={contactNumber}
-                                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                             onChange={(e)=>(setContactNumber(e.target.value))}
                                         />
                                     </div>
@@ -373,7 +373,7 @@ export default function UpdateFarmer() {
                                             name="hectare"
                                             id="hectare"
                                             value={hectare}
-                                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
                                             onChange={(e)=>(setHectare(e.target.value))}
                                         />
                                     </div>
@@ -423,7 +423,7 @@ export default function UpdateFarmer() {
                                 {/*                        name="category"*/}
                                 {/*                        id="category"*/}
                                 {/*                        placeholder="category"*/}
-                                {/*                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"*/}
+                                {/*                        className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"*/}
                                 {/*                        onChange={(e)=>(setEmail(e.target.value))}*/}
                                 {/*                    />*/}
                                 {/*                    <button*/}

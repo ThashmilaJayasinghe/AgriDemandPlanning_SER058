@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Switch } from '@headlessui/react'
-import React, {useEffect} from "@types/react";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { getFarmer } from '../../api/FarmerAPI';
+import { createMessage } from '../../api/MessageAPI';
+import {getFarmer} from "../../api/FarmerAPI";
+import {toast} from "react-toastify";
+import {useLocation} from "react-router-dom";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -11,22 +13,73 @@ function classNames(...classes) {
 
 export default function SendMessage() {
     const [agreed, setAgreed] = useState(false);
+    const [fullName, setFullName] = useState(false);
+    const { state } = useLocation();
+    const { recipientId } = state;
+    const [recipient, setRecipient] = useState({});
     const [farmer, setFarmer] = useState({});
+    const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    // const [recipientId, setRecipientId] = useState(JSON.parse(localStorage.getItem('RecipientId')));
+    const [subject, setSubject] = useState('');
+    const [creatorId, setCreatorId] = useState('');
+    const [messageBody, setMessageBody] = useState('');
+    const [parentMessageId, setParentMessageId] = useState('');
+    const [status, setStatus] = useState('');
+
+    const onSendMessage = async () => {
+        if (window.confirm("Do you wish send message?")) {
+
+            const message = {
+                recipientId,
+                subject,
+                creatorId,
+                messageBody,
+                parentMessageId,
+                status
+            };
+
+            await createMessage(message, setIsSuccess)
+                .then(() => {
+                    toast.success("Message Sent", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    setIsSuccess(true);
+                    // navigate('/admin/farmer-profile');
+                    alert('updated!');
+                })
+                .catch(() => {
+                    toast.error("Something went wrong!", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                });
+        };
+    }
 
     useEffect(() => {
-       const id = (JSON.parse(localStorage.getItem('ReceiverId')));
 
-        async function getReceiver() {
-            await getFarmer(id, setFarmer)
+        async function getRecipient() {
+            await getFarmer(recipientId, setFarmer)
                 .then(() => {
-                console.log("Receiver farmer retrieved successfully");
+                setRecipient(farmer);
                 setIsLoading(false);
             });
         }
-        getReceiver();
-
+        getRecipient();
     }, []);
+
 
     if(isLoading) {
         return (
@@ -129,11 +182,13 @@ export default function SendMessage() {
                             <div className="mt-1">
                                 <input
                                     type="text"
+                                    value={recipient.fullName}
+                                    disabled
                                     name="receiver"
                                     id="receiver"
                                     autoComplete="farmer"
-                                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                                    onChange={(e)=>(setFullName(e.target.value))}
+                                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 bg-emerald-50 border-gray-300 rounded-md"
+                                    // onChange={(e)=>(setFullName(e.target.value))}
                                 />
                             </div>
                         </div>
@@ -147,7 +202,7 @@ export default function SendMessage() {
                                     name="subject"
                                     type="text"
                                     autoComplete="subject"
-                                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 border-gray-300 rounded-md"
                                 />
                             </div>
                         </div>
@@ -189,7 +244,7 @@ export default function SendMessage() {
                     id="message"
                     name="message"
                     rows={4}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 border border-gray-300 rounded-md"
                     defaultValue={''}
                 />
                             </div>
@@ -202,7 +257,7 @@ export default function SendMessage() {
                                         onChange={setAgreed}
                                         className={classNames(
                                             agreed ? 'bg-indigo-600' : 'bg-gray-200',
-                                            'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                                            'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-400'
                                         )}
                                     >
                                         <span className="sr-only">Agree to policies</span>

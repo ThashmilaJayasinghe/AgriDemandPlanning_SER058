@@ -28,37 +28,6 @@ const saveMessage = async ({recipientId, subject, creatorId, messageBody, parent
     }
 };
 
-// const getAll = async () => {
-//     const farmers =  await Farmer.find();
-//     return farmers;
-// };
-//
-// const getById = async (id) => {
-//     const farmer = await Farmer.findById(id);
-//     return farmer;
-// };
-//
-// const updateById = async (id, {fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare}) => {
-//     const farmer = await Farmer.findByIdAndUpdate(id, {
-//         fullName,
-//         NIC,
-//         gender,
-//         address,
-//         province,
-//         district,
-//         email,
-//         contactNumber,
-//         categories,
-//         hectare
-//     }, {new: true});
-//     return farmer;
-// };
-//
-// const removeById = async (id) => {
-//     await Farmer.findByIdAndDelete(id)
-// };
-
-
 module.exports = {
     saveMessage,
 }

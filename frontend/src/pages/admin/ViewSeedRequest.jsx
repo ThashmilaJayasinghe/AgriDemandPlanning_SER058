@@ -99,9 +99,9 @@ export default function FarmerProfile() {
 
     //navigates to send message page
     const onSendMessage = (farmerId) => {
-        localStorage.setItem('ReceiverId', JSON.stringify(farmerId));
+        // localStorage.setItem('ReceiverId', JSON.stringify(farmerId));
         console.log('Send message to ' + farmerId);
-        navigate('/admin/send-message');
+        navigate('/admin/send-message', { state: {recipientId: farmerId} });
     };
 
     useEffect(() => {
