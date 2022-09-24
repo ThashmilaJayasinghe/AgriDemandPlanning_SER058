@@ -48,6 +48,9 @@ const farmerSchema = mongoose.Schema({
     hectare: {
         type: Number,
         // required: [true, 'please enter number of hectares']
+    },
+    profileImg : {
+        type : String
     }
 });
 
