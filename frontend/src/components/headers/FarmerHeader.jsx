@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import {
@@ -26,6 +26,8 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
+import axios from "axios";
+
 
 const solutions = [
   {
@@ -94,6 +96,23 @@ function classNames(...classes) {
 const FarmerHeader = () => {
   const [selectedItem, setSelectedItem] = useState("");
   const [isLoggedIn, IsLoggedIn] = useState(true);
+  const [farmerPic, setFarmerPic] = useState('');
+  const [user, setUSer] = useState('');
+  const [id, setID] = useState('630e177910470806f04c70ad');
+
+  useEffect(()=>{
+    function getUser(){
+      axios.get('http://localhost:8000/api/farmers/'+id)
+          .then((res)=>{
+            setUSer(res.data)
+            console.log(res.data)
+          })
+          .catch((err)=>{
+            alert(err.message)
+          })
+    }
+    getUser();
+  },[])
 
   return (
     <div>
@@ -105,9 +124,11 @@ const FarmerHeader = () => {
         <div className="relative z-20">
           <div className="max-w-full mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-4 lg:px-8 md:justify-start md:space-x-10">
             {/* Home logo */}
+            <Link to={'/farmer/home'}>
             <div>
               <AiOutlineHome size={34} color="#1a8a38" />
             </div>
+            </Link>
 
             {/* items of header */}
             {isLoggedIn == true && (
@@ -242,7 +263,7 @@ const FarmerHeader = () => {
                   {/* User profile icon here */}
                   <div>
                     <img
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+                      src={user.profileImg}
                       alt="Profile image"
                       className="rounded-full w-10 h-10"
                     />

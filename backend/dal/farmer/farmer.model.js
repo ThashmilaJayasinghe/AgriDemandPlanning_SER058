@@ -52,7 +52,6 @@ const farmerSchema = mongoose.Schema({
     profileImg : {
         type : String
     }
-
 });
 
 module.exports = mongoose.model('Farmer', farmerSchema);
