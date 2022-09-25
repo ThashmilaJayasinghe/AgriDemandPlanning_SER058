@@ -1,31 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import { Switch } from '@headlessui/react'
 import CircularProgress from "@mui/material/CircularProgress";
-
 import { createMessage } from '../../api/MessageAPI';
 import {getFarmer} from "../../api/FarmerAPI";
 import {toast} from "react-toastify";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {RiDeleteBin6Line} from "react-icons/ri";
+import {AiOutlineEdit} from "react-icons/ai";
+import {BiMessageDetail} from "react-icons/bi";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
 
 export default function SendMessage() {
-    const [agreed, setAgreed] = useState(false);
-    const [fullName, setFullName] = useState(false);
+
     const { state } = useLocation();
     const { recipientId } = state;
-    const [recipient, setRecipient] = useState({});
     const [farmer, setFarmer] = useState({});
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    // const [recipientId, setRecipientId] = useState(JSON.parse(localStorage.getItem('RecipientId')));
     const [subject, setSubject] = useState('');
-    const [creatorId, setCreatorId] = useState('');
+    const [creatorId, setCreatorId] = useState('631af5e2f2ba9b53e15e6218');
     const [messageBody, setMessageBody] = useState('');
-    const [parentMessageId, setParentMessageId] = useState('');
-    const [status, setStatus] = useState('');
+    // const [parentMessageId, setParentMessageId] = useState('');
+    const [status, setStatus] = useState('sent');
+
+    const navigate = useNavigate();
 
     const onSendMessage = async () => {
         if (window.confirm("Do you wish send message?")) {
@@ -35,7 +32,6 @@ export default function SendMessage() {
                 subject,
                 creatorId,
                 messageBody,
-                parentMessageId,
                 status
             };
 
@@ -50,9 +46,11 @@ export default function SendMessage() {
                         draggable: true,
                         progress: undefined,
                     });
-                    setIsSuccess(true);
-                    // navigate('/admin/farmer-profile');
-                    alert('updated!');
+                    if(isSuccess){
+                        navigate('/admin/all-farmers');
+                        // alert('updated!');
+                    }
+
                 })
                 .catch(() => {
                     toast.error("Something went wrong!", {
@@ -73,7 +71,6 @@ export default function SendMessage() {
         async function getRecipient() {
             await getFarmer(recipientId, setFarmer)
                 .then(() => {
-                setRecipient(farmer);
                 setIsLoading(false);
             });
         }
@@ -141,8 +138,7 @@ export default function SendMessage() {
                 <div className="text-center">
                     <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Send Message</h2>
                     <p className="mt-4 text-lg leading-6 text-gray-500">
-                        Nullam risus blandit ac aliquam justo ipsum. Quam mauris volutpat massa dictumst amet. Sapien tortor lacus
-                        arcu.
+                        Suggest a crop that lacks supply to be cultivated.
                     </p>
                 </div>
                 <div className="mt-12">
@@ -182,13 +178,13 @@ export default function SendMessage() {
                             <div className="mt-1">
                                 <input
                                     type="text"
-                                    value={recipient.fullName}
+                                    value={farmer.fullName}
                                     disabled
                                     name="receiver"
                                     id="receiver"
                                     autoComplete="farmer"
                                     className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 bg-emerald-50 border-gray-300 rounded-md"
-                                    // onChange={(e)=>(setFullName(e.target.value))}
+
                                 />
                             </div>
                         </div>
@@ -202,6 +198,7 @@ export default function SendMessage() {
                                     name="subject"
                                     type="text"
                                     autoComplete="subject"
+                                    onChange={(e)=>(setSubject(e.target.value))}
                                     className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 border-gray-300 rounded-md"
                                 />
                             </div>
@@ -240,58 +237,45 @@ export default function SendMessage() {
                                 Message
                             </label>
                             <div className="mt-1">
-                <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 border border-gray-300 rounded-md"
-                    defaultValue={''}
-                />
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    rows={4}
+                                    onChange={(e)=>(setMessageBody(e.target.value))}
+                                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 border border-gray-300 rounded-md"
+                                    defaultValue={''}
+                                />
                             </div>
                         </div>
                         <div className="sm:col-span-2">
-                            <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <Switch
-                                        checked={agreed}
-                                        onChange={setAgreed}
-                                        className={classNames(
-                                            agreed ? 'bg-indigo-600' : 'bg-gray-200',
-                                            'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-400'
-                                        )}
+                            <div className="grid grid-cols-5 ">
+                                {/*Button for reject function*/}
+                                <div className="col-start-4 col-span-1 justify-end flex">
+                                    <button
+                                        className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                                        // onClick={() => onReject(request._id, request)}
                                     >
-                                        <span className="sr-only">Agree to policies</span>
-                                        <span
-                                            aria-hidden="true"
-                                            className={classNames(
-                                                agreed ? 'translate-x-5' : 'translate-x-0',
-                                                'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
-                                            )}
+                                        <RiDeleteBin6Line
+                                            className="mt-0 mr-0 md:mt-1 md:mr-1"
+                                            size={18}
                                         />
-                                    </Switch>
+                                        <p className="hidden md:block">Clear</p>
+                                    </button>
                                 </div>
-                                <div className="ml-3">
-                                    <p className="text-base text-gray-500">
-                                        By selecting this, you agree to the{' '}
-                                        <a href="#" className="font-medium text-gray-700 underline">
-                                            Privacy Policy
-                                        </a>{' '}
-                                        and{' '}
-                                        <a href="#" className="font-medium text-gray-700 underline">
-                                            Cookie Policy
-                                        </a>
-                                        .
-                                    </p>
+                                {/*Button for accept function*/}
+                                <div className="col-span-1 justify-center flex">
+                                    <button
+                                        className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                                        onClick={() => onSendMessage()}
+                                    >
+                                        <AiOutlineEdit
+                                            className="mt-0 mr-0 md:mt-1 md:mr-1"
+                                            size={18}
+                                        />
+                                        <p className="hidden md:block">Send</p>
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                        <div className="sm:col-span-2">
-                            <button
-                                type="submit"
-                                className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                Let's talk
-                            </button>
                         </div>
                     </form>
                 </div>
