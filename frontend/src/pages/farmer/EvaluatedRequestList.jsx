@@ -115,15 +115,16 @@ const EvaluatedRequests = () => {
                   </>
                 )}
 
-                {request.status == "new" || request.status == null && (
-                  <>
-                    <div className="mb-4 p-1 bg-yellow-200 rounded-lg">
-                      <p className="justify-center flex text-yellow-600">
-                        Pending
-                      </p>
-                    </div>
-                  </>
-                )}
+                {request.status == "new" ||
+                  (request.status == null && (
+                    <>
+                      <div className="mb-4 p-1 bg-yellow-200 rounded-lg">
+                        <p className="justify-center flex text-yellow-600">
+                          Pending
+                        </p>
+                      </div>
+                    </>
+                  ))}
 
                 <div className="mt-2 grid grid-cols-5">
                   <p className="flex col-span-1 items-center text-sm text-emerald-700">
