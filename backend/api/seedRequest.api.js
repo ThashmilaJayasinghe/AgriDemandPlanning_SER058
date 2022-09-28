@@ -2,6 +2,7 @@ const {
   addSeedRequest,
   retrieveFarmerRequests,
   removeSeedRequest,
+  editSeedRequest,
 } = require("../dal/seedRequest/request.dao");
 
 const createSeedRequest = async (req, res) => {
@@ -68,6 +69,42 @@ const viewFarmerSeedRequests = async (req, res) => {
   }
 };
 
+const updateSeedRequest = async (req, res) => {
+  const {RequestId, farmerId, category, type, sizeOfLand, weight, location } = req.body;
+
+  try {
+    const request = await editSeedRequest({
+      RequestId,
+      farmerId,
+      category,
+      type,
+      sizeOfLand,
+      weight,
+      location,
+    });
+
+    if (request) {
+      res.status(201).json({
+        success: true,
+        message: "Seed request updated",
+        data: request,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Seed request is not updated",
+        data: request,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Seed request is not updated",
+      data: err,
+    });
+  }
+};
+
 const deleteSeedRequest = async (req, res) => {
   const { requestId } = req.query;
 
@@ -101,4 +138,5 @@ module.exports = {
   createSeedRequest,
   viewFarmerSeedRequests,
   deleteSeedRequest,
+  updateSeedRequest
 };
