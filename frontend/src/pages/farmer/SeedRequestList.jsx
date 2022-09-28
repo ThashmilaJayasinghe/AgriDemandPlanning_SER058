@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 import { AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
+
 import {
   deleteSeedRequest,
   viewFarmerSeedRequest,
@@ -45,7 +46,7 @@ const SeedRequestList = () => {
     await deleteSeedRequest(requestId, setIsDeleteSuccess)
       .then(() => {
         toast.success("Request deleted!", {
-          position: "top-right",
+          position: "--right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,

@@ -4,7 +4,6 @@ import {RiDeleteBin6Line} from "react-icons/ri";
 import {AiOutlineEdit} from "react-icons/ai";
 import {BiMessageDetail} from "react-icons/bi";
 import {toast} from "react-toastify";
-
 import { deleteFarmer } from '../../api/FarmerAPI'
 
 

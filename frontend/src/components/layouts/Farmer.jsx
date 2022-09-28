@@ -6,6 +6,9 @@ import EvaluatedRequests from "../../pages/farmer/EvaluatedRequestList";
 import SeedRequest from "../../pages/farmer/SeedRequest";
 import SeedRequestList from "../../pages/farmer/SeedRequestList";
 import FarmerHeader from "../headers/FarmerHeader";
+import FarmerProfile from "../../pages/farmer/FarmerProfile";
+import UpdateFarmerProfile from "../../pages/farmer/UpdateFarmerProfile";
+import FarmerHome from "../../pages/farmer/FarmerHome";
 
 function FarmerLayout() {
   return (
@@ -19,6 +22,10 @@ function FarmerLayout() {
 
         {/* For just testing only, this should move to buyer routes */}
         <Route path="/add-demand" element={<AddDemand />} />
+
+        <Route path="/profile" element={<FarmerProfile />} />
+        <Route path="/profileEdit" element={<UpdateFarmerProfile />} />
+        <Route path="/home" element={<FarmerHome />} />
       </Routes>
     </div>
   );
