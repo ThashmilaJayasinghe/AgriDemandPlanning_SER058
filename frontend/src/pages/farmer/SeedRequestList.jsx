@@ -13,11 +13,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BsArrowRightCircle } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const SeedRequestList = () => {
   const [myRequests, setMyRequests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
+  const [userId, setUserId] = useState("631961b9291ed99849ab6263");
   const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [filteredRequests, setFilteredRequests] = useState([]);
@@ -77,6 +78,7 @@ const SeedRequestList = () => {
   // will develop in second sprint
   const onUpdate = (requestId) => {
     console.log("On update - ", requestId);
+
   };
 
   useEffect(() => {
@@ -209,6 +211,7 @@ const SeedRequestList = () => {
                     </button>
                   </div>
                   <div className="col-span-1 justify-center flex">
+                    <Link to = '/farmer/editRequest' state={{id: userId, RequestData: request}}>
                     <button
                       className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
                       onClick={() => onUpdate(request._id)}
@@ -219,6 +222,7 @@ const SeedRequestList = () => {
                       />
                       <p className="hidden md:block"> Update</p>
                     </button>
+                    </Link>
                   </div>
                 </div>
               </div>
