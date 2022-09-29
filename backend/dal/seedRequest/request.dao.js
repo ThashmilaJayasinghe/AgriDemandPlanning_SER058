@@ -25,11 +25,36 @@ const addSeedRequest = async ({
   }
 };
 
-const retrieveFarmerRequests = async (farmerId) => {
-
-
+const editSeedRequest = async ({
+  RequestId,
+  farmerId,
+  category,
+  type,
+  sizeOfLand,
+  weight,
+  location,
+}) => {
   try {
-    const farmerRequests = await SeedRequest.find( {farmerId: farmerId} );
+    const updatedRequest = await SeedRequest.findByIdAndUpdate(RequestId, {
+      farmerId,
+      category,
+      type,
+      sizeOfLand,
+      weight,
+      location,
+    });
+
+    return updatedRequest;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+const retrieveFarmerRequests = async (farmerId) => {
+  try {
+    const farmerRequests = await SeedRequest.find({ farmerId: (farmerId) });
+    console.log(farmerRequests)
     return farmerRequests;
   } catch (err) {
     console.log(err);
@@ -47,4 +72,4 @@ const removeSeedRequest = async ({ requestId }) => {
   }
 };
 
-module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest };
+module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, editSeedRequest };

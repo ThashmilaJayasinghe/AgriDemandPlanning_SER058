@@ -1,28 +1,25 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
-import { AiOutlineEdit } from "react-icons/ai";
-import { RiDeleteBin6Line } from "react-icons/ri";
-
-import {
-  deleteSeedRequest,
-  viewFarmerSeedRequest,
-} from "../../api/SeedRequestAPI";
-import moment from "moment/moment";
+import { ClassNames } from "@emotion/react";
+import { CircularProgress } from "@mui/material";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { AiOutlineDownload, AiOutlineEdit } from "react-icons/ai";
 import { FiAlertCircle } from "react-icons/fi";
-import CircularProgress from "@mui/material/CircularProgress";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { BsArrowRightCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { viewFarmerSeedRequest } from "../../api/SeedRequestAPI";
+import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 
-const SeedRequestList = () => {
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+const EvaluatedRequests = () => {
   const [myRequests, setMyRequests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userId, setUserId] = useState("631961b9291ed99849ab6263");
-  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
-  const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [filteredRequests, setFilteredRequests] = useState([]);
+  const [evaluatedRequests, setEvaluatedRequests] = useState([]);
+  const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
+  const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -40,51 +37,9 @@ const SeedRequestList = () => {
     getRequests();
   }, []);
 
-  const onDelete = async (requestId) => {
-    console.log("onDelete - ", requestId);
-
-    await deleteSeedRequest(requestId, setIsDeleteSuccess)
-      .then(() => {
-        toast.success("Request deleted!", {
-          position: "--right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      })
-      .catch(() => {
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      });
-    await viewFarmerSeedRequest(
-      userId,
-      setMyRequests,
-      setFilteredRequests,
-      setIsSearchResultExists
-    ).then(() => {
-      console.log("Data retrieved success");
-    });
-  };
-
-  // will develop in second sprint
-  const onUpdate = (requestId) => {
-    console.log("On update - ", requestId);
-
-  };
-
   useEffect(() => {
     const filteredResult = myRequests.filter((request) => {
-      if (searchQuery === "") {
+      if (searchQuery === "" || searchQuery == null) {
         return request;
       } else if (
         request.category.toLowerCase().includes(searchQuery.toLowerCase())
@@ -105,43 +60,19 @@ const SeedRequestList = () => {
     }
   }, [searchQuery]);
 
-  // to notify whether delete is success or not
-  useEffect(() => {
-    if (isDeleteSuccess === true) {
-      console.log("Delete successed");
-    } else {
-      console.log("Delete unsuccess");
-    }
-  }, [isDeleteSuccess]);
+  const onDownload = (data) => {
+    console.log("Download clicked");
+    console.log(data);
+  };
 
   return (
     <div>
       <MyRequestsWrapper>
         <div className="font-semibold text-2xl text-center my-16">
           {" "}
-          My Requests{" "}
+          Evaluated Requests{" "}
         </div>
-        {/* added toast container here, because of my easyness */}
         <ToastContainer />
-
-        <div className="bg-red-100 shadow overflow-hidden sm:rounded-md my-4 text-sm text-red-900 p-4">
-          <div className="flex">
-            <BsArrowRightCircle color="black" size={18} />
-            <div className="ml-3">
-              Deadline for your requests is{" "}
-              <i className="text-red-600">
-                <u>2022-09-30</u>
-              </i>
-            </div>
-          </div>
-          <div className="flex pt-1">
-            <BsArrowRightCircle color="black" size={18} />
-            <div className="ml-3">
-              Before the deadline is the only time you can modify or delete your
-              request.
-            </div>
-          </div>
-        </div>
 
         <div className="pb-4 pt-4">
           <input
@@ -164,6 +95,45 @@ const SeedRequestList = () => {
           >
             <div className="block">
               <div className="px-4 py-4 sm:px-6">
+                {request.status == "accepted" && (
+                  <>
+                    <div className="mb-4 p-1 bg-green-200 rounded-lg">
+                      <p className="justify-center flex text-green-600">
+                        Accepted
+                      </p>
+                    </div>
+                  </>
+                )}
+
+                {request.status == "rejected" && (
+                  <>
+                    <div className="mb-4 p-1 bg-red-200 rounded-lg">
+                      <p className="justify-center flex text-red-600">
+                        Rejected
+                      </p>
+                    </div>
+                  </>
+                )}
+
+                {request.status == "new" ||
+                  (request.status == null && (
+                    <>
+                      <div className="mb-4 p-1 bg-yellow-200 rounded-lg">
+                        <p className="justify-center flex text-yellow-600">
+                          Pending
+                        </p>
+                      </div>
+                    </>
+                  ))}
+
+                <div className="mt-2 grid grid-cols-5">
+                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
+                    Request Status
+                  </p>
+                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                    {request.status ? <>: {request.status}</> : <>: None</>}
+                  </p>
+                </div>
                 <div className="mt-2 grid grid-cols-5">
                   <p className="flex col-span-1 items-center text-sm text-emerald-700">
                     Category
@@ -188,6 +158,32 @@ const SeedRequestList = () => {
                     : {request.sizeOfLand}
                   </p>
                 </div>
+                <div className="mt-2 grid grid-cols-5">
+                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
+                    Requested amount(Kg)
+                  </p>
+                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                    : {request.weight}
+                  </p>
+                </div>
+                <div className="mt-2 grid grid-cols-5">
+                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
+                    Location
+                  </p>
+                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                    : {request.location}
+                  </p>
+                </div>
+                <div className="mt-2 grid grid-cols-5">
+                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
+                    Evaluated date
+                  </p>
+                  <p className="md:mt-0 col-span-2 flex items-center text-sm text-gray-500">
+                    : {moment(request.updatedAt).format("MMMM Do YYYY")}{" "}
+                    <br></br>
+                    &nbsp; {moment(request.updatedAt).format("LTS")}
+                  </p>
+                </div>
                 <div className="mt-3 md:mt-2 grid grid-cols-5">
                   <p className="flex col-span-1 items-center text-sm text-emerald-700">
                     Added date
@@ -199,38 +195,23 @@ const SeedRequestList = () => {
                   </p>
                 </div>
                 <div className="grid grid-cols-5 ">
-                  <div className="col-start-4 col-span-1 justify-end flex">
-                    <button
-                      className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                      onClick={() => onDelete(request._id)}
-                    >
-                      <RiDeleteBin6Line
-                        className="mt-0 mr-0 md:mt-1 md:mr-1"
-                        size={18}
-                      />
-                      <p className="hidden md:block">Delete</p>
-                    </button>
-                  </div>
-                  <div className="col-span-1 justify-center flex">
-                    <Link to = '/farmer/editRequest' state={{id: userId, RequestData: request}}>
+                  <div className="col-span-1 col-start-5 justify-center flex">
                     <button
                       className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                      onClick={() => onUpdate(request._id)}
+                      onClick={() => onDownload(request)}
                     >
-                      <AiOutlineEdit
+                      <AiOutlineDownload
                         className="mt-0 mr-0 md:mt-1 md:mr-1"
-                        size={18}
+                        size={20}
                       />
-                      <p className="hidden md:block"> Update</p>
+                      <p className="hidden md:block"> Download</p>
                     </button>
-                    </Link>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         ))}
-
         {isLoading === true ? (
           <>
             <div>
@@ -260,4 +241,4 @@ const SeedRequestList = () => {
   );
 };
 
-export default SeedRequestList;
+export default EvaluatedRequests;
