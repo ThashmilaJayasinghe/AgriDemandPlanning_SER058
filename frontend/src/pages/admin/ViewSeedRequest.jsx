@@ -5,7 +5,7 @@ import {AiOutlineEdit} from "react-icons/ai";
 import {BiMessageDetail} from "react-icons/bi";
 import {toast} from "react-toastify";
 
-import { deleteSeedRequest, updateSeedRequest } from '../../api/SeedRequestAPI'
+import { deleteSeedRequest, updateSeedRequestStatus } from '../../api/SeedRequestAPI'
 
 
 export default function FarmerProfile() {
@@ -22,7 +22,7 @@ export default function FarmerProfile() {
 
             request.status = 'rejected';
 
-            await updateSeedRequest(id, request, setIsSuccess)
+            await updateSeedRequestStatus(id, request, setIsSuccess)
                 .then(() => {
                     toast.success("Seed Request Rejected!", {
                         position: "top-right",
@@ -63,7 +63,9 @@ export default function FarmerProfile() {
 
             request.status = 'accepted';
 
-            await updateSeedRequest(id, request, setIsSuccess)
+            console.log(request)
+
+            await updateSeedRequestStatus(id, request, setIsSuccess)
                 .then(() => {
                     toast.success("Seed Request Accepted!", {
                         position: "top-right",

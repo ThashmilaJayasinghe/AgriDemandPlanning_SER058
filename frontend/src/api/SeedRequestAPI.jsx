@@ -117,10 +117,10 @@ export const getSeedRequestsWithFarmer = async (setRequests) => {
   }
 };
 
-export const updateSeedRequest = async (id, request, setIsSuccess) => {
+export const updateSeedRequestStatus = async (id, request, setIsSuccess) => {
     try {
         await axios
-            .put(`${BACKEND_URL}/seed-request/update/` + id, request)
+            .put(`${BACKEND_URL}/seed-request/update-status/` + id, request)
             .then((res) => {
                 setIsSuccess(res.data.success);
             });

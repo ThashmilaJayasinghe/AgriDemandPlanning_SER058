@@ -55,7 +55,7 @@ const getAllSeedRequests = async () => {
   return requests;
 };
 
-const updateSeedRequest = async (id, {
+const updateSeedRequestStatus = async (id, {
                                 farmerId,
                                 category,
                                 type,
@@ -82,4 +82,4 @@ const updateSeedRequest = async (id, {
   }
 };
 
-module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, getAllSeedRequests, updateSeedRequest };
+module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, getAllSeedRequests, updateSeedRequestStatus };

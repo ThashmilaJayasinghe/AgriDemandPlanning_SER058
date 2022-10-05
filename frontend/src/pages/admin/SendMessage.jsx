@@ -7,16 +7,12 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {RiDeleteBin6Line} from "react-icons/ri";
 import {AiOutlineEdit} from "react-icons/ai";
 import {BiMessageDetail} from "react-icons/bi";
-import axios from "axios";
 
 
 export default function SendMessage() {
 
-    const BACKEND_URL = "http://localhost:8000/api/message";
-
     const { state } = useLocation();
-    const { recipientId } = state;
-    // const [recipientId, setRecipientId ] = useState(JSON.parse(localStorage.getItem('Farmer')));
+    const { recipientId } = state || {};
     const [farmer, setFarmer] = useState({});
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -27,75 +23,6 @@ export default function SendMessage() {
     const [status, setStatus] = useState('sent');
 
     const navigate = useNavigate();
-
-    const testMessage = async () => {
-        if (window.confirm("Do you wish send message?")) {
-
-                const rId = recipientId;
-                const sub = 'naadu needed';
-                const cId = '631af5e2f2ba9b53e15e6218';
-                const mess = 'send naadu';
-                const stat = 'sent';
-
-            const message = {
-                rId,
-                sub,
-                cId,
-                mess,
-                stat
-            };
-
-            console.log(message);
-
-            try {
-                await axios
-                    .post(`${BACKEND_URL}`, {
-                        recipientId,
-                        subject,
-                        creatorId,
-                        messageBody,
-                        status,
-                    })
-                    .then((res) => {
-                        setIsSuccess(res.data.success);
-                    });
-            } catch (err) {
-                console.log(err);
-                setIsSuccess(false);
-            }
-
-            // await createMessage(message, setIsSuccess)
-            //     .then(() => {
-            //         console.log(isSuccess);
-            //         // toast.success("Message Sent", {
-            //         //     position: "top-right",
-            //         //     autoClose: 3000,
-            //         //     hideProgressBar: false,
-            //         //     closeOnClick: true,
-            //         //     pauseOnHover: true,
-            //         //     draggable: true,
-            //         //     progress: undefined,
-            //         // });
-            //         if(isSuccess){
-            //             navigate('/admin/all-farmers');
-            //             // alert('updated!');
-            //         }
-            //
-            //     })
-            //     .catch(() => {
-            //         // toast.error("Something went wrong!", {
-            //         //     position: "top-right",
-            //         //     autoClose: 3000,
-            //         //     hideProgressBar: false,
-            //         //     closeOnClick: true,
-            //         //     pauseOnHover: true,
-            //         //     draggable: true,
-            //         //     progress: undefined,
-            //         // });
-            //         console.log('error');
-            //     });
-        };
-    };
 
     const onSendMessage = async () => {
         if (window.confirm("Do you wish send message?")) {
@@ -108,11 +35,8 @@ export default function SendMessage() {
                 status
             };
 
-            console.log(message);
-
             await createMessage(message, setIsSuccess)
                 .then(() => {
-                    console.log(isSuccess);
                     toast.success("Message Sent", {
                         position: "top-right",
                         autoClose: 3000,
@@ -122,10 +46,7 @@ export default function SendMessage() {
                         draggable: true,
                         progress: undefined,
                     });
-                    if(isSuccess){
-                        navigate('/admin/all-farmers');
-                        // alert('updated!');
-                    }
+                    setIsSuccess(true);
 
                 })
                 .catch(() => {
@@ -144,14 +65,20 @@ export default function SendMessage() {
 
     useEffect(() => {
 
+        if(isSuccess){
+            navigate('/admin/all-farmers');
+        };
+
         async function getRecipient() {
             await getFarmer(recipientId, setFarmer)
                 .then(() => {
                 setIsLoading(false);
             });
-        }
+        };
+
         getRecipient();
-    }, []);
+
+    }, [isSuccess, navigate]);
 
 
     if(isLoading) {
@@ -218,7 +145,7 @@ export default function SendMessage() {
                     </p>
                 </div>
                 <div className="mt-12">
-                    <form action="#" method="POST" className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                    <form action="#" className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <div className="sm:col-span-2">
                             <label htmlFor="company" className="block text-sm font-medium text-gray-700">
                                 Receiver
@@ -285,7 +212,7 @@ export default function SendMessage() {
                                 <div className="col-span-1 justify-center flex">
                                     <button
                                         className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                                        onClick={() => testMessage()}
+                                        onClick={() => onSendMessage()}
                                     >
                                         <AiOutlineEdit
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"

@@ -49,13 +49,11 @@ export default function FarmerProfile() {
 
     //directing to update farmer page
     const onUpdate = (farmer) => {
-        // localStorage.setItem('FarmerId', JSON.stringify(farmer._id));
         navigate('/admin/update-farmer')
     };
 
     //navigates to send message page
     const onSendMessage = (farmerId) => {
-        // localStorage.setItem('ReceiverId', JSON.stringify(farmerId));
         console.log('Send message to ' + farmerId);
         navigate('/admin/send-message', { state: {recipientId: farmerId} });
     };

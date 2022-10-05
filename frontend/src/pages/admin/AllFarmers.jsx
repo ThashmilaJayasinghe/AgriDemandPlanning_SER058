@@ -21,7 +21,6 @@ export default function AllFarmers() {
 
     //navigates to send message page
     const onSendMessage = (farmerId) => {
-        // localStorage.setItem('ReceiverId', JSON.stringify(farmerId));
         console.log('Send message to ' + farmerId);
         navigate('/admin/send-message', { state: {recipientId: farmerId} });
     };
