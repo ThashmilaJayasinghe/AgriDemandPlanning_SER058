@@ -52,6 +52,31 @@ export const viewFarmerSeedRequest = async (
     setMyRequests([]);
   }
 };
+
+export const updateSeedRequest = async (
+  {RequestId, farmerId, category, type, sizeOfLand, weight, location },
+  setIsCreationSuccess
+) => {
+  try {
+    await axios
+      .put(`${BACKEND_URL}/seed-request/update-seed-request`, {
+        RequestId,
+        farmerId,
+        category,
+        type,
+        sizeOfLand,
+        weight,
+        location,
+      })
+      .then((result) => {
+        setIsCreationSuccess(result.data.success);
+      });
+  } catch (err) {
+    console.log(err);
+    setIsCreationSuccess(false);
+  }
+};
+
 export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
   try {
     await axios
