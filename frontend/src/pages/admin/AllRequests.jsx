@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { getSeedRequests } from "../../api/SeedRequestAPI";
+import { getSeedRequestsWithFarmer } from "../../api/SeedRequestAPI";
 
 
 export default function AllRequests() {
@@ -17,7 +17,7 @@ export default function AllRequests() {
 
     useEffect(() => {
         async function viewAllRequests() {
-            await getSeedRequests(setRequests).then(() => {
+            await getSeedRequestsWithFarmer(setRequests).then(() => {
                 console.log('All Seed Requests retrieved successfully');
                 setIsLoading(false);
             });

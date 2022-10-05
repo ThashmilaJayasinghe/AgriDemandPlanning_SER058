@@ -7,12 +7,16 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {RiDeleteBin6Line} from "react-icons/ri";
 import {AiOutlineEdit} from "react-icons/ai";
 import {BiMessageDetail} from "react-icons/bi";
+import axios from "axios";
 
 
 export default function SendMessage() {
 
+    const BACKEND_URL = "http://localhost:8000/api/message";
+
     const { state } = useLocation();
     const { recipientId } = state;
+    // const [recipientId, setRecipientId ] = useState(JSON.parse(localStorage.getItem('Farmer')));
     const [farmer, setFarmer] = useState({});
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +27,75 @@ export default function SendMessage() {
     const [status, setStatus] = useState('sent');
 
     const navigate = useNavigate();
+
+    const testMessage = async () => {
+        if (window.confirm("Do you wish send message?")) {
+
+                const rId = recipientId;
+                const sub = 'naadu needed';
+                const cId = '631af5e2f2ba9b53e15e6218';
+                const mess = 'send naadu';
+                const stat = 'sent';
+
+            const message = {
+                rId,
+                sub,
+                cId,
+                mess,
+                stat
+            };
+
+            console.log(message);
+
+            try {
+                await axios
+                    .post(`${BACKEND_URL}`, {
+                        recipientId,
+                        subject,
+                        creatorId,
+                        messageBody,
+                        status,
+                    })
+                    .then((res) => {
+                        setIsSuccess(res.data.success);
+                    });
+            } catch (err) {
+                console.log(err);
+                setIsSuccess(false);
+            }
+
+            // await createMessage(message, setIsSuccess)
+            //     .then(() => {
+            //         console.log(isSuccess);
+            //         // toast.success("Message Sent", {
+            //         //     position: "top-right",
+            //         //     autoClose: 3000,
+            //         //     hideProgressBar: false,
+            //         //     closeOnClick: true,
+            //         //     pauseOnHover: true,
+            //         //     draggable: true,
+            //         //     progress: undefined,
+            //         // });
+            //         if(isSuccess){
+            //             navigate('/admin/all-farmers');
+            //             // alert('updated!');
+            //         }
+            //
+            //     })
+            //     .catch(() => {
+            //         // toast.error("Something went wrong!", {
+            //         //     position: "top-right",
+            //         //     autoClose: 3000,
+            //         //     hideProgressBar: false,
+            //         //     closeOnClick: true,
+            //         //     pauseOnHover: true,
+            //         //     draggable: true,
+            //         //     progress: undefined,
+            //         // });
+            //         console.log('error');
+            //     });
+        };
+    };
 
     const onSendMessage = async () => {
         if (window.confirm("Do you wish send message?")) {
@@ -35,8 +108,11 @@ export default function SendMessage() {
                 status
             };
 
+            console.log(message);
+
             await createMessage(message, setIsSuccess)
                 .then(() => {
+                    console.log(isSuccess);
                     toast.success("Message Sent", {
                         position: "top-right",
                         autoClose: 3000,
@@ -64,7 +140,7 @@ export default function SendMessage() {
                     });
                 });
         };
-    }
+    };
 
     useEffect(() => {
 
@@ -136,41 +212,13 @@ export default function SendMessage() {
                     <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
                 </svg>
                 <div className="text-center">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Send Message</h2>
+                    <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Send Message</h2>
                     <p className="mt-4 text-lg leading-6 text-gray-500">
                         Suggest a crop that lacks supply to be cultivated.
                     </p>
                 </div>
                 <div className="mt-12">
                     <form action="#" method="POST" className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
-                        {/*<div>*/}
-                        {/*    <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">*/}
-                        {/*        First name*/}
-                        {/*    </label>*/}
-                        {/*    <div className="mt-1">*/}
-                        {/*        <input*/}
-                        {/*            type="text"*/}
-                        {/*            name="first-name"*/}
-                        {/*            id="first-name"*/}
-                        {/*            autoComplete="given-name"*/}
-                        {/*            className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-                        {/*<div>*/}
-                        {/*    <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">*/}
-                        {/*        Last name*/}
-                        {/*    </label>*/}
-                        {/*    <div className="mt-1">*/}
-                        {/*        <input*/}
-                        {/*            type="text"*/}
-                        {/*            name="last-name"*/}
-                        {/*            id="last-name"*/}
-                        {/*            autoComplete="family-name"*/}
-                        {/*            className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                         <div className="sm:col-span-2">
                             <label htmlFor="company" className="block text-sm font-medium text-gray-700">
                                 Receiver
@@ -203,35 +251,6 @@ export default function SendMessage() {
                                 />
                             </div>
                         </div>
-                        {/*<div className="sm:col-span-2">*/}
-                        {/*    <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700">*/}
-                        {/*        Phone Number*/}
-                        {/*    </label>*/}
-                        {/*    <div className="mt-1 relative rounded-md shadow-sm">*/}
-                        {/*        <div className="absolute inset-y-0 left-0 flex items-center">*/}
-                        {/*            <label htmlFor="country" className="sr-only">*/}
-                        {/*                Country*/}
-                        {/*            </label>*/}
-                        {/*            <select*/}
-                        {/*                id="country"*/}
-                        {/*                name="country"*/}
-                        {/*                className="h-full py-0 pl-4 pr-8 border-transparent bg-transparent text-gray-500 focus:ring-indigo-500 focus:border-indigo-500 rounded-md"*/}
-                        {/*            >*/}
-                        {/*                <option>US</option>*/}
-                        {/*                <option>CA</option>*/}
-                        {/*                <option>EU</option>*/}
-                        {/*            </select>*/}
-                        {/*        </div>*/}
-                        {/*        <input*/}
-                        {/*            type="text"*/}
-                        {/*            name="phone-number"*/}
-                        {/*            id="phone-number"*/}
-                        {/*            autoComplete="tel"*/}
-                        {/*            className="py-3 px-4 block w-full pl-20 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"*/}
-                        {/*            placeholder="+1 (555) 987-6543"*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                         <div className="sm:col-span-2">
                             <label htmlFor="message" className="block text-sm font-medium text-gray-700">
                                 Message
@@ -266,7 +285,7 @@ export default function SendMessage() {
                                 <div className="col-span-1 justify-center flex">
                                     <button
                                         className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                                        onClick={() => onSendMessage()}
+                                        onClick={() => testMessage()}
                                     >
                                         <AiOutlineEdit
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"

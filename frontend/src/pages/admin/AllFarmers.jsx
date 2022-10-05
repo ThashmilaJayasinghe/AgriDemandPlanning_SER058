@@ -21,8 +21,9 @@ export default function AllFarmers() {
 
     //navigates to send message page
     const onSendMessage = (farmerId) => {
+        // localStorage.setItem('ReceiverId', JSON.stringify(farmerId));
         console.log('Send message to ' + farmerId);
-        navigate('/admin/send-message');
+        navigate('/admin/send-message', { state: {recipientId: farmerId} });
     };
 
     useEffect(() => {
@@ -134,17 +135,16 @@ export default function AllFarmers() {
                                     </a>
                                 </td>
                                 <td className="py-4 px-3 text-right text-sm font-medium sm:pr-6">
-                                    <a
+                                    <button
                                         className="flex w-fit bg-sky-500 text-white py-1 px-4 rounded-lg hover:bg-sky-600 transition-colors"
                                         onClick={() => onSendMessage(farmer._id)}
-                                        href="/admin/farmer-profile"
                                     >
                                         <BiMessageDetail
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"
                                             size={18}
                                         />
                                         <p className="hidden md:block">Send Message</p>
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         ))}

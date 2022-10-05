@@ -67,7 +67,7 @@ export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
   }
 };
 
-export const getSeedRequests = async (setRequests) => {
+export const getSeedRequestsWithFarmer = async (setRequests) => {
 
   try {
     const requests = await axios

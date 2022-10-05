@@ -53,9 +53,11 @@ export default function FarmerProfile() {
         navigate('/admin/update-farmer')
     };
 
-    //To be developed in the 2nd sprint
+    //navigates to send message page
     const onSendMessage = (farmerId) => {
+        // localStorage.setItem('ReceiverId', JSON.stringify(farmerId));
         console.log('Send message to ' + farmerId);
+        navigate('/admin/send-message', { state: {recipientId: farmerId} });
     };
 
     useEffect(() => {
