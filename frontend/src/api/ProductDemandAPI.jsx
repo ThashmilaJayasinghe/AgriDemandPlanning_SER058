@@ -23,3 +23,25 @@ export const createProductDemand = async (
     setIsCreationSuccess(false);
   }
 };
+
+export const updateProductDemand = async (
+    { buyerID, category, type, sellings, unitPrice, remarks },
+    setIsCreationSuccess
+) => {
+    try {
+        await axios
+            .put(`${BACKEND_URL}/seller/editDemand/${buyerID}`, {
+                category,
+                type,
+                sellings,
+                unitPrice,
+                remarks
+            })
+            .then((result) => {
+                setIsCreationSuccess(result.data.success);
+            });
+    } catch (err) {
+        console.log(err);
+        setIsCreationSuccess(false);
+    }
+};

@@ -1,4 +1,5 @@
 const Demand = require("./demand.model");
+const SeedRequest = require("../seedRequest/request.model");
 
 const addProductDemand = async ({buyerID, category, type, sellings, unitPrice, remarks}) => {
   try {
@@ -30,7 +31,21 @@ console.log(haveDemand);
   }catch (err){
     console.log(err);
   }
+};
 
+const editProductDemand = async ({buyerID, category, type, sellings, unitPrice, remarks}) => {
+  try {
+    let findDemanduyer = await Demand.findOne({buyerID});
+    console.log(findDemanduyer);
+      // const addADemand =({
+      //   category, type, sellings, unitPrice, remarks
+      // })
+    // findDemanduyer.demands.push(addADemand);
+    // findDemanduyer.save();
+      return addADemand;
+  }catch (err){
+    console.log(err);
+   }
 };
 
 const getProductDemand = async () =>{
@@ -51,4 +66,18 @@ const getOneProductDemand = async (buyerID)=>{
   }
 }
 
-module.exports = { addProductDemand , getProductDemand,getOneProductDemand};
+const deleteDemandByID = async (id, demandID)=>{
+  try {
+    const removeDemand = await Demand.findOneAndUpdate({ buyerID: id},
+        {
+          $pull: {demands: {_id: demandID}},
+        }
+  );
+    return removeDemand;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+}
+
+module.exports = { addProductDemand , getProductDemand,getOneProductDemand, deleteDemandByID, editProductDemand};
