@@ -1,4 +1,5 @@
 const SeedRequest = require("./request.model");
+const Farmer = require("../farmer/farmer.model");
 
 const addSeedRequest = async ({
   farmerId,
@@ -7,6 +8,7 @@ const addSeedRequest = async ({
   sizeOfLand,
   weight,
   location,
+  status,
 }) => {
   try {
     const newRequest = await SeedRequest.create({
@@ -16,6 +18,7 @@ const addSeedRequest = async ({
       sizeOfLand,
       weight,
       location,
+      status,
     });
 
     return newRequest;
@@ -25,36 +28,11 @@ const addSeedRequest = async ({
   }
 };
 
-const editSeedRequest = async ({
-  RequestId,
-  farmerId,
-  category,
-  type,
-  sizeOfLand,
-  weight,
-  location,
-}) => {
-  try {
-    const updatedRequest = await SeedRequest.findByIdAndUpdate(RequestId, {
-      farmerId,
-      category,
-      type,
-      sizeOfLand,
-      weight,
-      location,
-    });
-
-    return updatedRequest;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
 const retrieveFarmerRequests = async (farmerId) => {
+
+
   try {
-    const farmerRequests = await SeedRequest.find({ farmerId: (farmerId) });
-    console.log(farmerRequests)
+    const farmerRequests = await SeedRequest.find( {farmerId: farmerId} );
     return farmerRequests;
   } catch (err) {
     console.log(err);
@@ -72,4 +50,36 @@ const removeSeedRequest = async ({ requestId }) => {
   }
 };
 
-module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, editSeedRequest };
+const getAllSeedRequests = async () => {
+  const requests =  await SeedRequest.find();
+  return requests;
+};
+
+const updateSeedRequestStatus = async (id, {
+                                farmerId,
+                                category,
+                                type,
+                                sizeOfLand,
+                                weight,
+                                location,
+                                status,
+                              }) => {
+  try {
+    const request = await SeedRequest.findByIdAndUpdate(id, {
+      farmerId,
+      category,
+      type,
+      sizeOfLand,
+      weight,
+      location,
+      status
+    }, {new: true});
+
+    return request;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, getAllSeedRequests, updateSeedRequestStatus };
