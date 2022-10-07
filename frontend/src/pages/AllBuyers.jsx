@@ -35,8 +35,12 @@ export default function AllBuyers(){
         <div>
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="sm:flex sm:items-center">
+                    <div className="sm:flex-auto mb-3">
+                        <h1 className="text-2xl font-semibold text-gray-900">All Buyers</h1>
+                    </div>
                     <div className="mt-4 sm:mt-0 sm:flex-none">
-                        <Link to="/admin/buyers/add">
+
+                        <Link to="/admin/all-buyers/add">
                         <button type="button" className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 sm:w-auto bg-green-600">
                             +Add new
                         </button></Link>
@@ -109,6 +113,19 @@ export default function AllBuyers(){
             })
             .map((buyer) => {
 
+                const setData =(buyer)=>{
+                    let {_id,fullName,NIC,ShopName,gender, address,province, district,  email, contactNumber} = buyer;
+                    localStorage.setItem('id',_id);
+                    localStorage.setItem('fullName',fullName);
+                    localStorage.setItem('nic',NIC);
+                    localStorage.setItem('shopName',ShopName);
+                    localStorage.setItem('gender',gender);
+                    localStorage.setItem('address',address);
+                    localStorage.setItem('district',district);
+                    localStorage.setItem('province',province);
+                    localStorage.setItem('email',email);
+                    localStorage.setItem('contactNumber',contactNumber);
+                }
             const getBuyers = () => {
                 axios.get("http://localhost:8000/api/buyer/")
                     .then((getBuyers) => {
@@ -128,8 +145,13 @@ export default function AllBuyers(){
             const getBuyerDemands = (id)=>{
                 axios.get("http://localhost:8000/api/seller/"+id)
                     .then((getBuyerDemands)=>{
-                        setBuyerDemands(getBuyerDemands.data.demands)
-                        console.log(getBuyerDemands.data.demands);
+                        if(!getBuyerDemands){
+                            alert("Demands have not set yet.")
+                            console.log("empty");
+                        }else {
+                            setBuyerDemands(getBuyerDemands.data.demands)
+                            console.log(getBuyerDemands.data.demands);
+                        }
                 })
 
             }
@@ -152,25 +174,25 @@ export default function AllBuyers(){
                 <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{buyer.province}</td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{buyer.email}</td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{buyer.contactNumber}</td>
-                <td className="px-3 py-4 text-sm text-gray-500 sm:table-cell">
-                    <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 bg-green-600" onClick={()=>(getBuyerDemands(buyer._id),handleOpen())}>
+                <td className="w-full shrink-0 px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                    <button className="mr-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-green-800 focus:outline-none bg-green-600" onClick={()=>(getBuyerDemands(buyer._id),handleOpen())}>
                         <CgViewList
                             size={18}
                         />
                     </button>
-                    <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 bg-amber-600">
+                    <Link to="/admin/update-buyer">
+                    <button className="mr-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-amber-800 focus:outline-none bg-amber-600" onClick={()=>setData(buyer)}>
                         <AiOutlineEdit
                         size={18}
                     /></button>
-                    <button className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 bg-red-600" onClick={() => onDelete(buyer._id)}>
+                    </Link>
+                    <button className="mr-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-red-800 focus:outline-none bg-red-600" onClick={() => onDelete(buyer._id)}>
                         <RiDeleteBin6Line
                         size={18}
                     /></button>
 
                 </td>
-                <div>
-
-                                <Dialog
+                <Dialog
                                     open={open}
                                     onClose={handleClose}
                                     aria-labelledby="alert-dialog-title"
@@ -178,12 +200,10 @@ export default function AllBuyers(){
                                     fullWidth={true}
 
                                 >
-
-                                    {/*make title and phara middle*/}
                                     <DialogTitle id="alert-dialog-title">
-                                        <b className="align-middle pb-4"> {buyer.fullName}</b>
-                                        <br/>
-                                        <p className="align-middle text-gray-900 pb-4">{buyer.email}</p>
+                                        {/*<b className="align-middle pb-4">{buyer.fullName}</b>*/}
+                                        {/*<br/>*/}
+                                        {/*<p className="align-middle text-gray-900 pb-4">{buyer.email}</p>*/}
                                     </DialogTitle>
                                     <DialogContent>
                                         <DialogContentText id="alert-dialog-description">
@@ -217,8 +237,6 @@ export default function AllBuyers(){
                                         </button>
                                     </DialogActions>
                                 </Dialog>
-
-                </div>
             </tr>
 
             )

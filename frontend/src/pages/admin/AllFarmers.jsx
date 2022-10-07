@@ -4,6 +4,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import { getFarmers } from "../../api/FarmerAPI";
 
 
+import { Link } from "react-router-dom";
 export default function AllFarmers() {
 
     const [farmers, setFarmers] = useState([]);
@@ -29,12 +30,13 @@ export default function AllFarmers() {
                     <h1 className="text-2xl font-semibold text-gray-900">All Farmers</h1>
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                    <Link to="/admin/all-farmers/add">
                     <button
                         type="button"
                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
                     >
                         + Add Farmer
-                    </button>
+                    </button></Link>
                 </div>
             </div>
 
