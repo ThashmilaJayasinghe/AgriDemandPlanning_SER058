@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const seedRequestSchema = mongoose.Schema(
   {
     farmerId: {
-      type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Farmer'
     },
 
     category: {
@@ -25,6 +26,10 @@ const seedRequestSchema = mongoose.Schema(
     location: {
       type: String,
       require: [false, "Please enter location of the land"],
+    },
+    status: {
+          type: String,
+          require: [false, "Please enter status as new"],
     },
   },
   {

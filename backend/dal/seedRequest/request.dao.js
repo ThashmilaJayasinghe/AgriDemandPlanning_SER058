@@ -1,4 +1,5 @@
 const SeedRequest = require("./request.model");
+const Farmer = require("../farmer/farmer.model");
 
 const addSeedRequest = async ({
   farmerId,
@@ -7,6 +8,7 @@ const addSeedRequest = async ({
   sizeOfLand,
   weight,
   location,
+  status,
 }) => {
   try {
     const newRequest = await SeedRequest.create({
@@ -16,6 +18,7 @@ const addSeedRequest = async ({
       sizeOfLand,
       weight,
       location,
+      status,
     });
 
     return newRequest;
@@ -47,4 +50,36 @@ const removeSeedRequest = async ({ requestId }) => {
   }
 };
 
-module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest };
+const getAllSeedRequests = async () => {
+  const requests =  await SeedRequest.find();
+  return requests;
+};
+
+const updateSeedRequestStatus = async (id, {
+                                farmerId,
+                                category,
+                                type,
+                                sizeOfLand,
+                                weight,
+                                location,
+                                status,
+                              }) => {
+  try {
+    const request = await SeedRequest.findByIdAndUpdate(id, {
+      farmerId,
+      category,
+      type,
+      sizeOfLand,
+      weight,
+      location,
+      status
+    }, {new: true});
+
+    return request;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+module.exports = { addSeedRequest, retrieveFarmerRequests, removeSeedRequest, getAllSeedRequests, updateSeedRequestStatus };

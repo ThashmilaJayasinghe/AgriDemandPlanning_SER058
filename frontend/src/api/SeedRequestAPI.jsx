@@ -52,6 +52,31 @@ export const viewFarmerSeedRequest = async (
     setMyRequests([]);
   }
 };
+
+export const updateSeedRequest = async (
+  {RequestId, farmerId, category, type, sizeOfLand, weight, location },
+  setIsCreationSuccess
+) => {
+  try {
+    await axios
+      .put(`${BACKEND_URL}/seed-request/update-seed-request`, {
+        RequestId,
+        farmerId,
+        category,
+        type,
+        sizeOfLand,
+        weight,
+        location,
+      })
+      .then((result) => {
+        setIsCreationSuccess(result.data.success);
+      });
+  } catch (err) {
+    console.log(err);
+    setIsCreationSuccess(false);
+  }
+};
+
 export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
   try {
     await axios
@@ -65,4 +90,42 @@ export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {
     console.log(err);
     setIsDeleteSuccess(false);
   }
+};
+
+export const getSeedRequestsWithFarmer = async (setRequests) => {
+
+  try {
+    const requests = await axios
+        .get(`${BACKEND_URL}/seed-request/all`, {
+        });
+
+    const allRequestData = [];
+
+    for(const request of requests.data) {
+        const farmerId = request.farmerId;
+        const farmer = await axios
+            .get(`${BACKEND_URL}/farmers/` + farmerId);
+        request.farmerName = farmer.data.fullName;
+        allRequestData.push(request);
+    };
+
+    setRequests(allRequestData);
+
+  } catch (err) {
+    console.log(err);
+    setRequests([]);
+  }
+};
+
+export const updateSeedRequestStatus = async (id, request, setIsSuccess) => {
+    try {
+        await axios
+            .put(`${BACKEND_URL}/seed-request/update-status/` + id, request)
+            .then((res) => {
+                setIsSuccess(res.data.success);
+            });
+    } catch (err) {
+        console.log(err);
+        setIsSuccess(false);
+    }
 };

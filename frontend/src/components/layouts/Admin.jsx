@@ -19,17 +19,16 @@ import Dashboard from "../../pages/admin/AdminDash";
 import AllFarmers from "../../pages/admin/AllFarmers";
 import FarmerProfile from "../../pages/admin/FarmerProfile";
 import UpdateFarmer from "../../pages/admin/UpdateFarmer";
-import AllBuyers from "../../pages/AllBuyers";
-import AddBuyer from "../../pages/AddBuyer";
-import AddFarmer from "../../pages/AddFarmer";
-import UpdateBuyer from "../../pages/UpdateBuyer";
+import AllRequests from "../../pages/admin/AllRequests";
+import ViewSeedRequest from "../../pages/admin/ViewSeedRequest";
+import SendMessage from "../../pages/admin/SendMessage";
 
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
     { name: 'All Farmers', href: '/admin/all-farmers', icon: UsersIcon, current: false },
-    { name: 'All Buyers', href: '/admin/all-buyers', icon: FolderIcon, current: false },
-    { name: 'Seed Requests', href: '#', icon: CalendarIcon, current: false },
+    { name: 'All Buyers', href: '#', icon: FolderIcon, current: false },
+    { name: 'Seed Requests', href: '/admin/all-seed-requests', icon: CalendarIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
     { name: 'Announcements', href: '#', icon: ChartBarIcon, current: false },
 ]
@@ -88,13 +87,13 @@ export default function AdminLayout() {
                                     </button>
                                 </div>
                             </Transition.Child>
-                            {/*<div className="flex-shrink-0 flex items-center px-4">*/}
-                            {/*    <img*/}
-                            {/*        className="h-8 w-auto"*/}
-                            {/*        src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"*/}
-                            {/*        alt="Workflow"*/}
-                            {/*    />*/}
-                            {/*</div>*/}
+                            <div className="flex-shrink-0 flex items-center px-4">
+                                <img
+                                    className="h-8 w-auto"
+                                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+                                    alt="Workflow"
+                                />
+                            </div>
                             <div className="mt-5 flex-1 h-0 overflow-y-auto">
                                 <nav className="px-2 space-y-1">
                                     {navigation.map((item) => (
@@ -130,13 +129,13 @@ export default function AdminLayout() {
             <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
-                    {/*<div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">*/}
-                    {/*    <img*/}
-                    {/*        className="h-8 w-auto"*/}
-                    {/*        src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"*/}
-                    {/*        alt="Workflow"*/}
-                    {/*    />*/}
-                    {/*</div>*/}
+                    <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
+                        <img
+                            className="h-8 w-auto"
+                            src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+                            alt="Workflow"
+                        />
+                    </div>
                     <div className="flex-1 flex flex-col overflow-y-auto">
                         <nav className="flex-1 px-2 py-4 space-y-1">
                             {navigation.map((item) => (
@@ -185,10 +184,9 @@ export default function AdminLayout() {
                                 <Route path="/all-farmers" element={<AllFarmers />} />
                                 <Route path="/farmer-profile" element={<FarmerProfile />} />
                                 <Route path="/update-farmer" element={<UpdateFarmer />} />
-                                <Route path="/all-buyers" element={<AllBuyers/>}/>
-                                <Route path="/all-buyers/add" element={<AddBuyer/>}/>
-                                <Route path="/all-farmers/add" element={<AddFarmer/>}/>
-                                <Route path="/update-buyer" element={<UpdateBuyer/>}/>
+                                <Route path="/all-seed-requests" element={<AllRequests />} />
+                                <Route path="/view-seed-request" element={<ViewSeedRequest />} />
+                                <Route path="/send-message" element={<SendMessage />} />
                             </Routes>
                         </div>
                     </div>
