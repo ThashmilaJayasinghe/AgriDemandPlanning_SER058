@@ -1,14 +1,11 @@
-import { ClassNames } from "@emotion/react";
 import { CircularProgress } from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { AiOutlineDownload, AiOutlineEdit } from "react-icons/ai";
 import { FiAlertCircle } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import autoTable from "jspdf-autotable";
 import { viewFarmerSeedRequest } from "../../api/SeedRequestAPI";
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 
@@ -21,7 +18,7 @@ const EvaluatedRequests = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [evaluatedRequests, setEvaluatedRequests] = useState([]);
-  const [userId, setUserId] = useState("631961b9291ed99849ab6263");
+  const [userId, setUserId] = useState("630e177910470806f04c70ad");
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -97,20 +94,32 @@ const EvaluatedRequests = () => {
     });
 
     doc.autoTable(tableColumn, tableRows, {
-      startY: 40,
+      startY: 70,
       startX: 20,
     });
 
     const date = Date().split(" ");
-    // we use a date string to generate our filename.
     const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
-    doc.text("Agri Demand Management System", 60, 15);
-    doc.setFontSize(12);
-    doc.text("----- Evaluated Reuqest ----- ", 70, 24);
 
-    // add the seal and signature of the authorities
+    doc.setFont('Courier-Bold')
+    doc.setTextColor('#07912e')
+    doc.setFontSize(22);
+    doc.text("Agri Demand Management System", 112, 30);
+    doc.setFontSize(12);
+    doc.text("----- Evaluated Reuqest ----- ", 177, 44);
+    doc.setTextColor('#6f7370')
+
+    // add verified message
+    doc.setFont('Times-Bold')
+    doc.setTextColor('#19d13e')
+    doc.setFillColor('#db1414')
+    doc.setFontSize(20)
+    doc.text('Approved!', 310, 524)
+
     doc.setFontSize(10);
-    doc.text("Agri Demand Management System", 180, 400);
+    doc.setTextColor('#000000')
+    doc.text("- - - - - - - - - - - - - - - - - - - - - - - - -", 290, 540);
+    doc.text("Agri Demand Management System", 290, 550);
 
     doc.save(`report_${dateStr}.pdf`);
   };
@@ -147,7 +156,7 @@ const EvaluatedRequests = () => {
               <div className="px-4 py-4 sm:px-6">
                 {request.status == "accepted" && (
                   <>
-                    <div className="mb-4 p-1 bg-green-200 rounded-lg">
+                    <div className="mb-4 p-1 bg-green-200 rounded-lg border border-green-400">
                       <p className="justify-center flex text-green-600">
                         Accepted
                       </p>
@@ -157,7 +166,7 @@ const EvaluatedRequests = () => {
 
                 {request.status == "rejected" && (
                   <>
-                    <div className="mb-4 p-1 bg-red-200 rounded-lg">
+                    <div className="mb-4 p-1 bg-red-200 rounded-lg border border-red-400">
                       <p className="justify-center flex text-red-600">
                         Rejected
                       </p>
@@ -165,16 +174,15 @@ const EvaluatedRequests = () => {
                   </>
                 )}
 
-                {request.status == "new" ||
-                  (request.status == null && (
-                    <>
-                      <div className="mb-4 p-1 bg-yellow-200 rounded-lg">
-                        <p className="justify-center flex text-yellow-600">
-                          Pending
-                        </p>
-                      </div>
-                    </>
-                  ))}
+                {request.status == "pending" && (
+                  <>
+                    <div className="mb-4 p-1 bg-yellow-200 rounded-lg border border-yellow-400">
+                      <p className="justify-center flex text-yellow-600">
+                        Pending
+                      </p>
+                    </div>
+                  </>
+                )}
 
                 <div className="mt-2 grid grid-cols-5">
                   <p className="flex col-span-1 items-center text-sm text-emerald-700">
