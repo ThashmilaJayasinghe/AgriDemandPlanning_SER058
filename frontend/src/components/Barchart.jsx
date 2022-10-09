@@ -48,7 +48,7 @@ const Barchart = (props) => {
 
     const {cropData} = props;
     const labels = [];
-    const typeData = []
+    const typeData = [];
 
     cropData.map(crop => {
         labels.push(crop.category);

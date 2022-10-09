@@ -154,7 +154,7 @@ export default function Dashboard() {
                         {/*    Pie Chart*/}
                         {/*</p>*/}
                         <div className="p-6 bg-white">
-                            <Piechart/>
+                            <Piechart cropData={staticCategories}/>
                         </div>
                     </div>
                 </div>
