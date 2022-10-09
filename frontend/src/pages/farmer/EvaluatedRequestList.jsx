@@ -6,6 +6,9 @@ import { AiOutlineDownload, AiOutlineEdit } from "react-icons/ai";
 import { FiAlertCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 import { viewFarmerSeedRequest } from "../../api/SeedRequestAPI";
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 
@@ -18,7 +21,7 @@ const EvaluatedRequests = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [evaluatedRequests, setEvaluatedRequests] = useState([]);
-  const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
+  const [userId, setUserId] = useState("631961b9291ed99849ab6263");
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,9 +63,56 @@ const EvaluatedRequests = () => {
     }
   }, [searchQuery]);
 
-  const onDownload = (data) => {
-    console.log("Download clicked");
-    console.log(data);
+  const onDownload = (requestdata) => {
+    const printableObject = [
+      { title: "ID", data: requestdata._id },
+      { title: "Category", data: requestdata.category },
+      { title: "Type", data: requestdata.type },
+      { title: "Location", data: requestdata.location },
+      { title: "Farmer", data: requestdata.farmerId },
+      {
+        title: "Evaluated date",
+        data: moment(requestdata.updatedAt).format("MMMM Do YYYY, h:mm:ss a"),
+      },
+      { title: "Size of the land in Hectares", data: requestdata.sizeOfLand },
+      { title: "Quantity in Kilograms", data: requestdata.weight },
+      {
+        title: "Added date",
+        data: moment(requestdata.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
+      },
+
+      { title: "Evaluated Status", data: requestdata.status },
+    ];
+
+    // const doc = new jsPDF();
+    var doc = new jsPDF("p", "px", "letter");
+    const tableColumn = ["", ""];
+    const tableRows = [];
+
+    // for each ticket pass all its data into an array
+
+    printableObject.map((request, idx) => {
+      const ticketData = [request.title, ":  " + request.data];
+      tableRows.push(ticketData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, {
+      startY: 40,
+      startX: 20,
+    });
+
+    const date = Date().split(" ");
+    // we use a date string to generate our filename.
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+    doc.text("Agri Demand Management System", 60, 15);
+    doc.setFontSize(12);
+    doc.text("----- Evaluated Reuqest ----- ", 70, 24);
+
+    // add the seal and signature of the authorities
+    doc.setFontSize(10);
+    doc.text("Agri Demand Management System", 180, 400);
+
+    doc.save(`report_${dateStr}.pdf`);
   };
 
   return (
