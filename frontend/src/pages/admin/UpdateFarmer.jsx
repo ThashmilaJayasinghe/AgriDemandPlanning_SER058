@@ -10,6 +10,31 @@ import {Redirect} from 'react-router-dom';
 
 import { getFarmer, updateFarmer } from '../../api/FarmerAPI';
 
+
+const staticCategories = [
+    {
+        id: "7c1a427f-6318-48f9-a256-91b2fd924aab",
+        title: "Seeds",
+        types: ["Melon", "Pumpkin", "Black papper", "Sunflower"],
+    },
+    {
+        id: "bc022097-96e1-475a-b3dd-09255580036e",
+        title: "Rise",
+        types: ["Kalu Heenati", "Keeri Samba", "Pachchaperumal", "Suwandal"],
+    },
+    {
+        id: "baf1cf1b-30e7-42d8-a8d3-fb81720a360c",
+        title: "Vegitables",
+        types: ["Beetroot", "Carrot", "Kohila", "Potato", "Radish", "Lotus root"],
+    },
+    {
+        id: "a1f6d244-3e91-48ef-b104-08b1328607e9",
+        title: "Fruits",
+        types: ["Mango", "Papaya", "Pineapple", "Avacado", "Banana"],
+    },
+];
+
+
 export default function UpdateFarmer() {
 
     const [farmer, setFarmer] = useState(JSON.parse(localStorage.getItem('Farmer')));
@@ -24,7 +49,10 @@ export default function UpdateFarmer() {
     const [email, setEmail] = useState("");
     const [contactNumber, setContactNumber] = useState("");
     const [hectare,setHectare] = useState("");
-    const [categories,setCategories] = useState([]);
+    const [categories,setCategories] = useState(staticCategories);
+    const [types, setTypes] = useState(staticCategories[0].types[0]);
+    const [selectedCategory, setSelectedCategory] = useState(staticCategories[0]);
+    const [selectedType, setSelectedType] = useState("");
     const [newCategory,setNewCategory] = useState("");
 
     const navigate = useNavigate;
