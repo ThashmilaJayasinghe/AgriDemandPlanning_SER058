@@ -1,11 +1,11 @@
-import { ClassNames } from "@emotion/react";
 import { CircularProgress } from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { AiOutlineDownload, AiOutlineEdit } from "react-icons/ai";
 import { FiAlertCircle } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { viewFarmerSeedRequest } from "../../api/SeedRequestAPI";
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 
@@ -18,7 +18,7 @@ const EvaluatedRequests = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [evaluatedRequests, setEvaluatedRequests] = useState([]);
-  const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
+  const [userId, setUserId] = useState("630e177910470806f04c70ad");
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,9 +60,68 @@ const EvaluatedRequests = () => {
     }
   }, [searchQuery]);
 
-  const onDownload = (data) => {
-    console.log("Download clicked");
-    console.log(data);
+  const onDownload = (requestdata) => {
+    const printableObject = [
+      { title: "ID", data: requestdata._id },
+      { title: "Category", data: requestdata.category },
+      { title: "Type", data: requestdata.type },
+      { title: "Location", data: requestdata.location },
+      { title: "Farmer", data: requestdata.farmerId },
+      {
+        title: "Evaluated date",
+        data: moment(requestdata.updatedAt).format("MMMM Do YYYY, h:mm:ss a"),
+      },
+      { title: "Size of the land in Hectares", data: requestdata.sizeOfLand },
+      { title: "Quantity in Kilograms", data: requestdata.weight },
+      {
+        title: "Added date",
+        data: moment(requestdata.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
+      },
+
+      { title: "Evaluated Status", data: requestdata.status },
+    ];
+
+    // const doc = new jsPDF();
+    var doc = new jsPDF("p", "px", "letter");
+    const tableColumn = ["", ""];
+    const tableRows = [];
+
+    // for each ticket pass all its data into an array
+
+    printableObject.map((request, idx) => {
+      const ticketData = [request.title, ":  " + request.data];
+      tableRows.push(ticketData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, {
+      startY: 70,
+      startX: 20,
+    });
+
+    const date = Date().split(" ");
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+
+    doc.setFont('Courier-Bold')
+    doc.setTextColor('#07912e')
+    doc.setFontSize(22);
+    doc.text("Agri Demand Management System", 112, 30);
+    doc.setFontSize(12);
+    doc.text("----- Evaluated Reuqest ----- ", 177, 44);
+    doc.setTextColor('#6f7370')
+
+    // add verified message
+    doc.setFont('Times-Bold')
+    doc.setTextColor('#19d13e')
+    doc.setFillColor('#db1414')
+    doc.setFontSize(20)
+    doc.text('Approved!', 310, 524)
+
+    doc.setFontSize(10);
+    doc.setTextColor('#000000')
+    doc.text("- - - - - - - - - - - - - - - - - - - - - - - - -", 290, 540);
+    doc.text("Agri Demand Management System", 290, 550);
+
+    doc.save(`report_${dateStr}.pdf`);
   };
 
   return (
@@ -97,7 +156,7 @@ const EvaluatedRequests = () => {
               <div className="px-4 py-4 sm:px-6">
                 {request.status == "accepted" && (
                   <>
-                    <div className="mb-4 p-1 bg-green-200 rounded-lg">
+                    <div className="mb-4 p-1 bg-green-200 rounded-lg border border-green-400">
                       <p className="justify-center flex text-green-600">
                         Accepted
                       </p>
@@ -107,7 +166,7 @@ const EvaluatedRequests = () => {
 
                 {request.status == "rejected" && (
                   <>
-                    <div className="mb-4 p-1 bg-red-200 rounded-lg">
+                    <div className="mb-4 p-1 bg-red-200 rounded-lg border border-red-400">
                       <p className="justify-center flex text-red-600">
                         Rejected
                       </p>
@@ -115,16 +174,15 @@ const EvaluatedRequests = () => {
                   </>
                 )}
 
-                {request.status == "new" ||
-                  (request.status == null && (
-                    <>
-                      <div className="mb-4 p-1 bg-yellow-200 rounded-lg">
-                        <p className="justify-center flex text-yellow-600">
-                          Pending
-                        </p>
-                      </div>
-                    </>
-                  ))}
+                {request.status == "pending" && (
+                  <>
+                    <div className="mb-4 p-1 bg-yellow-200 rounded-lg border border-yellow-400">
+                      <p className="justify-center flex text-yellow-600">
+                        Pending
+                      </p>
+                    </div>
+                  </>
+                )}
 
                 <div className="mt-2 grid grid-cols-5">
                   <p className="flex col-span-1 items-center text-sm text-emerald-700">

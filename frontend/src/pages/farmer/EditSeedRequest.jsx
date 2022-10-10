@@ -69,7 +69,7 @@ const EditSeedRequest = () => {
     setLocation(RequestData.location);
   }, []);
 
-  console.log(selectedCategory, selectedType, size, weight, location);
+  console.log(userId, selectedCategory, selectedType, size, weight, location);
 
   const handleSubmit = async () => {
     await updateSeedRequest(
