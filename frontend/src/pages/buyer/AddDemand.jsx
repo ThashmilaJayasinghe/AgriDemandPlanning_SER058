@@ -18,7 +18,7 @@ const staticCategories = [
   },
   {
     id: "bc022097-96e1-475a-b3dd-09255580036e",
-    title: "Rise",
+    title: "Rice",
     types: ["Kalu Heenati", "Keeri Samba", "Pachchaperumal", "Suwandal"],
   },
   {
@@ -50,6 +50,7 @@ const AddDemand = () => {
         buyerID: userId,
         category: selectedCategory.title,
         type: selectedType,
+        // type: "Samba",
         sellings,
         unitPrice,
         remarks,

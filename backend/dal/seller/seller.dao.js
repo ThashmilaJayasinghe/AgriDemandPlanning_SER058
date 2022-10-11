@@ -1,54 +1,65 @@
 const Demand = require("./demand.model");
 
-const addProductDemand = async ({buyerID, category, type, sellings, unitPrice, remarks}) => {
+const addProductDemand = async ({
+  buyerID,
+  category,
+  type,
+  sellings,
+  unitPrice,
+  remarks,
+}) => {
   try {
-    let haveDemand = await Demand.findOne({buyerID});
-console.log(haveDemand);
+    let haveDemand = await Demand.findOne({ buyerID });
+    console.log(haveDemand);
 
-    if(haveDemand){
-      const addADemand =({
-        category, type, sellings, unitPrice, remarks
-      })
+    if (haveDemand) {
+      const addADemand = {
+        category,
+        type,
+        sellings,
+        unitPrice,
+        remarks,
+      };
       haveDemand.demands.push(addADemand);
       haveDemand.save();
       return addADemand;
-    }else {
+    } else {
       const newDemand = await Demand.create({
         buyerID,
-        demands:[{
-          category,
-          type,
-          sellings,
-          unitPrice,
-          remarks
-        }
-        ]
+        demands: [
+          {
+            category,
+            type,
+            sellings,
+            unitPrice,
+            remarks,
+          },
+        ],
       });
       console.log(newDemand);
       return newDemand;
     }
-  }catch (err){
+  } catch (err) {
     console.log(err);
   }
-
 };
 
-const getProductDemand = async () =>{
+const getProductDemand = async () => {
   const demands = await Demand.find();
   return demands;
-}
+};
 
-const getOneProductDemand = async (buyerID)=>{
-  try{
-    let demands = await Demand.findOne({buyerID})
-    if(demands){
+const getOneProductDemand = async (buyerID) => {
+  try {
+    let demands = await Demand.findOne({ buyerID });
+    if (demands) {
       return demands;
-    }else {
+    } else {
       return null;
     }
-  }catch (err){
+  } catch (err) {
     return err;
   }
-}
+};
 
-module.exports = { addProductDemand , getProductDemand,getOneProductDemand};
+module.exports = { addProductDemand, getProductDemand, getOneProductDemand };
