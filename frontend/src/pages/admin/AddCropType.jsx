@@ -6,7 +6,6 @@ import FormWrapper from "../../components/wrappers/FormWrapper";
 import { createCropType, getCropTypes } from "../../api/AddCropTypeAPI";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {getFarmers} from "../../api/FarmerAPI";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const staticCategories = [
@@ -138,8 +137,9 @@ function classNames(...classes) {
 
 const AddCropType = () => {
     const [categories, setCategories] = useState(staticCategories);
-    // const [selectedCategory, setSelectedCategory] = useState(staticCategories[0]);
+    // const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+    // const [selectedCategory, setSelectedCategory] = useState({});
     const [newCategory, setNewCategory] = useState('');
     const [newType, setNewType] = useState('');
     const [supply, setSupply] = useState(0.0);
@@ -191,22 +191,19 @@ const AddCropType = () => {
     useEffect(() => {
 
         async function retrieveCrops() {
-            // await getCropTypes(setCategories).then(() => {
-            //     console.log('Crops retrieved successfully');
-            //     setIsLoading(false);
-            // });
-            setIsLoading(false);
-            console.log('works');
-        }
-        retrieveCrops();
+            await getCropTypes(setCategories).then(() => {
+                console.log('Crops retrieved successfully');
+                setSelectedCategory(categories[0]);
+                setIsLoading(false);
+            });
 
-        if(counter) {
             setCategories(categories => [...categories, {
                 _id: "new-category-1234",
                 category: "New Category",
             }]);
             counter = false;
         }
+        retrieveCrops();
     },[counter]);
 
     if(isLoading) {
