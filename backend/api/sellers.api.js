@@ -1,4 +1,10 @@
-const { addProductDemand, getProductDemand,getOneProductDemand, deleteDemandByID, editProductDemand} = require("../dal/seller/seller.dao");
+const {
+  addProductDemand,
+  getProductDemand,
+  getOneProductDemand,
+  deleteDemandByID,
+  editProductDemand,
+} = require("../dal/seller/seller.dao");
 
 const addDemand = async (req, res) => {
   const buyerID = req.params.id;
@@ -24,10 +30,11 @@ const addDemand = async (req, res) => {
 
 const editDemand = async (req, res) => {
   const buyerID = req.params.id;
-  const { category, type, sellings, unitPrice, remarks } = req.body;
+  const { demandID, category, type, sellings, unitPrice, remarks } = req.body;
 
   try {
     const demand = await editProductDemand({
+      demandID,
       buyerID,
       category,
       type,
@@ -37,15 +44,14 @@ const editDemand = async (req, res) => {
     });
 
     res
-        .status(201)
-        .json({ success: true, data: demand, message: "Demand Edited" });
+      .status(201)
+      .json({ success: true, data: demand, message: "Demand Edited" });
   } catch (err) {
     res.status(500).json({ success: false, message: "Demand is not edited" });
   }
 };
 
-
-const getDemands = async (req,res) => {
+const getDemands = async (req, res) => {
   try {
     const demands = await getProductDemand();
     res.status(200).json(demands);
@@ -53,21 +59,21 @@ const getDemands = async (req,res) => {
     console.log(err);
     res.json(err);
   }
-}
+};
 
-const getOneDemand = async (req,res)=>{
+const getOneDemand = async (req, res) => {
   const buyerID = req.params.id;
   try {
     const demands = await getOneProductDemand(buyerID);
-    res.status(200).json(demands)
-  }catch (err){
+    res.status(200).json(demands);
+  } catch (err) {
     console.log(err);
     res.json(err);
   }
-}
+};
 
 const deleteDemand = async (req, res) => {
-  const id = req.body.id;
+  const id = req.body.userId;
   const demandID = req.body.demandID;
 
   try {
@@ -95,4 +101,10 @@ const deleteDemand = async (req, res) => {
   }
 };
 
-module.exports = {addDemand,getDemands,getOneDemand, deleteDemand};
+module.exports = {
+  addDemand,
+  getDemands,
+  getOneDemand,
+  deleteDemand,
+  editDemand,
+};
