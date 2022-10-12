@@ -8,6 +8,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { viewFarmerSeedRequest } from "../../api/SeedRequestAPI";
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
+import { getFarmer } from "../../api/FarmerAPI";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -21,6 +22,8 @@ const EvaluatedRequests = () => {
   const [userId, setUserId] = useState("630e177910470806f04c70ad");
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [farmerName, setFarmerName] = useState("");
+  const [farmer, setFarmer] = useState();
 
   useEffect(() => {
     async function getRequests() {
@@ -35,6 +38,16 @@ const EvaluatedRequests = () => {
       });
     }
     getRequests();
+  }, []);
+
+  // get farmer name from the ID
+  useEffect(() => {
+    async function getFarmerDetails() {
+      await getFarmer(userId, setFarmer).then(() => {
+        console.log("Farmer details retrieved");
+      });
+    }
+    getFarmerDetails();
   }, []);
 
   useEffect(() => {
@@ -66,18 +79,19 @@ const EvaluatedRequests = () => {
       { title: "Category", data: requestdata.category },
       { title: "Type", data: requestdata.type },
       { title: "Location", data: requestdata.location },
-      { title: "Farmer", data: requestdata.farmerId },
-      {
-        title: "Evaluated date",
-        data: moment(requestdata.updatedAt).format("MMMM Do YYYY, h:mm:ss a"),
-      },
       { title: "Size of the land in Hectares", data: requestdata.sizeOfLand },
       { title: "Quantity in Kilograms", data: requestdata.weight },
+      { title: "Farmer ID", data: requestdata.farmerId },
+      { title: "Farmer NIC", data: farmer.NIC },
+      { title: "Farmer Name", data: farmer.fullName },
       {
         title: "Added date",
         data: moment(requestdata.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
       },
-
+      {
+        title: "Evaluated date",
+        data: moment(requestdata.updatedAt).format("MMMM Do YYYY, h:mm:ss a"),
+      },
       { title: "Evaluated Status", data: requestdata.status },
     ];
 
@@ -86,52 +100,75 @@ const EvaluatedRequests = () => {
     const tableColumn = ["", ""];
     const tableRows = [];
 
-    // for each ticket pass all its data into an array
-
     printableObject.map((request, idx) => {
-      const ticketData = [request.title, ":  " + request.data];
+      const ticketData = [request.title, request.data];
       tableRows.push(ticketData);
     });
 
     doc.autoTable(tableColumn, tableRows, {
-      startY: 130,
+      startY: 180,
       startX: 20,
+      theme: "grid",
     });
 
     const date = Date().split(" ");
     const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
 
+    // add page border
+    doc.rect(
+      20,
+      15,
+      doc.internal.pageSize.width - 40,
+      doc.internal.pageSize.height - 40,
+      "S"
+    );
+
+    // header of the document
     doc.setFont("Courier-Bold");
     doc.setTextColor("#07912e");
     doc.setFontSize(22);
-    doc.text("Agri Demand Management System", 112, 30);
+    doc.text("Agri Demand Management System", 112, 50);
     doc.setFontSize(12);
-    doc.text("----- Evaluated Reuqest ----- ", 177, 44);
+    doc.text("----- Evaluated Reuqest ----- ", 177, 64);
     doc.setTextColor("#6f7370");
 
-    // add company address and phone
+    // add company address in left side
     doc.setTextColor("#5c5c5c");
     doc.setFont("Helvetica");
     doc.setFontSize(10);
     doc.text(
-      "Management \nAgriculture Department \nHomagama \nSri Lanka \nPhone : 0112345678 ",
+      "Management \nAgriculture Department \nNo 1 \nPeradeniya \nSri Lanka ",
       30,
-      70
+      100
     );
+
+    // add contact details in righ side
+    doc.setTextColor("#5c5c5c");
+    doc.setFont("Helvetica");
+    doc.setFontSize(10);
+    doc.text(
+      "Phone : 1920 \nFax : +94 812 388 333\nEmail : info@doa.gov.lk \nWeb : service@agrimin.gov.lk ",
+      320,
+      100
+    );
+
+    // add horizontal line
+    doc.setDrawColor(57, 173, 49);
+    doc.line(20, 155, 440, 155);
 
     // add verified message
     doc.setFont("Times-Bold");
     doc.setTextColor("#19d13e");
     doc.setFillColor("#db1414");
     doc.setFontSize(20);
-    doc.text("Approved!", 310, 524);
+    doc.text("Approved!", 310, 528);
 
     doc.setFontSize(10);
     doc.setTextColor("#000000");
     doc.text("- - - - - - - - - - - - - - - - - - - - - - - - -", 290, 540);
     doc.text("Agri Demand Management System", 290, 550);
 
-    doc.save(`report_${dateStr}.pdf`);
+    doc.save(`Evaluated-Request_${dateStr}.pdf`);
   };
 
   return (
