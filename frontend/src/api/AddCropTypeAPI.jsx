@@ -24,12 +24,13 @@ export const createCropType = async (
 };
 
 
-export const getCropTypes = async (setCrops) => {
+export const getCropTypes = async (setCategories, setCrops) => {
 
     try {
         await axios
             .get(`${BACKEND_URL}/crops/`, {})
             .then((res) => {
+                setCategories(res.data);
                 setCrops(res.data);
             })
         // console.log(c.data);

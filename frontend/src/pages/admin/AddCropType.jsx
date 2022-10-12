@@ -7,6 +7,7 @@ import { createCropType, getCropTypes } from "../../api/AddCropTypeAPI";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CircularProgress from "@mui/material/CircularProgress";
+import CropModal from '../../components/CropModal';
 
 const staticCategories = [
     {
@@ -137,15 +138,14 @@ function classNames(...classes) {
 
 const AddCropType = () => {
     const [categories, setCategories] = useState(staticCategories);
-    // const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-    // const [selectedCategory, setSelectedCategory] = useState({});
     const [newCategory, setNewCategory] = useState('');
     const [newType, setNewType] = useState('');
     const [supply, setSupply] = useState(0.0);
     const [demand, setDemand] = useState(0.0);
     const [isCreationSuccess, setIsCreationSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [crops, setCrops] = useState([]);
 
     let counter = true;
     let newCrop = {};
@@ -191,7 +191,7 @@ const AddCropType = () => {
     useEffect(() => {
 
         async function retrieveCrops() {
-            await getCropTypes(setCategories).then(() => {
+            await getCropTypes(setCategories, setCrops).then(() => {
                 console.log('Crops retrieved successfully');
                 setSelectedCategory(categories[0]);
                 setIsLoading(false);
@@ -202,6 +202,7 @@ const AddCropType = () => {
                 category: "New Category",
             }]);
             counter = false;
+
         }
         retrieveCrops();
     },[counter]);
@@ -283,7 +284,6 @@ const AddCropType = () => {
                         </Transition>
                     </Menu>
                     {/* dropdown end */}
-
                     <div>
                         {selectedCategory._id === 'new-category-1234' ? (
                             <div>
@@ -325,8 +325,6 @@ const AddCropType = () => {
                             setNewType(event.target.value);
                         }}
                     />
-
-
                     <div className="flex items-center justify-center mt-10">
                         <div
                             className="px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors cursor-pointer"
@@ -337,6 +335,9 @@ const AddCropType = () => {
                     </div>
                 </div>
             </>
+            <div className="pt-20">
+                <CropModal categories={crops}/>
+            </div>
         </FormWrapper>
     );
 };
