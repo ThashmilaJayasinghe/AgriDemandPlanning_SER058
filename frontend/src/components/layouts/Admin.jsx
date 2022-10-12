@@ -19,13 +19,16 @@ import Dashboard from "../../pages/admin/AdminDash";
 import AllFarmers from "../../pages/admin/AllFarmers";
 import FarmerProfile from "../../pages/admin/FarmerProfile";
 import UpdateFarmer from "../../pages/admin/UpdateFarmer";
+import AllRequests from "../../pages/admin/AllRequests";
+import ViewSeedRequest from "../../pages/admin/ViewSeedRequest";
+import SendMessage from "../../pages/admin/SendMessage";
 
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
     { name: 'All Farmers', href: '/admin/all-farmers', icon: UsersIcon, current: false },
     { name: 'All Buyers', href: '#', icon: FolderIcon, current: false },
-    { name: 'Seed Requests', href: '#', icon: CalendarIcon, current: false },
+    { name: 'Seed Requests', href: '/admin/all-seed-requests', icon: CalendarIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
     { name: 'Announcements', href: '#', icon: ChartBarIcon, current: false },
 ]
@@ -181,6 +184,9 @@ export default function AdminLayout() {
                                 <Route path="/all-farmers" element={<AllFarmers />} />
                                 <Route path="/farmer-profile" element={<FarmerProfile />} />
                                 <Route path="/update-farmer" element={<UpdateFarmer />} />
+                                <Route path="/all-seed-requests" element={<AllRequests />} />
+                                <Route path="/view-seed-request" element={<ViewSeedRequest />} />
+                                <Route path="/send-message" element={<SendMessage />} />
                             </Routes>
                         </div>
                     </div>

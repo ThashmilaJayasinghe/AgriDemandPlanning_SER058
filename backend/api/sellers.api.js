@@ -5,6 +5,7 @@ const {
   deleteDemandByID,
   editProductDemand,
 } = require("../dal/seller/seller.dao");
+const { addDemandForCrop } = require("../dal/crop/crops.dao");
 
 const addDemand = async (req, res) => {
   const buyerID = req.params.id;
@@ -20,11 +21,42 @@ const addDemand = async (req, res) => {
       remarks,
     });
 
-    res
-      .status(201)
-      .json({ success: true, data: demand, message: "Demand added" });
+    // update total demand in Crops
+    if (demand) {
+      const cropDemand = await addDemandForCrop({
+        category,
+        type,
+        demand: Number(sellings),
+      });
+
+      if (cropDemand) {
+        res.status(201).json({
+          success: true,
+          message: "New demand added and Crop demand updated",
+          data: cropDemand,
+        });
+      } else {
+        res.status(201).json({
+          success: false,
+          message: "New demand added but Crop demand is not updated",
+          data: demand,
+        });
+      }
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Demand and Crop demand are not added",
+        data: null,
+      });
+    }
   } catch (err) {
-    res.status(500).json({ success: false, message: "Demand is not added" });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Demand is not added and not crop demand updated",
+        data: null,
+      });
   }
 };
 

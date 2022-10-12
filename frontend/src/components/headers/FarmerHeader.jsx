@@ -159,12 +159,11 @@ const FarmerHeader = () => {
                   >
                     My Requests
                   </Link>
-                  <a
-                    href="#"
+                  <Link to = '/farmer/evaluatedRequest'
                     className="text-base font-medium text-gray-500 hover:text-gray-900"
                   >
                     Evaluated Requests
-                  </a>
+                  </Link>
 
                   {/* If you want dropdown for header, use this */}
                   {/* 

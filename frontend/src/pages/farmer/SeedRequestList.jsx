@@ -14,11 +14,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BsArrowRightCircle } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const SeedRequestList = () => {
   const [myRequests, setMyRequests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
+  const [userId, setUserId] = useState("630e177910470806f04c70ad");
   const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [filteredRequests, setFilteredRequests] = useState([]);
@@ -122,23 +123,37 @@ const SeedRequestList = () => {
         {/* added toast container here, because of my easyness */}
         <ToastContainer />
 
-        <div className="bg-red-100 shadow overflow-hidden sm:rounded-md my-4 text-sm text-red-900 p-4">
-          <div className="flex">
-            <BsArrowRightCircle color="black" size={18} />
-            <div className="ml-3">
-              Deadline for your requests is{" "}
-              <i className="text-red-600">
-                <u>2022-09-30</u>
-              </i>
-            </div>
-          </div>
-          <div className="flex pt-1">
-            <BsArrowRightCircle color="black" size={18} />
-            <div className="ml-3">
-              Before the deadline is the only time you can modify or delete your
-              request.
-            </div>
-          </div>
+        <div className="bg-red-100 shadow overflow-hidden rounded-md my-4 text-sm text-red-900 p-4">
+          <li>
+            <ul>
+              <div className="flex md:-ml-3 -ml-5">
+                <BsArrowRightCircle
+                  color="black"
+                  size={18}
+                  className={"w-12"}
+                />
+                <div className="ml-1">
+                  Deadline for your requests is{" "}
+                  <i className="text-red-600">
+                    <u>2022-09-30</u>
+                  </i>
+                </div>
+              </div>
+            </ul>
+            <ul>
+              <div className="flex pt-1 -ml-3">
+                <BsArrowRightCircle
+                  color="black"
+                  size={18}
+                  className={"w-12"}
+                />
+                <div className="ml-1">
+                  Before the deadline is the only time you can modify or delete
+                  your request.
+                </div>
+              </div>
+            </ul>
+          </li>
         </div>
 
         <div className="pb-4 pt-4">
@@ -158,45 +173,45 @@ const SeedRequestList = () => {
         {filteredRequests.map((request, index) => (
           <div
             key={request._id}
-            className="bg-emerald-100 shadow overflow-hidden sm:rounded-md my-4"
+            className="bg-emerald-100 shadow overflow-hidden rounded-md my-4"
           >
             <div className="block">
-              <div className="px-4 py-4 sm:px-6">
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
+              <div className="px-4 py-4 sm:px-6 text-sm md:text-base">
+                <div className="mt-2 grid grid-cols-3 md:grid-cols-5">
+                  <p className="flex col-span-1 items-center text-emerald-700">
                     Category
                   </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                  <p className=" col-span-2 flex items-center text-gray-500 sm:mt-0">
                     : {request.category}
                   </p>
                 </div>
-                <div className="mt-2 grid grid-cols-5 ">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700 ">
+                <div className="mt-2 grid grid-cols-3 md:grid-cols-5 ">
+                  <p className="flex col-span-1 items-center text-emerald-700 ">
                     Type
                   </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                  <p className=" col-span-2 flex items-center text-gray-500 sm:mt-0">
                     : {request.type}
                   </p>
                 </div>
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
+                <div className="mt-2 grid grid-cols-3 md:grid-cols-5">
+                  <p className="flex col-span-1 items-center text-emerald-700">
                     Hectares
                   </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                  <p className="col-span-2 flex items-center text-gray-500 sm:mt-0">
                     : {request.sizeOfLand}
                   </p>
                 </div>
-                <div className="mt-3 md:mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
+                <div className="mt-3 md:mt-2 grid grid-cols-3 md:grid-cols-5">
+                  <p className="flex col-span-1 items-center text-emerald-700">
                     Added date
                   </p>
-                  <p className="md:mt-0 col-span-2 flex items-center text-sm text-gray-500">
+                  <p className="md:mt-0 col-span-2 flex items-center text-gray-500">
                     : {moment(request.createdAt).format("MMMM Do YYYY")}{" "}
                     <br></br>
                     &nbsp; {moment(request.createdAt).format("LTS")}
                   </p>
                 </div>
-                <div className="grid grid-cols-5 ">
+                <div className="grid grid-cols-5 mt-5">
                   <div className="col-start-4 col-span-1 justify-end flex">
                     <button
                       className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
@@ -210,16 +225,21 @@ const SeedRequestList = () => {
                     </button>
                   </div>
                   <div className="col-span-1 justify-center flex">
-                    <button
-                      className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                      onClick={() => onUpdate(request._id)}
+                    <Link
+                      to="/farmer/editRequest"
+                      state={{ id: userId, RequestData: request }}
                     >
-                      <AiOutlineEdit
-                        className="mt-0 mr-0 md:mt-1 md:mr-1"
-                        size={18}
-                      />
-                      <p className="hidden md:block"> Update</p>
-                    </button>
+                      <button
+                        className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                        onClick={() => onUpdate(request._id)}
+                      >
+                        <AiOutlineEdit
+                          className="mt-0 mr-0 md:mt-1 md:mr-1"
+                          size={18}
+                        />
+                        <p className="hidden md:block"> Update</p>
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>

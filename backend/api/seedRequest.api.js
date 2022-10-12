@@ -2,10 +2,14 @@ const {
   addSeedRequest,
   retrieveFarmerRequests,
   removeSeedRequest,
+  getAllSeedRequests,
+  updateSeedRequestStatus,
+  editSeedRequest,
 } = require("../dal/seedRequest/request.dao");
 
 const createSeedRequest = async (req, res) => {
   const { farmerId, category, type, sizeOfLand, weight, location } = req.body;
+  const status = "new";
 
   try {
     const request = await addSeedRequest({
@@ -15,6 +19,7 @@ const createSeedRequest = async (req, res) => {
       sizeOfLand,
       weight,
       location,
+      status,
     });
 
     if (request) {
@@ -68,6 +73,43 @@ const viewFarmerSeedRequests = async (req, res) => {
   }
 };
 
+const updateSeedRequest = async (req, res) => {
+  const { RequestId, farmerId, category, type, sizeOfLand, weight, location } =
+    req.body;
+
+  try {
+    const request = await editSeedRequest({
+      RequestId,
+      farmerId,
+      category,
+      type,
+      sizeOfLand,
+      weight,
+      location,
+    });
+
+    if (request) {
+      res.status(201).json({
+        success: true,
+        message: "Seed request updated",
+        data: request,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Seed request is not updated",
+        data: request,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Seed request is not updated",
+      data: err,
+    });
+  }
+};
+
 const deleteSeedRequest = async (req, res) => {
   const { requestId } = req.query;
 
@@ -97,8 +139,58 @@ const deleteSeedRequest = async (req, res) => {
   }
 };
 
+const getSeedRequests = async (req, res) => {
+  try {
+    const requests = await getAllSeedRequests();
+    res.status(200).json(requests);
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+  }
+};
+
+const updateRequestStatus = async (req, res) => {
+  const { farmerId, category, type, sizeOfLand, weight, location, status } =
+    req.body;
+
+  try {
+    const request = await updateSeedRequestStatus(req.params.id, {
+      farmerId,
+      category,
+      type,
+      sizeOfLand,
+      weight,
+      location,
+      status,
+    });
+
+    if (request) {
+      res.status(200).json({
+        success: true,
+        message: "Seed request updated",
+        data: request,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Seed request not updated",
+        data: request,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Seed request not updated",
+      data: err,
+    });
+  }
+};
+
 module.exports = {
   createSeedRequest,
   viewFarmerSeedRequests,
+  updateSeedRequest,
   deleteSeedRequest,
+  getSeedRequests,
+  updateRequestStatus,
 };
