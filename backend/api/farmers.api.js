@@ -54,14 +54,8 @@ const getFarmer = async (req, res) => {
 };
 
 const updateFarmer = async (req, res) => {
-    const {fullName,NIC,gender, address,province, district,  email, contactNumber,userName,password, categories, hectare} = req.body;
+    const {fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare,userName,password, profileImg} = req.body;
     try {
-        if(!userName || !password){
-            return res.status(400).json({msg:'Password and email are required'})
-        }
-        if(password.length<8){
-            return res.status(400).json({ msg: 'Password should be at least 8 characters long' })
-        }
         const farmer = await updateById(req.params.id, {
             fullName,
             NIC,
@@ -71,10 +65,11 @@ const updateFarmer = async (req, res) => {
             district,
             email,
             contactNumber,
+            categories,
+            hectare,
             userName,
             password,
-            categories,
-            hectare
+            profileImg,
         });
         res.status(200).json(farmer);
     } catch (err) {

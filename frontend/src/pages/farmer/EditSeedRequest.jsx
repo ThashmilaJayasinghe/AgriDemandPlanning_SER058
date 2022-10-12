@@ -1,14 +1,16 @@
+import React, { useState, Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
-import React, { Fragment, useEffect, useState } from "react";
-import { createProductDemand } from "../../api/ProductDemandAPI";
+import { useEffect } from "react";
 import FormWrapper from "../../components/wrappers/FormWrapper";
+import {
+  createSeedRequest,
+  updateSeedRequest,
+  viewFarmerSeedRequest,
+} from "../../api/SeedRequestAPI";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { useLocation } from "react-router-dom";
 
 const staticCategories = [
   {
@@ -18,7 +20,7 @@ const staticCategories = [
   },
   {
     id: "bc022097-96e1-475a-b3dd-09255580036e",
-    title: "Rice",
+    title: "Rise",
     types: ["Kalu Heenati", "Keeri Samba", "Pachchaperumal", "Suwandal"],
   },
   {
@@ -33,32 +35,57 @@ const staticCategories = [
   },
 ];
 
-const AddDemand = () => {
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+const EditSeedRequest = () => {
   const [categories, setCategories] = useState(staticCategories);
-  const [types, setTypes] = useState(staticCategories[0].types[0]);
   const [selectedCategory, setSelectedCategory] = useState(staticCategories[0]);
-  const [selectedType, setSelectedType] = useState("");
-  const [sellings, setSellings] = useState(0.0);
-  const [unitPrice, setUnitPrice] = useState(0.0);
-  const [remarks, setRemarks] = useState("");
+  const [selectedType, setSelectedType] = useState("Select type . . .");
+  const [size, setSize] = useState(0.0);
+  const [weight, setWeight] = useState(0.0);
+  const [location, setLocation] = useState("");
   const [isCreationSuccess, setIsCreationSuccess] = useState(false);
-  const [userId, setUserId] = useState("6316e8f38ec2b4c57b170a34");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    setSelectedType(selectedCategory.types[0]);
+  }, [selectedCategory]);
+
+  // get Data from backend and display it in here
+  const Elocation = useLocation();
+  const { RequestData } = Elocation.state;
+
+  console.log(RequestData);
+  useEffect(() => {
+    // setSelectedCategory(RequestData);
+
+
+    setUserId(RequestData.farmerId)
+    setSelectedType(RequestData.type);
+    setSize(RequestData.sizeOfLand);
+    setWeight(RequestData.weight);
+    setLocation(RequestData.location);
+  }, []);
+
+  console.log(userId, selectedCategory, selectedType, size, weight, location);
 
   const handleSubmit = async () => {
-    await createProductDemand(
+    await updateSeedRequest(
       {
-        buyerID: userId,
+        RequestId: RequestData._id,
+        farmerId: userId,
         category: selectedCategory.title,
         type: selectedType,
-        // type: "Samba",
-        sellings,
-        unitPrice,
-        remarks,
+        sizeOfLand: size,
+        weight,
+        location,
       },
       setIsCreationSuccess
     )
       .then(() => {
-        toast.success("Data added successfully !", {
+        toast.success("Data Updated successfully !", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -81,17 +108,13 @@ const AddDemand = () => {
       });
   };
 
-  useEffect(() => {
-    setSelectedType(selectedCategory.types[0]);
-  }, [selectedCategory]);
-
   return (
     <FormWrapper>
       <>
+        <ToastContainer />
         <div className="my-16">
-          <ToastContainer />
           <p className="font-semibold text-2xl text-center">
-            Add demand for a product
+            Edit Seed Request
           </p>
 
           <label
@@ -213,51 +236,54 @@ const AddDemand = () => {
           </Menu>
 
           <label
-            htmlFor="sellings"
+            htmlFor="size"
             className="block text-base font-medium text-gray-700 mt-6"
           >
-            Selling in Kilograms (for 1 year) :
-          </label>
-          <input
-            type="number"
-            name="sellings"
-            id="sellings"
-            autoComplete="given-name"
-            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
-            onChange={(event) => {
-              setSellings(event.target.value);
-            }}
-          />
-          <label
-            htmlFor="price"
-            className="block text-base font-medium text-gray-700 mt-6"
-          >
-            Unit price in Rupees (for 1Kg) :
-          </label>
-          <input
-            type="number"
-            name="price"
-            id="price"
-            autoComplete="given-name"
-            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
-            onChange={(event) => {
-              setUnitPrice(event.target.value);
-            }}
-          />
-          <label
-            htmlFor="remarks"
-            className="block text-base font-medium text-gray-700 mt-6"
-          >
-            Remarks :
+            Size of land (in Hectares) :
           </label>
           <input
             type="text"
-            name="remarks"
-            id="remarks"
+            name="size"
+            id="size"
+            value={size}
             autoComplete="given-name"
             className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
             onChange={(event) => {
-              setRemarks(event.target.value);
+              setSize(event.target.value);
+            }}
+          />
+          <label
+            htmlFor="weight"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            Number of Kilograms (Kg) :
+          </label>
+          <input
+            type="text"
+            name="weight"
+            id="weight"
+            value={weight}
+            autoComplete="given-name"
+            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
+            onChange={(event) => {
+              setWeight(event.target.value);
+            }}
+          />
+          <label
+            htmlFor="location"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            Location :
+          </label>
+          <input
+            type="text"
+            name="location"
+            id="location"
+            value={location}
+            autoComplete="given-name"
+            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
+            onChange={(event) => {
+              setLocation(event.target.value);
             }}
           />
 
@@ -275,4 +301,4 @@ const AddDemand = () => {
   );
 };
 
-export default AddDemand;
+export default EditSeedRequest;

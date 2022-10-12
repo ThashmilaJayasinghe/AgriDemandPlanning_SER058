@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { getFarmers } from "../../api/FarmerAPI";
+import {BiMessageDetail} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
 
 
 import { Link } from "react-router-dom";
@@ -9,19 +12,40 @@ export default function AllFarmers() {
 
     const [farmers, setFarmers] = useState([]);
     const [search, setSearch] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     const setFarmer = (farmer) => {
         localStorage.setItem('Farmer', JSON.stringify(farmer));
+    };
+
+    //navigates to send message page
+    const onSendMessage = (farmerId) => {
+        console.log('Send message to ' + farmerId);
+        navigate('/admin/send-message', { state: {recipientId: farmerId} });
     };
 
     useEffect(() => {
         async function viewAllFarmers() {
             await getFarmers(setFarmers).then(() => {
                 console.log('All Farmers retrieved successfully');
+                setIsLoading(false);
             });
         }
         viewAllFarmers();
+
     }, []);
+
+    if(isLoading) {
+        return (
+            <div>
+                <div className="flex justify-center mt-24">
+                    <CircularProgress color="success" />
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="px-4 sm:x-6 lg:px-8">
@@ -30,6 +54,7 @@ export default function AllFarmers() {
                     <h1 className="text-2xl font-semibold text-gray-900">All Farmers</h1>
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+
                     <Link to="/admin/all-farmers/add">
                     <button
                         type="button"
@@ -37,6 +62,7 @@ export default function AllFarmers() {
                     >
                         + Add Farmer
                     </button></Link>
+
                 </div>
             </div>
 
@@ -72,6 +98,9 @@ export default function AllFarmers() {
                         <th scope="col" className="relative py-3.5 pl-4 pr-3 sm:pr-6">
                             <span className="sr-only">View Profile</span>
                         </th>
+                        <th scope="col" className="relative py-3.5 pl-4 pr-3 sm:pr-6">
+                            <span className="sr-only">Send Message</span>
+                        </th>
                     </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
@@ -105,8 +134,20 @@ export default function AllFarmers() {
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"
                                             size={18}
                                         />
-                                        <p className="hidden md:block"> View Profile</p>
+                                        <p className="hidden md:block">View Profile</p>
                                     </a>
+                                </td>
+                                <td className="py-4 px-3 text-right text-sm font-medium sm:pr-6">
+                                    <button
+                                        className="flex w-fit bg-sky-500 text-white py-1 px-4 rounded-lg hover:bg-sky-600 transition-colors"
+                                        onClick={() => onSendMessage(farmer._id)}
+                                    >
+                                        <BiMessageDetail
+                                            className="mt-0 mr-0 md:mt-1 md:mr-1"
+                                            size={18}
+                                        />
+                                        <p className="hidden md:block">Send Message</p>
+                                    </button>
                                 </td>
                             </tr>
                         ))}

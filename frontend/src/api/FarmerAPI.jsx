@@ -8,6 +8,7 @@ export const getFarmers = async (setFarmers) => {
             .get(`${BACKEND_URL}/farmers`, {
             })
             .then((res) => {
+                console.log(res.data);
                 setFarmers(res.data);
             });
     } catch (err) {
@@ -33,6 +34,8 @@ export const updateFarmer = async (id, farmer, setFarmer) => {
         await axios
             .put(`${BACKEND_URL}/farmers/` + id, farmer)
             .then((res) => {
+                console.log(res.data);
+                localStorage.setItem('Farmer', JSON.stringify(farmer));
                 setFarmer(res.data);
             });
     } catch (err) {
@@ -45,6 +48,7 @@ export const getFarmer = async (id, setFarmer) => {
         await axios
             .get(`${BACKEND_URL}/farmers/` + id)
             .then((res) => {
+                console.log(res.data);
                 setFarmer(res.data);
             });
     } catch (err) {
