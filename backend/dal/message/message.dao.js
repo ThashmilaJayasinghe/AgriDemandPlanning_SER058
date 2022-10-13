@@ -1,5 +1,6 @@
 const Message = require('./message.model');
 const Recipient = require('./recipient.model');
+const Farmer = require("../farmer/farmer.model");
 
 
 const saveMessage = async ({recipientId, subject, creatorId, messageBody, parentMessageId, status}) => {
@@ -8,6 +9,7 @@ const saveMessage = async ({recipientId, subject, creatorId, messageBody, parent
         const message = await Message.create({
             subject,
             creatorId,
+            recipientId,
             messageBody,
             parentMessageId,
             status,
@@ -28,6 +30,19 @@ const saveMessage = async ({recipientId, subject, creatorId, messageBody, parent
     }
 };
 
+const receiveMessages = async (id) => {
+
+    const messages = await Message.find({recipent}) ;
+    console.log(messages);
+    // return messages;
+};
+
+const viewMessage = async () => {
+
+};
+
 module.exports = {
     saveMessage,
+    receiveMessages,
+    viewMessage,
 }

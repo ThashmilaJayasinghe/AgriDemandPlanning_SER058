@@ -1,4 +1,4 @@
-const { saveMessage } = require("../dal/message/message.dao");
+const { saveMessage, receiveMessages, viewMessage } = require("../dal/message/message.dao");
 
 const createMessage = async (req, res) => {
     const {recipientId, subject, creatorId, messageBody, parentMessageId, status} = req.body;
