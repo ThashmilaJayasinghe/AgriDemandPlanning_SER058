@@ -41,16 +41,16 @@ const Piechart = (props) => {
                 data: [demand, supply],
                 // data: [60, 40],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(99, 255, 132, 0.5)',
+                    '#fde047',
+                    '#65a30d',
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(99, 255, 132, 1)',
+                    '#fde047',
+                    '#65a30d',
                 ],
                 hoverBackgroundColor: [
-                    'rgba(255, 99, 132)',
-                    'rgba(54, 262, 35)',
+                    '#fbbf24',
+                    '#166534',
 
                 ],
                 //   radius: 100,

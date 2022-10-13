@@ -222,7 +222,7 @@ const AddCropType = () => {
             <>
                 <ToastContainer />
                 <div className="my-16">
-                    <p className="font-semibold text-2xl text-center">Add New Crop</p>
+                    <p className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl text-center">Add New Crop</p>
 
                     <label
                         htmlFor="category"
