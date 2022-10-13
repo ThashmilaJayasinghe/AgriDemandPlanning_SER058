@@ -10,6 +10,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { FiAlertCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { viewDemandList } from "../../api/ProductDemandAPI";
+import { AiOutlineDownload } from "react-icons/ai";
+import jsPDF from "jspdf";
 
 export default function ViewDemands() {
   const [demandList, setDemandList] = useState([]);
@@ -111,6 +113,70 @@ export default function ViewDemands() {
     getDemands();
   }, []);
 
+  const onDownload = (demand) => {
+    const printableObject = [
+      { title: "ID", data: demand._id },
+      { title: "Category", data: demand.category },
+      { title: "Type", data: demand.type },
+
+      { title: "Selling in Kilograms", data: demand.sellings },
+      { title: "Unit Prise in Rupees (for 1kg)", data: demand.unitPrice },
+      { title: "Remarks", data: demand.status },
+    ];
+
+    // const doc = new jsPDF();
+    var doc = new jsPDF("p", "px", "letter");
+    const tableColumn = ["", ""];
+    const tableRows = [];
+
+    // for each ticket pass all its data into an array
+
+    printableObject.map((demand, idx) => {
+      const ticketData = [demand.title, ":  " + demand.data];
+      tableRows.push(ticketData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, {
+      startY: 130,
+      startX: 20,
+    });
+
+    const date = Date();
+    // const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+
+    doc.setFont("Courier-Bold");
+    doc.setTextColor("#07912e");
+    doc.setFontSize(22);
+    doc.text("Agri Demand Management System", 112, 30);
+    doc.setFontSize(12);
+    doc.text("----- Requested Demand ----- ", 177, 44);
+    doc.setTextColor("#6f7370");
+
+    // add company address and phone
+    doc.setTextColor("#5c5c5c");
+    doc.setFont("Helvetica");
+    doc.setFontSize(10);
+    doc.text(
+      "Management \nAgriculture Department \nHomagama \nSri Lanka \nPhone : 0112345678 ",
+      30,
+      70
+    );
+
+    // add verified message
+    doc.setFont("Times-Bold");
+    doc.setTextColor("#19d13e");
+    doc.setFillColor("#db1414");
+    doc.setFontSize(20);
+    doc.text("Approved!", 310, 524);
+
+    doc.setFontSize(10);
+    doc.setTextColor("#000000");
+    doc.text("- - - - - - - - - - - - - - - - - - - - - - - - -", 290, 540);
+    doc.text("Agri Demand Management System", 290, 550);
+
+    doc.save(`Demand_report_${demand.type}_${date}.pdf`);
+  };
+
   return (
     <div>
       <MyRequestsWrapper>
@@ -208,7 +274,19 @@ export default function ViewDemands() {
                   </div>
 
                   <div className="grid grid-cols-5 ">
-                    <div className="col-start-4 col-span-1 justify-end flex">
+                    <div className="col-start-3 col-span-1 justify-center flex">
+                      <button
+                        className="flex w-fit text-white bg-blue-500 py-1 px-4 rounded-lg hover:bg-blue-600 transition-colors"
+                        onClick={() => onDownload(demand)}
+                      >
+                        <AiOutlineDownload
+                          className="mt-0 mr-0 md:mt-1 md:mr-1"
+                          size={20}
+                        />
+                        <p className="hidden md:block"> Download</p>
+                      </button>
+                    </div>
+                    <div className=" col-span-1 justify-end flex">
                       <button
                         className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
                         onClick={() => onDelete(demand._id)}
