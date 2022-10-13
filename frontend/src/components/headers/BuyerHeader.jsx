@@ -146,12 +146,15 @@ const BuyerHeader = () => {
               {isLoggedIn === true ? (
                 <>
                   {/* User profile icon here */}
+
                   <div>
-                    <img
-                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
-                      alt="Profile image"
-                      className="rounded-full w-10 h-10"
-                    />
+                    <Link to="/buyer/profile">
+                      <img
+                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+                        alt="Profile image"
+                        className="rounded-full w-10 h-10"
+                      />
+                    </Link>
                   </div>
                 </>
               ) : (
