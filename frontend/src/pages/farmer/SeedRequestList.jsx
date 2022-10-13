@@ -124,36 +124,23 @@ const SeedRequestList = () => {
         <ToastContainer />
 
         <div className="bg-red-100 shadow overflow-hidden rounded-md my-4 text-sm text-red-900 p-4">
-          <li>
-            <ul>
-              <div className="flex md:-ml-3 -ml-5">
-                <BsArrowRightCircle
-                  color="black"
-                  size={18}
-                  className={"w-12"}
-                />
-                <div className="ml-1">
-                  Deadline for your requests is{" "}
-                  <i className="text-red-600">
-                    <u>2022-09-30</u>
-                  </i>
-                </div>
-              </div>
-            </ul>
-            <ul>
-              <div className="flex pt-1 -ml-3">
-                <BsArrowRightCircle
-                  color="black"
-                  size={18}
-                  className={"w-12"}
-                />
-                <div className="ml-1">
-                  Before the deadline is the only time you can modify or delete
-                  your request.
-                </div>
-              </div>
-            </ul>
-          </li>
+          <div className="flex md:-ml-3 -ml-5">
+            <BsArrowRightCircle color="black" size={18} className={"w-12"} />
+            <div className="ml-1">
+              Deadline for your requests is{" "}
+              <i className="text-red-600">
+                <u>2022-09-30</u>
+              </i>
+            </div>
+          </div>
+
+          <div className="flex pt-1 -ml-3">
+            <BsArrowRightCircle color="black" size={18} className={"w-12"} />
+            <div className="ml-1">
+              Before the deadline is the only time you can modify or delete your
+              request.
+            </div>
+          </div>
         </div>
 
         <div className="pb-4 pt-4">
