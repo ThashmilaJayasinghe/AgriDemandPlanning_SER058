@@ -1,11 +1,11 @@
-import { ClassNames } from "@emotion/react";
 import { CircularProgress } from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { AiOutlineDownload, AiOutlineEdit } from "react-icons/ai";
 import { FiAlertCircle } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { viewFarmerSeedRequest } from "../../api/SeedRequestAPI";
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 
@@ -18,7 +18,7 @@ const EvaluatedRequests = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [evaluatedRequests, setEvaluatedRequests] = useState([]);
-  const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
+  const [userId, setUserId] = useState("630e177910470806f04c70ad");
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,9 +60,78 @@ const EvaluatedRequests = () => {
     }
   }, [searchQuery]);
 
-  const onDownload = (data) => {
-    console.log("Download clicked");
-    console.log(data);
+  const onDownload = (requestdata) => {
+    const printableObject = [
+      { title: "ID", data: requestdata._id },
+      { title: "Category", data: requestdata.category },
+      { title: "Type", data: requestdata.type },
+      { title: "Location", data: requestdata.location },
+      { title: "Farmer", data: requestdata.farmerId },
+      {
+        title: "Evaluated date",
+        data: moment(requestdata.updatedAt).format("MMMM Do YYYY, h:mm:ss a"),
+      },
+      { title: "Size of the land in Hectares", data: requestdata.sizeOfLand },
+      { title: "Quantity in Kilograms", data: requestdata.weight },
+      {
+        title: "Added date",
+        data: moment(requestdata.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
+      },
+
+      { title: "Evaluated Status", data: requestdata.status },
+    ];
+
+    // const doc = new jsPDF();
+    var doc = new jsPDF("p", "px", "letter");
+    const tableColumn = ["", ""];
+    const tableRows = [];
+
+    // for each ticket pass all its data into an array
+
+    printableObject.map((request, idx) => {
+      const ticketData = [request.title, ":  " + request.data];
+      tableRows.push(ticketData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, {
+      startY: 130,
+      startX: 20,
+    });
+
+    const date = Date().split(" ");
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+
+    doc.setFont("Courier-Bold");
+    doc.setTextColor("#07912e");
+    doc.setFontSize(22);
+    doc.text("Agri Demand Management System", 112, 30);
+    doc.setFontSize(12);
+    doc.text("----- Evaluated Reuqest ----- ", 177, 44);
+    doc.setTextColor("#6f7370");
+
+    // add company address and phone
+    doc.setTextColor("#5c5c5c");
+    doc.setFont("Helvetica");
+    doc.setFontSize(10);
+    doc.text(
+      "Management \nAgriculture Department \nHomagama \nSri Lanka \nPhone : 0112345678 ",
+      30,
+      70
+    );
+
+    // add verified message
+    doc.setFont("Times-Bold");
+    doc.setTextColor("#19d13e");
+    doc.setFillColor("#db1414");
+    doc.setFontSize(20);
+    doc.text("Approved!", 310, 524);
+
+    doc.setFontSize(10);
+    doc.setTextColor("#000000");
+    doc.text("- - - - - - - - - - - - - - - - - - - - - - - - -", 290, 540);
+    doc.text("Agri Demand Management System", 290, 550);
+
+    doc.save(`report_${dateStr}.pdf`);
   };
 
   return (
@@ -91,13 +160,13 @@ const EvaluatedRequests = () => {
         {filteredRequests.map((request, index) => (
           <div
             key={request._id}
-            className="bg-emerald-100 shadow overflow-hidden sm:rounded-md my-4"
+            className="bg-emerald-100 shadow overflow-hidden sm:rounded-md my-4 "
           >
             <div className="block">
               <div className="px-4 py-4 sm:px-6">
                 {request.status == "accepted" && (
                   <>
-                    <div className="mb-4 p-1 bg-green-200 rounded-lg">
+                    <div className="mb-4 p-1 bg-green-200 rounded-lg border border-green-400">
                       <p className="justify-center flex text-green-600">
                         Accepted
                       </p>
@@ -107,7 +176,7 @@ const EvaluatedRequests = () => {
 
                 {request.status == "rejected" && (
                   <>
-                    <div className="mb-4 p-1 bg-red-200 rounded-lg">
+                    <div className="mb-4 p-1 bg-red-200 rounded-lg border border-red-400">
                       <p className="justify-center flex text-red-600">
                         Rejected
                       </p>
@@ -115,84 +184,85 @@ const EvaluatedRequests = () => {
                   </>
                 )}
 
-                {request.status == "new" ||
-                  (request.status == null && (
-                    <>
-                      <div className="mb-4 p-1 bg-yellow-200 rounded-lg">
-                        <p className="justify-center flex text-yellow-600">
-                          Pending
-                        </p>
-                      </div>
-                    </>
-                  ))}
+                {request.status == "pending" && (
+                  <>
+                    <div className="mb-4 p-1 bg-yellow-200 rounded-lg border border-yellow-400">
+                      <p className="justify-center flex text-yellow-600">
+                        Pending
+                      </p>
+                    </div>
+                  </>
+                )}
 
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
-                    Request Status
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    {request.status ? <>: {request.status}</> : <>: None</>}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
-                    Category
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    : {request.category}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5 ">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700 ">
-                    Type
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    : {request.type}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
-                    Hectares
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    : {request.sizeOfLand}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
-                    Requested amount(Kg)
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    : {request.weight}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
-                    Location
-                  </p>
-                  <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    : {request.location}
-                  </p>
-                </div>
-                <div className="mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
-                    Evaluated date
-                  </p>
-                  <p className="md:mt-0 col-span-2 flex items-center text-sm text-gray-500">
-                    : {moment(request.updatedAt).format("MMMM Do YYYY")}{" "}
-                    <br></br>
-                    &nbsp; {moment(request.updatedAt).format("LTS")}
-                  </p>
-                </div>
-                <div className="mt-3 md:mt-2 grid grid-cols-5">
-                  <p className="flex col-span-1 items-center text-sm text-emerald-700">
-                    Added date
-                  </p>
-                  <p className="md:mt-0 col-span-2 flex items-center text-sm text-gray-500">
-                    : {moment(request.createdAt).format("MMMM Do YYYY")}{" "}
-                    <br></br>
-                    &nbsp; {moment(request.createdAt).format("LTS")}
-                  </p>
+                <div className="md:text-base text-sm ml-1">
+                  <div className="mt-2 grid grid-cols-3 md:grid-cols-5">
+                    <p className="flex col-span-1 items-center text-emerald-700">
+                      Request Status
+                    </p>
+                    <p className="mt-0 col-span-2 flex items-center text-gray-500">
+                      {request.status ? <>: {request.status}</> : <>: None</>}
+                    </p>
+                  </div>
+                  <div className="mt-2 grid grid-cols-3 md:grid-cols-5">
+                    <p className="flex col-span-1 items-center  text-emerald-700">
+                      Category
+                    </p>
+                    <p className="mt-0 col-span-2 flex items-center  text-gray-500">
+                      : {request.category}
+                    </p>
+                  </div>
+                  <div className="mt-2 grid grid-cols-3 md:grid-cols-5 ">
+                    <p className="flex col-span-1 items-center  text-emerald-700 ">
+                      Type
+                    </p>
+                    <p className="mt-0 col-span-2 flex items-center  text-gray-500">
+                      : {request.type}
+                    </p>
+                  </div>
+                  <div className="mt-2 grid grid-cols-3 md:grid-cols-5">
+                    <p className="flex col-span-1 items-center  text-emerald-700">
+                      Hectares
+                    </p>
+                    <p className="mt-0 col-span-2 flex items-center  text-gray-500">
+                      : {request.sizeOfLand}
+                    </p>
+                  </div>
+                  <div className="mt-2 grid grid-cols-3 md:grid-cols-5">
+                    <p className="flex lg:whitespace-nowrap col-span-1 items-center  text-emerald-700">
+                      Requested amount(Kg)
+                    </p>
+                    <p className="mt-0 col-span-2 flex items-center  text-gray-500">
+                      : {request.weight}
+                    </p>
+                  </div>
+                  <div className="mt-2 grid grid-cols-3 md:grid-cols-5">
+                    <p className="flex col-span-1 items-center  text-emerald-700">
+                      Location
+                    </p>
+                    <p className="mt-0 col-span-2 flex items-center  text-gray-500">
+                      : {request.location}
+                    </p>
+                  </div>
+                  <div className="mt-2 grid grid-cols-3 md:grid-cols-5">
+                    <p className="flex col-span-1 items-center  text-emerald-700">
+                      Evaluated date
+                    </p>
+                    <p className="md:mt-0 col-span-2 flex items-center  text-gray-500">
+                      : {moment(request.updatedAt).format("MMMM Do YYYY")}{" "}
+                      <br></br>
+                      &nbsp; {moment(request.updatedAt).format("LTS")}
+                    </p>
+                  </div>
+                  <div className="mt-3 md:mt-2 grid grid-cols-3 md:grid-cols-5">
+                    <p className="flex col-span-1 items-center  text-emerald-700">
+                      Added date
+                    </p>
+                    <p className="md:mt-0 col-span-2 flex items-center  text-gray-500">
+                      : {moment(request.createdAt).format("MMMM Do YYYY")}{" "}
+                      <br></br>
+                      &nbsp; {moment(request.createdAt).format("LTS")}
+                    </p>
+                  </div>
                 </div>
                 <div className="grid grid-cols-5 ">
                   <div className="col-span-1 col-start-5 justify-center flex">

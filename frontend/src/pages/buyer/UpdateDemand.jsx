@@ -1,0 +1,182 @@
+import React, { Fragment, useEffect, useState } from "react";
+import { updateProductDemand } from "../../api/ProductDemandAPI";
+import FormWrapper from "../../components/wrappers/FormWrapper";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useLocation, useParams } from "react-router-dom";
+
+const UpdateDemand = () => {
+  // const {demoId} = useParams();
+  const [sellings, setSellings] = useState(0.0);
+  const [unitPrice, setUnitPrice] = useState(0.0);
+  const [remarks, setRemarks] = useState("");
+  const [isCreationSuccess, setIsCreationSuccess] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [category, setCategory] = useState("");
+  const [type, setType] = useState("");
+  const [demandID, setDemandId] = useState("");
+
+  console.log(`User Id by local ${userId}`);
+  console.log(`Demand Id by Link ${demandID}`);
+
+  // get Data from backend and display it in here
+  const Elocation = useLocation();
+  const { DemandData } = Elocation.state;
+
+  useEffect(() => {
+    setUserId(localStorage.getItem("userID"));
+    setDemandId(DemandData._id);
+    setCategory(DemandData.category);
+    setType(DemandData.type);
+    setSellings(DemandData.sellings);
+    setUnitPrice(DemandData.unitPrice);
+    setRemarks(DemandData.remarks);
+  }, []);
+
+  const handleSubmit = async () => {
+    console.log(`USer id : ${userId}`);
+    await updateProductDemand(
+      {
+        buyerID: userId,
+        demandID,
+        category,
+        type,
+        sellings,
+        unitPrice,
+        remarks,
+      },
+      setIsCreationSuccess
+    )
+      .then(() => {
+        toast.success("Demand updated successfully !", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch(() => {
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
+  return (
+    <FormWrapper>
+      <>
+        <div className="my-16">
+          <ToastContainer />
+          <p className="font-semibold text-2xl text-center">
+            Update demand for a product
+          </p>
+
+          <label
+            htmlFor="category"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            Category :
+          </label>
+
+          <input
+            type="text"
+            name="category"
+            id="category"
+            autoComplete="given-name"
+            value={category}
+            readOnly={true}
+            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
+          />
+
+          <label
+            htmlFor="type"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            Type :
+          </label>
+          <input
+            type="text"
+            name="type"
+            id="type"
+            autoComplete="given-name"
+            value={type}
+            readOnly={true}
+            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
+          />
+
+          <label
+            htmlFor="sellings"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            Selling in Kilograms (for 1 year) :
+          </label>
+          <input
+            type="number"
+            name="sellings"
+            id="sellings"
+            autoComplete="given-name"
+            value={sellings}
+            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
+            onChange={(event) => {
+              setSellings(event.target.value);
+            }}
+          />
+          <label
+            htmlFor="price"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            Unit price in Rupees (for 1Kg) :
+          </label>
+          <input
+            type="number"
+            name="price"
+            id="price"
+            autoComplete="given-name"
+            value={unitPrice}
+            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
+            onChange={(event) => {
+              setUnitPrice(event.target.value);
+            }}
+          />
+          <label
+            htmlFor="remarks"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            Remarks :
+          </label>
+          <input
+            type="text"
+            name="remarks"
+            id="remarks"
+            autoComplete="given-name"
+            value={remarks}
+            className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
+            onChange={(event) => {
+              setRemarks(event.target.value);
+            }}
+          />
+
+          <div className="flex items-center justify-center mt-10">
+            <div
+              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors cursor-pointer"
+              onClick={handleSubmit}
+            >
+              Edit
+            </div>
+          </div>
+        </div>
+      </>
+    </FormWrapper>
+  );
+};
+
+export default UpdateDemand;
