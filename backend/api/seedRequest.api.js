@@ -9,7 +9,7 @@ const {
 
 const createSeedRequest = async (req, res) => {
   const { farmerId, category, type, sizeOfLand, weight, location } = req.body;
-  const status = "new";
+  const status = "pending";
 
   try {
     const request = await addSeedRequest({
