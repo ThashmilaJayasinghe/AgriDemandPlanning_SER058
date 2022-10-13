@@ -4,11 +4,12 @@ const {
   removeSeedRequest,
   getAllSeedRequests,
   updateSeedRequestStatus,
+  editSeedRequest,
 } = require("../dal/seedRequest/request.dao");
 
 const createSeedRequest = async (req, res) => {
   const { farmerId, category, type, sizeOfLand, weight, location } = req.body;
-  const status = 'pending';
+  const status = "new";
 
   try {
     const request = await addSeedRequest({
@@ -72,6 +73,43 @@ const viewFarmerSeedRequests = async (req, res) => {
   }
 };
 
+const updateSeedRequest = async (req, res) => {
+  const { RequestId, farmerId, category, type, sizeOfLand, weight, location } =
+    req.body;
+
+  try {
+    const request = await editSeedRequest({
+      RequestId,
+      farmerId,
+      category,
+      type,
+      sizeOfLand,
+      weight,
+      location,
+    });
+
+    if (request) {
+      res.status(201).json({
+        success: true,
+        message: "Seed request updated",
+        data: request,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Seed request is not updated",
+        data: request,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Seed request is not updated",
+      data: err,
+    });
+  }
+};
+
 const deleteSeedRequest = async (req, res) => {
   const { requestId } = req.query;
 
@@ -112,7 +150,8 @@ const getSeedRequests = async (req, res) => {
 };
 
 const updateRequestStatus = async (req, res) => {
-  const { farmerId, category, type, sizeOfLand, weight, location, status } = req.body;
+  const { farmerId, category, type, sizeOfLand, weight, location, status } =
+    req.body;
 
   try {
     const request = await updateSeedRequestStatus(req.params.id, {
@@ -150,6 +189,7 @@ const updateRequestStatus = async (req, res) => {
 module.exports = {
   createSeedRequest,
   viewFarmerSeedRequests,
+  updateSeedRequest,
   deleteSeedRequest,
   getSeedRequests,
   updateRequestStatus,
