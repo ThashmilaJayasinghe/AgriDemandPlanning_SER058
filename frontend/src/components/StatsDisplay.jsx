@@ -1,57 +1,86 @@
-import React from 'react'
-import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/solid'
+import React, { useState, useEffect } from 'react';
+import {TbTruckDelivery} from "react-icons/tb";
+import {RiSeedlingLine} from "react-icons/ri";
+import {BsCart4} from "react-icons/bs";
+
+export default function StatsDisplay(props) {
+
+    const {cropData} = props;
+    const [crop, setCrop] = useState('Bitter Gourd');
+    const [category, setCategory] = useState('Vegetables (L)');
+    const [supply, setSupply] = useState('100');
+    const [demand, setDemand] = useState('200');
 
 
-const stat = [
-    { name: 'Crop Name', stat: 'Samba'},
-    { name: 'Actual Supply', stat: '58.16%'},
-    { name: 'Projected Supply', stat: '24.57%'},
-]
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const item = cropData[Math.floor(Math.random()*cropData.length)];
+            setCategory(item.category);
+            const type = item.types[Math.floor(Math.random()*item.types.length)];
+            setCrop(type.name);
+            setSupply(type.supply);
+            setDemand(type.demand);
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
-const StatsDisplay = () => {
+
     return (
         <div>
-            <dl className="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
-                {stat.map((item) => (
-                    <div key={item.name} className="px-4 py-5 sm:p-6">
-                        <dt className="text-base font-normal text-gray-900">{item.name}</dt>
-                        <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
-                            <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                {item.stat}
-                                <span className="ml-2 text-sm font-medium text-gray-500">completed {item.previousStat}</span>
-                            </div>
-
-                            {/*<div*/}
-                            {/*    className={classNames(*/}
-                            {/*        item.changeType === 'increase' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',*/}
-                            {/*        'inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0'*/}
-                            {/*    )}*/}
-                            {/*>*/}
-                            {/*    {item.changeType === 'increase' ? (*/}
-                            {/*        <ArrowSmUpIcon*/}
-                            {/*            className="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500"*/}
-                            {/*            aria-hidden="true"*/}
-                            {/*        />*/}
-                            {/*    ) : (*/}
-                            {/*        <ArrowSmDownIcon*/}
-                            {/*            className="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-red-500"*/}
-                            {/*            aria-hidden="true"*/}
-                            {/*        />*/}
-                            {/*    )}*/}
-
-                            {/*    <span className="sr-only">{item.changeType === 'increase' ? 'Increased' : 'Decreased'} by</span>*/}
-                            {/*    {item.change}*/}
-                            {/*</div>*/}
-                        </dd>
-                    </div>
-                ))}
+            <dl className="w-full mt-5 grid grid-cols-1 rounded-lg overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0">
+                {/*crop section*/}
+                <div
+                    className="relative bg-stone-100 pt-5 px-4 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden"
+                >
+                    <dt>
+                        <div className="absolute bg-emerald-500 rounded-md p-3">
+                            <RiSeedlingLine className="h-6 w-6 text-white" aria-hidden="true" />
+                        </div>
+                        <p className="ml-16 text-sm font-medium text-gray-500 truncate">Crop</p>
+                    </dt>
+                    <dd className="ml-16 pb-6 flex items-baseline sm:pb-7">
+                        <p className="text-2xl font-semibold text-gray-900">{crop}</p>
+                        <p className="text-green-600 ml-2 flex items-baseline text-sm font-semibold">
+                            {category}
+                        </p>
+                    </dd>
+                </div>
+                {/*supply section*/}
+                <div
+                    className="relative bg-stone-50 pt-5 px-4 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden"
+                >
+                    <dt>
+                        <div className="absolute bg-lime-600 rounded-md p-3">
+                            <TbTruckDelivery className="h-6 w-6 text-white" aria-hidden="true" />
+                        </div>
+                        <p className="ml-16 text-sm font-medium text-gray-500 truncate">Supply</p>
+                    </dt>
+                    <dd className="ml-16 pb-6 flex items-baseline sm:pb-7">
+                        <p className="text-2xl font-semibold text-gray-900">{supply} kg</p>
+                        <p className="text-green-600 ml-2 flex items-baseline text-sm font-semibold">
+                            {category}
+                        </p>
+                    </dd>
+                </div>
+                {/*demand section*/}
+                <div
+                    className="relative bg-stone-100 pt-5 px-4 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden"
+                >
+                    <dt>
+                        <div className="absolute bg-amber-400 rounded-md p-3">
+                            <BsCart4 className="h-6 w-6 text-white" aria-hidden="true" />
+                        </div>
+                        <p className="ml-16 text-sm font-medium text-gray-500 truncate">Demand</p>
+                    </dt>
+                    <dd className="ml-16 pb-6 flex items-baseline sm:pb-7">
+                        <p className="text-2xl font-semibold text-gray-900">{demand} kg</p>
+                        <p className="text-green-600 ml-2 flex items-baseline text-sm font-semibold">
+                            {category}
+                        </p>
+                    </dd>
+                </div>
             </dl>
         </div>
     )
 }
-
-export default StatsDisplay
