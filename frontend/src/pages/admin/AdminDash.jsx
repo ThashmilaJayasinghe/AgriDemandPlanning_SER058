@@ -142,18 +142,14 @@ export default function Dashboard() {
                 </button>
             </div>
         </div>
-
-
         <div className="w-full overflow-x-hidden flex">
             <main className="w-full flex-grow p-6">
                 <div className="flex flex-wrap mt-6">
-
                     <div className="w-full lg:w-3/4 pr-0 lg:pr-2">
                         <div className="px-6 pt-6 bg-white">
                             <Barchart cropData={staticCategories}/>
                         </div>
                     </div>
-
                     <div className="w-full lg:w-1/4 pl-0 lg:pl-2 mt-12 lg:mt-0 ">
                         <div className="px-6 pt-14 bg-white">
                             <Piechart cropData={staticCategories}/>
