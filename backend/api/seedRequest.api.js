@@ -125,7 +125,7 @@ const deleteSeedRequest = async (req, res) => {
     } else {
       res.status(200).json({
         success: false,
-        message: "Seed request delete is not succeede",
+        message: "Seed request delete is not succeed",
         data: deletedRequest,
       });
     }
