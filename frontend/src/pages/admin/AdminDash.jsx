@@ -131,14 +131,14 @@ export default function Dashboard() {
 
     return <>
         <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Dashboard</h1>
-        <div className="w-full lg:w-full pr-0 lg:pr-2 grid justify-items-center">
-            <div className="w-7/8 px-6 bg-white">
+        <div className="w-7/8 lg:w-7/8 pr-0 lg:px-10 grid justify-items-center">
+            <div className="w-full px-6">
                 <StatsDisplay cropData={staticCategories}/>
             </div>
             {/*report section*/}
-            <div className="w-7/8 mt-3 center">
-                <button className="w-full p-1 rounded-lg bg-emerald-50 hover:bg-emerald-200 transition-colors shadow">
-                    Click for more
+            <div className="w-full px-6 mt-3 center">
+                <button className="w-full p-1 rounded-lg text-sm text-gray-500 bg-stone-50 hover:bg-stone-200 transition-colors shadow">
+                    Report on Supply and Demand
                 </button>
             </div>
         </div>

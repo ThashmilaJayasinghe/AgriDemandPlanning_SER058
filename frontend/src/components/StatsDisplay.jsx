@@ -15,8 +15,6 @@ export default function StatsDisplay(props) {
     useEffect(() => {
         const interval = setInterval(() => {
             const item = cropData[Math.floor(Math.random()*cropData.length)];
-            // setCrop(item);
-            // console.log(item);
             setCategory(item.category);
             const type = item.types[Math.floor(Math.random()*item.types.length)];
             setCrop(type.name);
@@ -30,7 +28,7 @@ export default function StatsDisplay(props) {
 
     return (
         <div>
-            <dl className="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0">
+            <dl className="w-full mt-5 grid grid-cols-1 rounded-lg overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0">
                 {/*crop section*/}
                 <div
                     className="relative bg-stone-100 pt-5 px-4 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden"
