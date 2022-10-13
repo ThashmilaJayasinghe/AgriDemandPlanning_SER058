@@ -1,4 +1,4 @@
-const { saveMessage, receiveMessages, viewMessage } = require("../dal/message/message.dao");
+const { saveMessage, receiveMessages } = require("../dal/message/message.dao");
 
 const createMessage = async (req, res) => {
     const {recipientId, subject, creatorId, messageBody, parentMessageId, status} = req.body;
@@ -35,6 +35,17 @@ const createMessage = async (req, res) => {
     }
 };
 
+const viewMessages = async (req, res) => {
+    try {
+        const messages = await receiveMessages(req.params.id);
+        res.status(200).json(messages);
+    } catch (err) {
+        console.log(err);
+        res.json(err);
+    }
+};
+
 module.exports = {
     createMessage,
+    viewMessages,
 };

@@ -32,17 +32,13 @@ const saveMessage = async ({recipientId, subject, creatorId, messageBody, parent
 
 const receiveMessages = async (id) => {
 
-    const messages = await Message.find({recipent}) ;
-    console.log(messages);
-    // return messages;
+    const messages = await Message.find({recipientId: id}) ;
+    // console.log(messages);
+    return messages;
 };
 
-const viewMessage = async () => {
-
-};
 
 module.exports = {
     saveMessage,
     receiveMessages,
-    viewMessage,
 }
