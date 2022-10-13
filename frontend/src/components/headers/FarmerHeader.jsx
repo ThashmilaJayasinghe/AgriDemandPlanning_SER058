@@ -34,19 +34,25 @@ const solutions = [
     description:
       "Get a better understanding of where your traffic is coming from.",
     path: "/farmer/seedRequest",
+    href: "/farmer/seedRequest",
     icon: DocumentAddIcon,
+    isClicked: false,
   },
   {
     name: "My Requests",
     description: "Speak directly to your customers in a more meaningful way.",
     path: "/farmer/mySeedRequests",
+    href: "/farmer/mySeedRequests",
     icon: DocumentTextIcon,
+    isClicked: false,
   },
   {
     name: "Evaluated Requests",
     description: "Your customers' data will be safe and secure.",
-    path: "#",
+    path: "/farmer/evaluatedRequest",
+    href: "/farmer/evaluatedRequest",
     icon: ShieldCheckIcon,
+    isClicked: false,
   },
 ];
 const callsToAction = [
@@ -98,6 +104,7 @@ const FarmerHeader = () => {
   const [farmerPic, setFarmerPic] = useState("");
   const [user, setUSer] = useState("");
   const [id, setID] = useState("630e177910470806f04c70ad");
+  const [clickedItem, setClickedItem] = useState("");
 
   useEffect(() => {
     function getUser() {
@@ -124,10 +131,16 @@ const FarmerHeader = () => {
         <div className="relative z-20">
           <div className="max-w-full mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-4 lg:px-8 md:justify-start md:space-x-10">
             {/* Home logo */}
-            <Link to={"/farmer/home"}>
-              <div>
-                <AiOutlineHome size={34} color="#1a8a38" />
-              </div>
+            <Link to={"/farmer/home"} onClick={() => setClickedItem("home")}>
+              {clickedItem === "home" ? (
+                <div>
+                  <AiOutlineHome size={34} color="#033610" />
+                </div>
+              ) : (
+                <div>
+                  <AiOutlineHome size={34} color="#1a8a38" />
+                </div>
+              )}
             </Link>
 
             {/* items of header */}
@@ -148,22 +161,49 @@ const FarmerHeader = () => {
             >
               {isLoggedIn == true && (
                 <Popover.Group as="nav" className="flex space-x-10">
-                  <Link to="/farmer/seedRequest">
-                    <div className="inline-flex items-center justify-center px-3 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors">
+                  <Link
+                    to="/farmer/seedRequest"
+                    onClick={() => setClickedItem("newRequest")}
+                  >
+                    {/* <div className="inline-flex items-center justify-center px-3 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors focus:bg-red-300">
                       + New Request
-                    </div>
+                    </div> */}
+
+                    {clickedItem === "newRequest" ? (
+                      <div className="inline-flex items-center justify-center px-3 py-1 border border-transparent rounded-md shadow-sm text-base font-bold text-white bg-emerald-600 hover:bg-emerald-600 transition-colors">
+                        + New Request
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center justify-center px-3 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors">
+                        + New Request
+                      </div>
+                    )}
                   </Link>
                   <Link
                     to="/farmer/mySeedRequests"
-                    className="text-base font-medium text-gray-500 hover:text-gray-900"
+                    className="text-base font-medium  hover:text-gray-900"
+                    onClick={() => setClickedItem("myRequests")}
                   >
-                    My Requests
+                    {clickedItem === "myRequests" ? (
+                      <div className="text-green-700 font-bold">
+                        My Requests
+                      </div>
+                    ) : (
+                      <div className="text-gray-500">My Requests</div>
+                    )}
                   </Link>
                   <Link
                     to="/farmer/evaluatedRequest"
                     className="text-base font-medium text-gray-500 hover:text-gray-900"
+                    onClick={() => setClickedItem("evaluatedRequests")}
                   >
-                    Evaluated Requests
+                    {clickedItem === "evaluatedRequests" ? (
+                      <div className="text-green-700 font-bold">
+                        Evaluated Requests
+                      </div>
+                    ) : (
+                      <div className="text-gray-500">Evaluated Requests</div>
+                    )}
                   </Link>
 
                   {/* If you want dropdown for header, use this */}
@@ -262,13 +302,11 @@ const FarmerHeader = () => {
                 <>
                   {/* User profile icon here */}
                   <div>
-                    <Link to="/farmer/profile">
-                      <img
-                        src={user.profileImg}
-                        alt="Profile image"
-                        className="rounded-full w-10 h-10"
-                      />
-                    </Link>
+                    <img
+                      src={user.profileImg}
+                      alt="Profile image"
+                      className="rounded-full w-10 h-10"
+                    />
                   </div>
                 </>
               ) : (
@@ -315,11 +353,7 @@ const FarmerHeader = () => {
               <div className="pt-5 pb-6 px-5 sm:pb-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt="Workflow"
-                    />
+                    
                   </div>
                   <div className="-mr-2">
                     <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
@@ -332,9 +366,9 @@ const FarmerHeader = () => {
                   <nav>
                     <div className="grid gap-y-4 sm:gap-x-4">
                       {solutions.map((item) => (
-                        <Link
-                          to={item.path}
-                          key={item.name}
+                        <a
+                          // to={item.path}
+                          // key={item.name}
                           href={item.href}
                           className="-m-3 flex items-center p-3 rounded-lg hover:bg-gray-50"
                         >
@@ -344,7 +378,7 @@ const FarmerHeader = () => {
                           <div className="ml-4 text-base font-medium text-gray-900">
                             {item.name}
                           </div>
-                        </Link>
+                        </a>
                       ))}
                     </div>
                   </nav>
