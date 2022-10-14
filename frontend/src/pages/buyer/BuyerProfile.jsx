@@ -5,14 +5,14 @@ import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrappe
 import moment from "moment/moment";
 import { AiOutlineEdit } from "react-icons/ai";
 
-export default function FarmerProfile() {
+export default function BuyerProfile() {
   const [user, setUSer] = useState("");
-  const [id, setID] = useState("630e177910470806f04c70ad");
+  const [id, setID] = useState("631a817bcd0b1fec7e413ec6");
 
   useEffect(() => {
     function getUser() {
       axios
-        .get("http://localhost:8000/api/farmers/" + id)
+        .get("http://localhost:8000/api/buyer/" + id)
         .then((res) => {
           setUSer(res.data);
           console.log(res.data);
@@ -32,7 +32,7 @@ export default function FarmerProfile() {
       NIC,
       contactNumber,
       district,
-      hectare,
+      ShopName,
       profileImg,
       email,
       gender,
@@ -44,7 +44,7 @@ export default function FarmerProfile() {
     localStorage.setItem("NIC", NIC);
     localStorage.setItem("contactNumber", contactNumber);
     localStorage.setItem("district", district);
-    localStorage.setItem("hectare", hectare);
+    localStorage.setItem("ShopName", ShopName);
     localStorage.setItem("profileImg", profileImg);
     localStorage.setItem("email", email);
     localStorage.setItem("gender", gender);
@@ -87,7 +87,7 @@ export default function FarmerProfile() {
               className="col-span-1 justify-center flex"
               style={{ marginTop: 10 }}
             >
-              <Link to={"/farmer/profileEdit"}>
+              <Link to={"/buyer/profile/edit"}>
                 <button
                   className="flex w-fit text-white bg-green-500 py-1 px-3 rounded-lg hover:bg-green-600 transition-colors"
                   onClick={() => passValue(user)}
@@ -117,7 +117,6 @@ export default function FarmerProfile() {
                   : &nbsp;&nbsp; {user.gender}
                 </p>
               </div>
-
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
                   NIC
@@ -142,6 +141,7 @@ export default function FarmerProfile() {
                   : &nbsp;&nbsp; 0{user.contactNumber}
                 </p>
               </div>
+
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
                   Address
@@ -150,7 +150,6 @@ export default function FarmerProfile() {
                   : &nbsp;&nbsp; {user.address}
                 </p>
               </div>
-
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
                   District
@@ -169,10 +168,10 @@ export default function FarmerProfile() {
               </div>
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
-                  Hectares
+                  Shop Name
                 </p>
                 <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
-                  : &nbsp;&nbsp; {user.hectare}
+                  : &nbsp;&nbsp; {user.ShopName}
                 </p>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import storage from "./firebaseConfig.js";
+import storage from "../farmer/firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { AiFillPlusCircle, AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -9,18 +9,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { BsFillCaretLeftFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-export default function UpdateFarmerProfile() {
+export default function UpdateBuyerProfile() {
   const [id, setID] = useState("");
   const [fullName, setName] = useState("");
   const [address, setAddress] = useState("");
   const [NIC, setNIC] = useState("");
   const [contactNumber, setTelephone] = useState("");
-  const [hectare, setHectares] = useState("");
+  const [ShopName, setShopName] = useState("");
   const [district, setDistrict] = useState("");
+  const [percent, setPercent] = useState(0);
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
   const [province, setProvince] = useState("");
-  const [percent, setPercent] = useState(0);
   // State to store uploaded file
   const [file, setFile] = useState("");
   const [profileImg, setProfileImg] = useState("");
@@ -32,7 +32,7 @@ export default function UpdateFarmerProfile() {
     setAddress(localStorage.getItem("address"));
     setNIC(localStorage.getItem("NIC"));
     setTelephone(localStorage.getItem("contactNumber"));
-    setHectares(localStorage.getItem("hectare"));
+    setShopName(localStorage.getItem("ShopName"));
     setDistrict(localStorage.getItem("district"));
     setImgPreview(localStorage.getItem("profileImg"));
     setEmail(localStorage.getItem("email"));
@@ -48,20 +48,19 @@ export default function UpdateFarmerProfile() {
       address,
       NIC,
       contactNumber,
-      hectare,
+      ShopName,
       district,
       profileImg,
-      province,
-      district,
-      gender,
       email,
+      gender,
+      province,
     };
     axios
-      .put("http://localhost:8000/api/farmers/" + id, updateProfile)
+      .put("http://localhost:8000/api/buyer/" + id, updateProfile)
       .then(() => {
         toast.success("Profile updated successfully !", {
           position: "top-right",
-          autoClose: 10000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -88,7 +87,7 @@ export default function UpdateFarmerProfile() {
       alert("Image is not selected");
     }
 
-    const storageRef = ref(storage, `/Profile/farmer/` + id);
+    const storageRef = ref(storage, `/Profile/buyer/` + id);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -98,6 +97,7 @@ export default function UpdateFarmerProfile() {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         setPercent(percent);
+        console.log(percent);
 
         if (percent === 100) {
           toast.success("Profile Picture uploaded successfully !", {
@@ -116,6 +116,9 @@ export default function UpdateFarmerProfile() {
       () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          if (!url) {
+            setProfileImg(profileImg);
+          }
           console.log(url);
           setProfileImg(url);
         });
@@ -132,7 +135,7 @@ export default function UpdateFarmerProfile() {
   function deleteUser(id) {
     if (window.confirm(`Are you want to delete the profile  ${fullName}`)) {
       axios
-        .delete("http://localhost:8000/api/farmers/" + id)
+        .delete("http://localhost:8000/api/buyer/" + id)
         .then(() => {
           alert(`${fullName} user deleted Successfully`);
           window.location.href = "/";
@@ -149,7 +152,7 @@ export default function UpdateFarmerProfile() {
         <p className="font-semibold text-2xl text-center">Edit Profile</p>
         <br />
 
-        <Link to={"/farmer/profile"}>
+        <Link to={"/buyer/profile"}>
           <button className="flex min-w-fit bg-gray-400 text-white py-1 px-2 rounded-lg hover:bg-emerald-500 transition-colors">
             <BsFillCaretLeftFill
               className="mt-0 mr-0 md:mt-1 md:mr-1"
@@ -416,14 +419,14 @@ export default function UpdateFarmerProfile() {
         <hr className="mt-10" />
 
         <h3 className="text-lg leading-6 font-medium text-gray-900 mt-5">
-          Crop Details
+          Shop Details
         </h3>
 
         <label
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
         >
-          Hectares
+          Shop Name
         </label>
 
         <input
@@ -432,9 +435,9 @@ export default function UpdateFarmerProfile() {
           id="hectare"
           autoComplete="given-name"
           className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
-          value={hectare}
+          value={ShopName}
           onChange={(event) => {
-            setHectares(event.target.value);
+            setShopName(event.target.value);
           }}
         />
 

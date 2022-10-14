@@ -181,7 +181,7 @@ export default function FarmerProfile() {
                             </div>
                         </div>
                         {/*Button for navigating to send message page*/}
-                        <div className="grid grid-cols-12 ">
+                        <div className="grid grid-cols-12">
                             <div className="col-start-1 col-span-2 mt-3 justify-end flex">
                                 <button
                                     className="flex min-w-fit bg-sky-500 text-white py-1 px-4 rounded-lg hover:bg-sky-600 transition-colors"

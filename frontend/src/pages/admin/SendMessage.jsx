@@ -4,7 +4,7 @@ import { createMessage } from '../../api/MessageAPI';
 import {getFarmer} from "../../api/FarmerAPI";
 import {toast} from "react-toastify";
 import {useLocation, useNavigate} from "react-router-dom";
-import {RiDeleteBin6Line} from "react-icons/ri";
+import {AiOutlineClear} from "react-icons/ai";
 import {AiOutlineEdit} from "react-icons/ai";
 import {BiMessageDetail} from "react-icons/bi";
 
@@ -201,7 +201,7 @@ export default function SendMessage() {
                                         className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
                                         // onClick={() => onReject(request._id, request)}
                                     >
-                                        <RiDeleteBin6Line
+                                        <AiOutlineClear
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"
                                             size={18}
                                         />

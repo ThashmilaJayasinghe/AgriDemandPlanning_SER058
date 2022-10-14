@@ -51,7 +51,7 @@ const getBuyer = async (req, res) => {
 };
 
 const updateBuyer = async (req, res) => {
-    const {fullName,NIC,ShopName, gender, address,province, district,  email, contactNumber} = req.body;
+    const {fullName,NIC,ShopName, gender, address,province, district,  email, contactNumber,profileImg} = req.body;
     try {
         const buyer = await updateById(req.params.id, {
             fullName,
@@ -63,6 +63,7 @@ const updateBuyer = async (req, res) => {
             district,
             email,
             contactNumber,
+            profileImg
         });
         res.status(200).json(buyer);
     } catch (err) {
