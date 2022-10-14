@@ -3,9 +3,15 @@ const { save, getAll, getById, updateById, removeById } = require('../dal/farmer
 
 const createFarmer = async (req, res) => {
     console.log(req.body);
-    const{fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare} = req.body;
+    const{fullName,NIC,gender, address,province, district,  email, contactNumber,   userName, password, categories, hectare} = req.body;
     console.log(fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare);
     try {
+        if(!userName || !password){
+            return res.status(400).json({msg:'Password and email are required'})
+        }
+        if(password.length<8){
+            return res.status(400).json({ msg: 'Password should be at least 8 characters long' })
+        }
         const farmer = await save({
             fullName,
             NIC,
@@ -15,6 +21,8 @@ const createFarmer = async (req, res) => {
             district,
             email,
             contactNumber,
+            userName,
+            password,
             categories: [categories],
             hectare
         });
