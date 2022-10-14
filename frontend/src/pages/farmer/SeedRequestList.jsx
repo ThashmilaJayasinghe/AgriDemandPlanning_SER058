@@ -24,6 +24,8 @@ const SeedRequestList = () => {
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [deadline, setDeadline] = useState("2022-10-15T16:57:14.503+00:00");
+  const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
 
   useEffect(() => {
     async function getRequests() {
@@ -113,6 +115,15 @@ const SeedRequestList = () => {
     }
   }, [isDeleteSuccess]);
 
+  // check the deadline extend
+  useEffect(() => {
+    if (deadline >= moment(new Date()).format()) {
+      console.log("Time greater");
+      setIsDeadlinePassed(true);
+    }
+
+  }, []);
+
   return (
     <div>
       <MyRequestsWrapper>
@@ -129,7 +140,7 @@ const SeedRequestList = () => {
             <div className="ml-1">
               Deadline for your requests is{" "}
               <i className="text-red-600">
-                <u>2022-09-30</u>
+                <u>{moment(deadline).format('L')}</u>
               </i>
             </div>
           </div>
@@ -198,37 +209,43 @@ const SeedRequestList = () => {
                     &nbsp; {moment(request.createdAt).format("LTS")}
                   </p>
                 </div>
-                <div className="grid grid-cols-5 mt-5">
-                  <div className="col-start-4 col-span-1 justify-end flex">
-                    <button
-                      className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                      onClick={() => onDelete(request._id)}
-                    >
-                      <RiDeleteBin6Line
-                        className="mt-0 mr-0 md:mt-1 md:mr-1"
-                        size={18}
-                      />
-                      <p className="hidden md:block">Delete</p>
-                    </button>
-                  </div>
-                  <div className="col-span-1 justify-center flex">
-                    <Link
-                      to="/farmer/editRequest"
-                      state={{ id: userId, RequestData: request }}
-                    >
+
+                {/* buttons starts here */}
+
+                {isDeadlinePassed && (
+                  <div className="grid grid-cols-5 mt-5">
+                    <div className="col-start-4 col-span-1 justify-end flex">
                       <button
-                        className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                        onClick={() => onUpdate(request._id)}
+                        className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                        onClick={() => onDelete(request._id)}
                       >
-                        <AiOutlineEdit
+                        <RiDeleteBin6Line
                           className="mt-0 mr-0 md:mt-1 md:mr-1"
                           size={18}
                         />
-                        <p className="hidden md:block"> Update</p>
+                        <p className="hidden md:block">Delete</p>
                       </button>
-                    </Link>
+                    </div>
+                    <div className="col-span-1 justify-center flex">
+                      <Link
+                        to="/farmer/editRequest"
+                        state={{ id: userId, RequestData: request }}
+                      >
+                        <button
+                          className="flex w-fit text-white bg-green-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                          onClick={() => onUpdate(request._id)}
+                        >
+                          <AiOutlineEdit
+                            className="mt-0 mr-0 md:mt-1 md:mr-1"
+                            size={18}
+                          />
+                          <p className="hidden md:block"> Update</p>
+                        </button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
+                )}
+                {/* buttons ends here */}
               </div>
             </div>
           </div>
