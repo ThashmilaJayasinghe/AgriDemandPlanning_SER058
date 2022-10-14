@@ -21,4 +21,18 @@ export const createMessage = async ({ recipientId, subject, creatorId, messageBo
     }
 };
 
+export const getSuggestions = async (id, seSuggestions) => {
+    try {
+        await axios
+            .get(`${BACKEND_URL}/` + id, {
+            })
+            .then((res) => {
+                console.log(res.data);
+                seSuggestions(res.data);
+            });
+    } catch (err) {
+        console.log(err);
+        seSuggestions([]);
+    }
+};
 

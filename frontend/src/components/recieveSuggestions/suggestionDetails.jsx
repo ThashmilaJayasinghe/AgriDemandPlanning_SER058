@@ -27,14 +27,12 @@ export default function Example() {
                     </p>
                 </div>
 
-                <dl className="mt-12 grid grid-cols-1 gap-y-10 sm:mt-16 md:grid-cols-2 md:gap-x-6 lg:grid-cols-3">
-                    {faqs.map((faq) => (
-                        <div key={faq.id}>
-                            <dt className="text-base font-medium text-gray-900">{faq.question}</dt>
-                            <dd className="mt-3 text-sm text-gray-500">{faq.answer}</dd>
-                        </div>
-                    ))}
-                </dl>
+                <div className="max-w-xl">
+                    <p className="mt-4 text-base text-gray-500">
+                        Questions. Frequently asked ones. Plus our answers. That's how FAQs work. If you can't find what you're
+                        looking for, you can always send us an email with your enquiry.
+                    </p>
+                </div>
             </div>
         </section>
     )
