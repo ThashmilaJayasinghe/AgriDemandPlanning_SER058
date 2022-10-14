@@ -1,6 +1,8 @@
+import React, { useState, useEffect } from 'react';
 import Barchart from "../../components/Barchart";
 import Piechart from "../../components/Piechart";
 import StatsDisplay from "../../components/StatsDisplay";
+
 
 const staticCategories = [
     {
@@ -128,33 +130,29 @@ const staticCategories = [
 export default function Dashboard() {
 
     return <>
-        <h1 className="text-2xl font-semibold text-gray-900">Admin Dash</h1>
-        <div className="w-full lg:w-full pr-0 lg:pr-2 pb-10 grid justify-items-center">
-            <div className="p-6 bg-white">
-                <StatsDisplay/>
+        <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Dashboard</h1>
+        <div className="w-7/8 lg:w-7/8 pr-0 lg:px-10 grid justify-items-center">
+            <div className="w-full px-6">
+                <StatsDisplay cropData={staticCategories}/>
+            </div>
+            {/*report section*/}
+            <div className="w-full px-6 mt-3 center">
+                <button className="w-full p-1 rounded-lg text-sm text-gray-500 bg-stone-50 hover:bg-stone-200 transition-colors shadow">
+                    Report on Supply and Demand
+                </button>
             </div>
         </div>
-
         <div className="w-full overflow-x-hidden flex">
             <main className="w-full flex-grow p-6">
                 <div className="flex flex-wrap mt-6">
-
-
                     <div className="w-full lg:w-3/4 pr-0 lg:pr-2">
-                        {/*<p className="text-xl pb-3 flex items-center">*/}
-                        {/*    Bar Chart*/}
-                        {/*</p>*/}
-                        <div className="p-6 bg-white">
+                        <div className="px-6 pt-6 bg-white">
                             <Barchart cropData={staticCategories}/>
                         </div>
                     </div>
-
                     <div className="w-full lg:w-1/4 pl-0 lg:pl-2 mt-12 lg:mt-0 ">
-                        {/*<p className="text-xl pb-3 flex items-center">*/}
-                        {/*    Pie Chart*/}
-                        {/*</p>*/}
-                        <div className="p-6 bg-white">
-                            <Piechart/>
+                        <div className="px-6 pt-14 bg-white">
+                            <Piechart cropData={staticCategories}/>
                         </div>
                     </div>
                 </div>

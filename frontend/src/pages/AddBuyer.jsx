@@ -79,14 +79,13 @@ export default function AddBuyer() {
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setFullName(e.target.value))}
                                                 />
-                                                <span>
+
                                                 <FieldFeedbacks for={fullName}>
                                                     <FieldFeedback when="tooShort">
                                                         Too short
                                                     </FieldFeedback>
                                                     <FieldFeedback when="*"/>
                                                 </FieldFeedbacks>
-                                                </span>
                                             </div>
                                         </div>
 
@@ -261,7 +260,7 @@ export default function AddBuyer() {
                                 <div className="pt-8">
                                     <div>
                                         <h3 className="text-lg leading-6 font-medium text-gray-900">Contact Details</h3>
-                                        <p className="mt-1 text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
+                                        <p className="mt-1 text-sm text-gray-500">Use a valid email address where you can receive mail.</p>
                                     </div>
                                     <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                                         <div className="sm:col-span-6">
@@ -365,7 +364,7 @@ export default function AddBuyer() {
 
                             <div className="pt-5">
                                 <div className="flex justify-end">
-                                    <Link to="/admin/buyers">
+                                    <Link to="/admin/all-buyers/add">
                                     <button
                                         type="button"
                                         className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

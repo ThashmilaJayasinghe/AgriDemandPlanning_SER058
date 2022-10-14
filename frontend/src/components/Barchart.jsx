@@ -48,7 +48,7 @@ const Barchart = (props) => {
 
     const {cropData} = props;
     const labels = [];
-    const typeData = []
+    const typeData = [];
 
     cropData.map(crop => {
         labels.push(crop.category);
@@ -66,8 +66,6 @@ const Barchart = (props) => {
     console.log('BC', labels);
     console.log('TS', typeData);
 
-    // const labels = ['Rice', 'Grains', 'Vegetables(L)', 'Vegetables(H)', 'Fruits'];
-
     const data = {
         // labels,
         labels,
@@ -77,7 +75,7 @@ const Barchart = (props) => {
                 data: typeData,
                 // data: [45,64,32,78,91],
                 // data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-                backgroundColor: ["#a3e635", "#66bb6a","#b2ff59","#d9f99d","#65a30d"],
+                backgroundColor: ["#4d7c0f", "#eab308", "#064e3b","#a3e635", "#ca8a04"],
                 barThickness: 60,
             },
         ],

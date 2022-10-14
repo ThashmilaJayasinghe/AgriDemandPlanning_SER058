@@ -3,7 +3,7 @@ import FormWrapper from "../components/wrappers/FormWrapper";
 import { Link } from "react-router-dom";
 
 import axios from "axios";
-import {FieldFeedback, FieldFeedbacks} from "react-form-with-constraints";
+import {FormWithConstraints,FieldFeedback, FieldFeedbacks} from "react-form-with-constraints";
 
 export default function AddFarmer() {
 
@@ -46,6 +46,7 @@ export default function AddFarmer() {
             })
     }
         return (
+            <FormWithConstraints>
             <div>
                 <FormWrapper>
                     <div>
@@ -57,7 +58,7 @@ export default function AddFarmer() {
                                 <div className="pt-8">
                                     <div>
                                         <h3 className="text-lg leading-6 font-medium text-gray-900">Personal Information</h3>
-                                        <p className="mt-1 text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
+                                        <p className="mt-1 text-sm text-gray-500">Use correct NIC </p>
                                     </div>
                                     <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                                         <div className="sm:col-span-6">
@@ -184,7 +185,7 @@ export default function AddFarmer() {
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setDistrict(e.target.value))}
                                                 >
-                                                    <option>District of the Shop</option>
+                                                    <option>District</option>
                                                     <option>Colombo</option>
                                                     <option>Gampaha</option>
                                                     <option>Kalutara</option>
@@ -226,7 +227,7 @@ export default function AddFarmer() {
                                                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                     onChange={(e)=>(setProvince(e.target.value))}
                                                 >
-                                                    <option>Province of the Shop</option>
+                                                    <option>Province</option>
                                                     <option>Western</option>
                                                     <option>Central</option>
                                                     <option>Southern</option>
@@ -246,7 +247,7 @@ export default function AddFarmer() {
                                 <div className="pt-8">
                                     <div>
                                         <h3 className="text-lg leading-6 font-medium text-gray-900">Contact Details</h3>
-                                        <p className="mt-1 text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
+                                        <p className="mt-1 text-sm text-gray-500">Use a valid email address where you can receive mail.</p>
                                     </div>
                                     <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                                         <div className="sm:col-span-6">
@@ -295,7 +296,7 @@ export default function AddFarmer() {
                                 <div className="pt-8">
                                     <div>
                                         <h3 className="text-lg leading-6 font-medium text-gray-900">Login Details</h3>
-                                        <p className="mt-1 text-sm text-gray-500">Use a NIC Number as buyer's password.</p>
+                                        <p className="mt-1 text-sm text-gray-500">Use a NIC Number as farmer's password.</p>
                                     </div>
                                     <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                                         <div className="sm:col-span-6">
@@ -371,6 +372,6 @@ export default function AddFarmer() {
                     </div>
                 </FormWrapper>
             </div>
-
+            </FormWithConstraints>
         );
 }

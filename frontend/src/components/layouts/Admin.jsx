@@ -4,15 +4,17 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
-    CalendarIcon,
-    ChartBarIcon,
+    SpeakerphoneIcon,
+    ClipboardCheckIcon,
     FolderIcon,
     HomeIcon,
     InboxIcon,
     MenuAlt2Icon,
     UsersIcon,
     XIcon,
+    PlusCircleIcon,
 } from '@heroicons/react/outline'
+
 
 import AdminHeader from "../headers/AdminHeader";
 import Dashboard from "../../pages/admin/AdminDash";
@@ -22,15 +24,21 @@ import UpdateFarmer from "../../pages/admin/UpdateFarmer";
 import AllRequests from "../../pages/admin/AllRequests";
 import ViewSeedRequest from "../../pages/admin/ViewSeedRequest";
 import SendMessage from "../../pages/admin/SendMessage";
+import AllBuyers from "../../pages/AllBuyers";
+import AddBuyer from "../../pages/AddBuyer";
+import AddFarmer from "../../pages/AddFarmer";
+import UpdateBuyer from "../../pages/UpdateBuyer";
+import AddCropType from "../../pages/admin/AddCropType";
 
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
     { name: 'All Farmers', href: '/admin/all-farmers', icon: UsersIcon, current: false },
-    { name: 'All Buyers', href: '#', icon: FolderIcon, current: false },
-    { name: 'Seed Requests', href: '/admin/all-seed-requests', icon: CalendarIcon, current: false },
+    { name: 'All Buyers', href: '/admin/all-buyers', icon: FolderIcon, current: false },
+    { name: 'Seed Requests', href: '/admin/all-seed-requests', icon: ClipboardCheckIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
-    { name: 'Announcements', href: '#', icon: ChartBarIcon, current: false },
+    { name: 'Announcements', href: '#', icon: SpeakerphoneIcon, current: false },
+    { name: 'Add New Crop', href: '/admin/add-crop', icon: PlusCircleIcon, current: false },
 ]
 
 function classNames(...classes) {
@@ -187,6 +195,12 @@ export default function AdminLayout() {
                                 <Route path="/all-seed-requests" element={<AllRequests />} />
                                 <Route path="/view-seed-request" element={<ViewSeedRequest />} />
                                 <Route path="/send-message" element={<SendMessage />} />
+                                <Route path="/all-buyers" element={<AllBuyers />} />
+                                <Route path="/all-buyers/add" element={<AddBuyer/>}/>
+                                <Route path="/all-farmers/add" element={<AddFarmer/>}/>
+                                <Route path="/update-buyer" element={<UpdateBuyer/>}/>
+
+                                <Route path="/add-crop" element={<AddCropType />} />
                             </Routes>
                         </div>
                     </div>
