@@ -18,6 +18,9 @@ export default function UpdateBuyerProfile() {
   const [ShopName, setShopName] = useState("");
   const [district, setDistrict] = useState("");
   const [percent, setPercent] = useState(0);
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [province, setProvince] = useState("");
   // State to store uploaded file
   const [file, setFile] = useState("");
   const [profileImg, setProfileImg] = useState("");
@@ -32,6 +35,9 @@ export default function UpdateBuyerProfile() {
     setShopName(localStorage.getItem("ShopName"));
     setDistrict(localStorage.getItem("district"));
     setImgPreview(localStorage.getItem("profileImg"));
+    setEmail(localStorage.getItem("email"));
+    setProvince(localStorage.getItem("province"));
+    setGender(localStorage.getItem("gender"));
   }, []);
 
   const handleSubmit = async (event) => {
@@ -45,13 +51,16 @@ export default function UpdateBuyerProfile() {
       ShopName,
       district,
       profileImg,
+      email,
+      gender,
+      province,
     };
     axios
       .put("http://localhost:8000/api/buyer/" + id, updateProfile)
       .then(() => {
         toast.success("Profile updated successfully !", {
           position: "top-right",
-          autoClose: 10000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -107,6 +116,9 @@ export default function UpdateBuyerProfile() {
       () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          if (!url) {
+            setProfileImg(profileImg);
+          }
           console.log(url);
           setProfileImg(url);
         });
@@ -186,11 +198,15 @@ export default function UpdateBuyerProfile() {
           </div>
         </div>
 
+        <h3 className="text-lg leading-6 font-medium text-gray-900 mt-10">
+          Personal Information
+        </h3>
+
         <label
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
         >
-          Name :
+          Name
         </label>
 
         <input
@@ -209,7 +225,7 @@ export default function UpdateBuyerProfile() {
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
         >
-          NIC :
+          NIC
         </label>
 
         <input
@@ -228,7 +244,48 @@ export default function UpdateBuyerProfile() {
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
         >
-          Address :
+          Gender
+        </label>
+        <div className="mt-4 space-y-4 ">
+          <div className="flex items-center">
+            <input
+              id="push-male"
+              name="push-gender"
+              type="radio"
+              value="Male"
+              className="focus:ring-emerald-400 h-4 w-4 text-emerald-600 border-gray-300"
+              onChange={(e) => setGender(e.target.value)}
+            />
+            <label className="ml-3 block text-sm font-medium text-gray-700">
+              Male
+            </label>
+          </div>
+          <div className="flex items-center">
+            <input
+              id="push-female"
+              name="push-gender"
+              type="radio"
+              value="Female"
+              className="focus:ring-emerald-400 h-4 w-4 text-emerald-600 border-gray-300"
+              onChange={(e) => setGender(e.target.value)}
+            />
+            <label className="ml-3 block text-sm font-medium text-gray-700">
+              Female
+            </label>
+          </div>
+        </div>
+
+        <hr className="mt-10" />
+
+        <h3 className="text-lg leading-6 font-medium text-gray-900 mt-5">
+          Location Details
+        </h3>
+
+        <label
+          htmlFor="category"
+          className="block text-base font-medium text-gray-700 mt-6"
+        >
+          Address
         </label>
 
         <input
@@ -243,11 +300,89 @@ export default function UpdateBuyerProfile() {
           }}
         />
 
+        <div className="sm:col-span-6">
+          <label
+            htmlFor="category"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            District
+          </label>
+          <div className="mt-1">
+            <select
+              id="district"
+              name="district"
+              value={district}
+              className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
+              onChange={(e) => setDistrict(e.target.value)}
+            >
+              <option>Colombo</option>
+              <option>Gampaha</option>
+              <option>Kalutara</option>
+              <option>Kandy</option>
+              <option>Matale</option>
+              <option>Nuwara Eliya</option>
+              <option>Galle</option>
+              <option>Matara</option>
+              <option>Hambantota</option>
+              <option>Jaffna</option>
+              <option>Kilinochchi</option>
+              <option>Mannar</option>
+              <option>Vavuniya</option>
+              <option>Mullaitivu</option>
+              <option>Batticaloa</option>
+              <option>Ampara</option>
+              <option>Trincomalee</option>
+              <option>Kurunegala</option>
+              <option>Puttalam</option>
+              <option>Anuradhapura</option>
+              <option>Polonnaruwa</option>
+              <option>Moneragala</option>
+              <option>Ratnapura</option>
+              <option>Kegalle</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="sm:col-span-6">
+          <label
+            htmlFor="category"
+            className="block text-base font-medium text-gray-700 mt-6"
+          >
+            Province
+          </label>
+          <div className="mt-1">
+            <select
+              id="province"
+              name="province"
+              placeholder="Farmer's province"
+              value={province}
+              className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"
+              onChange={(e) => setProvince(e.target.value)}
+            >
+              <option>Western</option>
+              <option>Central</option>
+              <option>Southern</option>
+              <option>Northern</option>
+              <option>Eastern</option>
+              <option>North Western</option>
+              <option>North Central</option>
+              <option>Uva</option>
+              <option>Sabaragamuwa</option>
+            </select>
+          </div>
+        </div>
+
+        <hr className="mt-10" />
+
+        <h3 className="text-lg leading-6 font-medium text-gray-900 mt-5">
+          Contact Details
+        </h3>
+
         <label
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
         >
-          Telephone :
+          Telephone
         </label>
 
         <input
@@ -266,7 +401,32 @@ export default function UpdateBuyerProfile() {
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
         >
-          Shop Name :
+          Email
+        </label>
+
+        <input
+          type="text"
+          name="email"
+          id="email"
+          autoComplete="given-name"
+          className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
+          value={email}
+          onChange={(event) => {
+            setEmail(event.target.value);
+          }}
+        />
+
+        <hr className="mt-10" />
+
+        <h3 className="text-lg leading-6 font-medium text-gray-900 mt-5">
+          Shop Details
+        </h3>
+
+        <label
+          htmlFor="category"
+          className="block text-base font-medium text-gray-700 mt-6"
+        >
+          Shop Name
         </label>
 
         <input
@@ -278,25 +438,6 @@ export default function UpdateBuyerProfile() {
           value={ShopName}
           onChange={(event) => {
             setShopName(event.target.value);
-          }}
-        />
-
-        <label
-          htmlFor="category"
-          className="block text-base font-medium text-gray-700 mt-6"
-        >
-          District :
-        </label>
-
-        <input
-          type="text"
-          name="district"
-          id="district"
-          autoComplete="given-name"
-          className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
-          value={district}
-          onChange={(event) => {
-            setDistrict(event.target.value);
           }}
         />
 
