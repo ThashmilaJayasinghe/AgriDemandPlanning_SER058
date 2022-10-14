@@ -22,6 +22,7 @@ import UpdateFarmer from "../../pages/admin/UpdateFarmer";
 import AllRequests from "../../pages/admin/AllRequests";
 import ViewSeedRequest from "../../pages/admin/ViewSeedRequest";
 import SendMessage from "../../pages/admin/SendMessage";
+import ViewMessages from "../../pages/farmer/ViewMessages";
 
 
 const navigation = [
@@ -31,6 +32,7 @@ const navigation = [
     { name: 'Seed Requests', href: '/admin/all-seed-requests', icon: CalendarIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
     { name: 'Announcements', href: '#', icon: ChartBarIcon, current: false },
+    { name: 'View Messages', href: '/admin/view-messages', icon: ChartBarIcon, current: false },
 ]
 
 function classNames(...classes) {
@@ -187,6 +189,7 @@ export default function AdminLayout() {
                                 <Route path="/all-seed-requests" element={<AllRequests />} />
                                 <Route path="/view-seed-request" element={<ViewSeedRequest />} />
                                 <Route path="/send-message" element={<SendMessage />} />
+                                <Route path="/view-messages" element={<ViewMessages />} />
                             </Routes>
                         </div>
                     </div>
