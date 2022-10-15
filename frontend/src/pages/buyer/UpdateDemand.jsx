@@ -15,9 +15,10 @@ const UpdateDemand = () => {
   const [category, setCategory] = useState("");
   const [type, setType] = useState("");
   const [demandID, setDemandId] = useState("");
+  const [isWeightError, setIsWeightError] = useState(false)
+  const [isPriceError, setIsPriceError] = useState(false)
 
-  console.log(`User Id by local ${userId}`);
-  console.log(`Demand Id by Link ${demandID}`);
+
 
   // get Data from backend and display it in here
   const Elocation = useLocation();
@@ -34,41 +35,68 @@ const UpdateDemand = () => {
   }, []);
 
   const handleSubmit = async () => {
-    console.log(`USer id : ${userId}`);
-    await updateProductDemand(
-      {
-        buyerID: userId,
-        demandID,
-        category,
-        type,
-        sellings,
-        unitPrice,
-        remarks,
-      },
-      setIsCreationSuccess
-    )
-      .then(() => {
-        toast.success("Demand updated successfully !", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      })
-      .catch(() => {
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+
+    if(sellings <=0){
+      setIsWeightError(true)
+    }
+    else{
+      setIsWeightError(false)
+    }
+
+    if(unitPrice <=0){
+      setIsPriceError(true)
+    }
+    else {
+      setIsPriceError(false)
+    }
+
+    if(unitPrice > 0 && sellings > 0) {
+      await updateProductDemand(
+          {
+            buyerID: userId,
+            demandID,
+            category,
+            type,
+            sellings,
+            unitPrice,
+            remarks,
+          },
+          setIsCreationSuccess
+      )
+          .then(() => {
+            toast.success("Demand updated successfully !", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          })
+          .catch(() => {
+            toast.error("Something went wrong!", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          });
+    }
+    else {
+      toast.error("Please give valid information to us", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
+    }
   };
 
   return (
@@ -130,6 +158,13 @@ const UpdateDemand = () => {
               setSellings(event.target.value);
             }}
           />
+
+          {isWeightError && (
+              <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                Kilograms must have positive value
+              </div>
+          )}
+
           <label
             htmlFor="price"
             className="block text-base font-medium text-gray-700 mt-6"
@@ -146,7 +181,15 @@ const UpdateDemand = () => {
             onChange={(event) => {
               setUnitPrice(event.target.value);
             }}
+
+            required={true}
           />
+          {isPriceError && (
+              <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                Price must have positive value
+              </div>
+          )}
+
           <label
             htmlFor="remarks"
             className="block text-base font-medium text-gray-700 mt-6"

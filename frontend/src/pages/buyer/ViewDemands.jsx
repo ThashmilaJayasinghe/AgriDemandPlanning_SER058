@@ -274,7 +274,7 @@ export default function ViewDemands() {
                   </div>
 
                   <div className="grid grid-cols-5 ">
-                    <div className="col-start-3 col-span-1 justify-center flex">
+                    <div className="col-start-3 col-span-1 justify-end flex">
                       <button
                         className="flex w-fit text-white bg-blue-500 py-1 px-4 rounded-lg hover:bg-blue-600 transition-colors"
                         onClick={() => onDownload(demand)}
@@ -286,7 +286,7 @@ export default function ViewDemands() {
                         <p className="hidden md:block"> Download</p>
                       </button>
                     </div>
-                    <div className=" col-span-1 justify-end flex">
+                    <div className=" col-span-1 justify-center flex">
                       <button
                         className="flex min-w-fit bg-red-500 text-white py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
                         onClick={() => onDelete(demand._id)}
@@ -298,7 +298,7 @@ export default function ViewDemands() {
                         <p className="hidden md:block">Delete</p>
                       </button>
                     </div>
-                    <div className="col-span-1 justify-center flex">
+                    <div className="col-span-1 justify-start flex">
                       <Link
                         to={"/buyer/update-demand/" + userId}
                         state={{ id: userId, DemandData: demand }}

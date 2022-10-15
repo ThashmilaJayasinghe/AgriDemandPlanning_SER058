@@ -26,6 +26,13 @@ export default function UpdateFarmerProfile() {
   const [profileImg, setProfileImg] = useState("");
   const [imgPreview, setImgPreview] = useState();
 
+  //Error check
+  const [isNameError, setIsNameError] = useState(false)
+  const [isAddressError, setIsAddressError] = useState(false)
+  const [isHectaresError, setIsHectaresError] = useState(false)
+  const [isEmamilError, setIsEmamilError] = useState(false)
+
+
   useEffect(() => {
     setID(localStorage.getItem("id"));
     setName(localStorage.getItem("fullName"));
@@ -41,46 +48,116 @@ export default function UpdateFarmerProfile() {
   }, []);
 
   const handleSubmit = async (event) => {
-    console.log("function called");
-    console.log(`Pass image - ${profileImg}`);
+
+    function validations() {
+      if(fullName.length <=0){
+        setIsNameError(true)
+      } else {
+        setIsNameError(false)
+      }
+
+      if(address.length <=0){
+        setIsAddressError(true)
+      } else {
+        setIsAddressError(false)
+      }
+
+      if(hectare <=0 ){
+        setIsHectaresError(true)
+      }else {
+        setIsHectaresError(false)
+      }
+
+      let validEmailRegrex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+      if(!email.match(validEmailRegrex)){
+        setIsEmamilError(true)
+      }else{
+        setIsEmamilError(false)
+      }
+    }
+
+    await validations();
+
+
+
     const updateProfile = {
       fullName,
       address,
       NIC,
       contactNumber,
       hectare,
-      district,
       profileImg,
       province,
       district,
       gender,
       email,
     };
-    axios
-      .put("http://localhost:8000/api/farmers/" + id, updateProfile)
-      .then(() => {
-        toast.success("Profile updated successfully !", {
-          position: "top-right",
-          autoClose: 10000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        // window.location.href = '/farmer/profile';
-      })
-      .catch(() => {
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+
+    // if(isEmamilError === true){
+    //     toast.success("Correct email", {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     });
+    // }else {
+    //   toast.error("Wrong email", {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // }
+
+  // && address.length > 0 && fullName.length > 0 && hectare > 0
+
+
+    if(isEmamilError  === true) {
+
+        axios
+            .put("http://localhost:8000/api/farmers/" + id, updateProfile)
+            .then(() => {
+              toast.success("Profile updated successfully !", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+              // window.location.href = '/farmer/profile';
+            })
+            .catch(() => {
+              toast.error("Something went wrong!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            });
+    }
+    else {
+      toast.error("Please enter valid informations", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
+    }
   };
 
   function handleUploadImg() {
@@ -217,6 +294,11 @@ export default function UpdateFarmerProfile() {
             setName(event.target.value);
           }}
         />
+        {isNameError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter your full name
+            </div>
+        )}
 
         <label
           htmlFor="category"
@@ -296,6 +378,12 @@ export default function UpdateFarmerProfile() {
             setAddress(event.target.value);
           }}
         />
+
+        {isAddressError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter your  address
+            </div>
+        )}
 
         <div className="sm:col-span-6">
           <label
@@ -413,6 +501,12 @@ export default function UpdateFarmerProfile() {
           }}
         />
 
+        {isEmamilError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter valid email
+            </div>
+        )}
+
         <hr className="mt-10" />
 
         <h3 className="text-lg leading-6 font-medium text-gray-900 mt-5">
@@ -437,6 +531,12 @@ export default function UpdateFarmerProfile() {
             setHectares(event.target.value);
           }}
         />
+
+        {isHectaresError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Hectare must have positive value
+            </div>
+        )}
 
         <div
           className="grid grid-cols-5 "
