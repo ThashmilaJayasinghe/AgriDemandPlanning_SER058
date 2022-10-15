@@ -11,7 +11,7 @@ const UpdateDemand = () => {
   const [unitPrice, setUnitPrice] = useState(0.0);
   const [remarks, setRemarks] = useState("");
   const [isCreationSuccess, setIsCreationSuccess] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState(localStorage.getItem("user"));
   const [category, setCategory] = useState("");
   const [type, setType] = useState("");
   const [demandID, setDemandId] = useState("");
@@ -25,7 +25,7 @@ const UpdateDemand = () => {
   const { DemandData } = Elocation.state;
 
   useEffect(() => {
-    setUserId(localStorage.getItem("userID"));
+
     setDemandId(DemandData._id);
     setCategory(DemandData.category);
     setType(DemandData.type);

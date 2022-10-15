@@ -10,7 +10,7 @@ import { BsFillCaretLeftFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 export default function UpdateBuyerProfile() {
-  const [id, setID] = useState("");
+  const [id, setID] = useState(localStorage.getItem('user'));
   const [fullName, setName] = useState("");
   const [address, setAddress] = useState("");
   const [NIC, setNIC] = useState("");
@@ -26,8 +26,18 @@ export default function UpdateBuyerProfile() {
   const [profileImg, setProfileImg] = useState("");
   const [imgPreview, setImgPreview] = useState();
 
+
+  const [isNameError, setIsNameError] = useState(false)
+  const [isAddressError, setIsAddressError] = useState(false)
+  const [isShopError, setIsShopError] = useState(false)
+  const [isEmamilError, setIsEmamilError] = useState(false)
+  const [isMobileError, setIsMobileError] = useState(false)
+  const [isNICError, setIsNICError] = useState(false)
+
+
+
+
   useEffect(() => {
-    setID(localStorage.getItem("id"));
     setName(localStorage.getItem("fullName"));
     setAddress(localStorage.getItem("address"));
     setNIC(localStorage.getItem("NIC"));
@@ -41,8 +51,65 @@ export default function UpdateBuyerProfile() {
   }, []);
 
   const handleSubmit = async (event) => {
-    console.log("function called");
-    console.log(`Pass image - ${profileImg}`);
+
+    let emailValidation = false;
+    let mobileValidation = false;
+    let nicValidation = false;
+
+    function validations() {
+      if(fullName.length <=0){
+        setIsNameError(true)
+      } else {
+        setIsNameError(false)
+      }
+
+      if(address.length <=0){
+        setIsAddressError(true)
+      } else {
+        setIsAddressError(false)
+      }
+
+      if(ShopName.length <=0 ){
+        setIsShopError(true)
+      }else {
+        setIsShopError(false)
+      }
+
+      let validEmailRegrex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+      if(!email.match(validEmailRegrex)){
+        setIsEmamilError(true)
+        emailValidation  = true;
+      }else{
+        setIsEmamilError(false)
+        emailValidation = false;
+      }
+
+      let mobileNoRegex = /^([0-9]{9,10})$/
+
+      if(!contactNumber.match(mobileNoRegex)){
+        setIsMobileError(true);
+        mobileValidation = true;
+      }
+      else {
+        setIsMobileError(false)
+        mobileValidation = false;
+      }
+
+      let niCRegex = /^([0-9]{10}[v/V])$/
+      if(!NIC.match(niCRegex)){
+        setIsNICError(true)
+        nicValidation = true;
+      }
+      else{
+        setIsNICError(false)
+        nicValidation = false;
+      }
+
+    }
+
+    await validations();
+
     const updateProfile = {
       fullName,
       address,
@@ -55,31 +122,44 @@ export default function UpdateBuyerProfile() {
       gender,
       province,
     };
-    axios
-      .put("http://localhost:8000/api/buyer/" + id, updateProfile)
-      .then(() => {
-        toast.success("Profile updated successfully !", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        // window.location.href = '/farmer/profile';
-      })
-      .catch(() => {
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+
+    if(address.length > 0 && fullName.length > 0 && ShopName.length > 0 && emailValidation == false && mobileValidation == false && nicValidation == false) {
+      axios
+          .put("http://localhost:8000/api/buyer/" + id, updateProfile)
+          .then(() => {
+            toast.success("Profile updated successfully !", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            // window.location.href = '/farmer/profile';
+          })
+          .catch(() => {
+            toast.error("Something went wrong!", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          });
+    }else {
+      toast.error("Please enter correct informations", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
+    }
   };
 
   function handleUploadImg() {
@@ -116,9 +196,35 @@ export default function UpdateBuyerProfile() {
       () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          if (!url) {
-            setProfileImg(profileImg);
+          const proImgURL= {
+            url
           }
+          axios.put('http://localhost:8000/api/buyer/profile/'+id, proImgURL)
+              .then(()=>{
+                // toast.success("Profile image updated successfully !", {
+                //   position: "top-right",
+                //   autoClose: 3000,
+                //   hideProgressBar: false,
+                //   closeOnClick: true,
+                //   pauseOnHover: true,
+                //   draggable: true,
+                //   progress: undefined,
+                // });
+                // window.location.href = '/farmer/profile';
+                console.log('Success')
+              }).catch((err) => {
+            // toast.error("Something went wrong!", {
+            //   position: "top-right",
+            //   autoClose: 3000,
+            //   hideProgressBar: false,
+            //   closeOnClick: true,
+            //   pauseOnHover: true,
+            //   draggable: true,
+            //   progress: undefined,
+            // });
+
+            console.log(err)
+          });
           console.log(url);
           setProfileImg(url);
         });
@@ -220,6 +326,11 @@ export default function UpdateBuyerProfile() {
             setName(event.target.value);
           }}
         />
+        {isNameError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter your full name
+            </div>
+        )}
 
         <label
           htmlFor="category"
@@ -240,6 +351,12 @@ export default function UpdateBuyerProfile() {
           }}
         />
 
+        {isNICError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter valid NIC
+            </div>
+        )}
+
         <label
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
@@ -253,6 +370,7 @@ export default function UpdateBuyerProfile() {
               name="push-gender"
               type="radio"
               value="Male"
+              checked={true}
               className="focus:ring-emerald-400 h-4 w-4 text-emerald-600 border-gray-300"
               onChange={(e) => setGender(e.target.value)}
             />
@@ -299,6 +417,13 @@ export default function UpdateBuyerProfile() {
             setAddress(event.target.value);
           }}
         />
+
+        {isAddressError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter your  address
+            </div>
+        )}
+
 
         <div className="sm:col-span-6">
           <label
@@ -397,6 +522,13 @@ export default function UpdateBuyerProfile() {
           }}
         />
 
+        {isMobileError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter valid mobile number
+            </div>
+        )}
+
+
         <label
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
@@ -415,6 +547,11 @@ export default function UpdateBuyerProfile() {
             setEmail(event.target.value);
           }}
         />
+        {isEmamilError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter valid email
+            </div>
+        )}
 
         <hr className="mt-10" />
 
@@ -440,6 +577,11 @@ export default function UpdateBuyerProfile() {
             setShopName(event.target.value);
           }}
         />
+        {isShopError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter shop name
+            </div>
+        )}
 
         <div
           className="grid grid-cols-5 "

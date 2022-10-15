@@ -25,16 +25,26 @@ export default function UpdateFarmerProfile() {
   const [file, setFile] = useState("");
   const [profileImg, setProfileImg] = useState("");
   const [imgPreview, setImgPreview] = useState();
+  const [show, setShow] = useState(false);
+  const [showFemale, setShowFemale] = useState(false);
+
+
+
 
   //Error check
   const [isNameError, setIsNameError] = useState(false)
   const [isAddressError, setIsAddressError] = useState(false)
   const [isHectaresError, setIsHectaresError] = useState(false)
   const [isEmamilError, setIsEmamilError] = useState(false)
+  const [isMobileError, setIsMobileError] = useState(false)
+  const [isNICError, setIsNICError] = useState(false)
 
+  // if(gender === "Male"){
+  //   setShow(true);
+  // }
 
   useEffect(() => {
-    setID(localStorage.getItem("id"));
+    setID(localStorage.getItem("user"));
     setName(localStorage.getItem("fullName"));
     setAddress(localStorage.getItem("address"));
     setNIC(localStorage.getItem("NIC"));
@@ -45,9 +55,15 @@ export default function UpdateFarmerProfile() {
     setEmail(localStorage.getItem("email"));
     setProvince(localStorage.getItem("province"));
     setGender(localStorage.getItem("gender"));
+
+
   }, []);
 
   const handleSubmit = async (event) => {
+
+    let emailValidation = false;
+    let mobileValidation = false;
+    let nicValidation = false;
 
     function validations() {
       if(fullName.length <=0){
@@ -72,14 +88,35 @@ export default function UpdateFarmerProfile() {
 
       if(!email.match(validEmailRegrex)){
         setIsEmamilError(true)
+        emailValidation  = true;
       }else{
         setIsEmamilError(false)
+        emailValidation = false;
+      }
+
+      let mobileNoRegex = /^([0-9]{9,10})$/
+
+      if(!contactNumber.match(mobileNoRegex)){
+        setIsMobileError(true);
+        mobileValidation = true;
+      }
+      else {
+        setIsMobileError(false)
+        mobileValidation = false;
+      }
+
+      let niCRegex = /^([0-9]{10}[v/V])$/
+      if(!NIC.match(niCRegex)){
+        setIsNICError(true)
+        nicValidation = true;
+      }
+      else{
+        setIsNICError(false)
+        nicValidation = false;
       }
     }
 
     await validations();
-
-
 
     const updateProfile = {
       fullName,
@@ -87,39 +124,14 @@ export default function UpdateFarmerProfile() {
       NIC,
       contactNumber,
       hectare,
-      profileImg,
       province,
       district,
       gender,
       email,
+      profileImg
     };
 
-    // if(isEmamilError === true){
-    //     toast.success("Correct email", {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     });
-    // }else {
-    //   toast.error("Wrong email", {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    // }
-
-  // && address.length > 0 && fullName.length > 0 && hectare > 0
-
-
-    if(isEmamilError  === true) {
+    if(address.length > 0 && fullName.length > 0 && hectare > 0 && emailValidation == false && mobileValidation == false && nicValidation == false) {
 
         axios
             .put("http://localhost:8000/api/farmers/" + id, updateProfile)
@@ -160,6 +172,7 @@ export default function UpdateFarmerProfile() {
     }
   };
 
+  //image upload
   function handleUploadImg() {
     if (!file) {
       alert("Image is not selected");
@@ -192,7 +205,39 @@ export default function UpdateFarmerProfile() {
       (err) => console.log(err),
       () => {
         // download url
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async(url) => {
+          console.log(`Image URl ${url}`)
+          const proImgURL= {
+            url
+          }
+          await axios.put('http://localhost:8000/api/farmers/profile/'+id, proImgURL)
+              .then(()=>{
+                  // toast.success("Profile image updated successfully !", {
+                  //   position: "top-right",
+                  //   autoClose: 3000,
+                  //   hideProgressBar: false,
+                  //   closeOnClick: true,
+                  //   pauseOnHover: true,
+                  //   draggable: true,
+                  //   progress: undefined,
+                  // });
+          // window.location.href = '/farmer/profile';
+        }).catch((err) => {
+              // toast.error("Something went wrong!", {
+              //   position: "top-right",
+              //   autoClose: 3000,
+              //   hideProgressBar: false,
+              //   closeOnClick: true,
+              //   pauseOnHover: true,
+              //   draggable: true,
+              //   progress: undefined,
+              // });
+
+            console.log(err)
+            });
+
+
+
           console.log(url);
           setProfileImg(url);
         });
@@ -319,6 +364,12 @@ export default function UpdateFarmerProfile() {
           }}
         />
 
+        {isNICError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter valid NIC
+            </div>
+        )}
+
         <label
           htmlFor="category"
           className="block text-base font-medium text-gray-700 mt-6"
@@ -332,6 +383,7 @@ export default function UpdateFarmerProfile() {
               name="push-gender"
               type="radio"
               value="Male"
+              checked={show}
               className="focus:ring-emerald-400 h-4 w-4 text-emerald-600 border-gray-300"
               onChange={(e) => setGender(e.target.value)}
             />
@@ -481,6 +533,12 @@ export default function UpdateFarmerProfile() {
             setTelephone(event.target.value);
           }}
         />
+
+        {isMobileError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Please enter valid mobile number
+            </div>
+        )}
 
         <label
           htmlFor="category"

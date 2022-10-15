@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import MyRequestsWrapper from "../../components/wrappers/farmer/MyRequestsWrapper";
 import axios from "axios";
+import moment from "moment/moment";
 
 export default function FarmerHome() {
   const [announcements, setAnnouncements] = useState([]);
@@ -63,7 +64,7 @@ export default function FarmerHome() {
                         Posted Date
                     </p>
                     <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                      : {announcement.postingDate}
+                      : {moment(announcement.postingDate).format('L')}
                     </p>
                   </div>
                   <div className="mt-2 grid grid-cols-5 ">
@@ -71,7 +72,7 @@ export default function FarmerHome() {
                         Deadline
                     </p>
                     <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                      : {announcement.DeadLine}
+                       : {moment(announcement.DeadLine).format('L')}
                     </p>
                   </div>
                 </div>

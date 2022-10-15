@@ -15,7 +15,7 @@ import jsPDF from "jspdf";
 
 export default function ViewDemands() {
   const [demandList, setDemandList] = useState([]);
-  const [userId, setuserID] = useState("6316e8f38ec2b4c57b170a34");
+  const [userId, setuserID] = useState(localStorage.getItem("user"));
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
