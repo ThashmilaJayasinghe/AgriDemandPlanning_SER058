@@ -8,6 +8,7 @@ import {FormWithConstraints,
 import FormWrapper from "../components/wrappers/FormWrapper";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {toast, ToastContainer} from "react-toastify";
 
 export default function AddBuyer() {
 
@@ -36,16 +37,33 @@ export default function AddBuyer() {
           email,
           contactNumber,
           userName,
-          password
+          password,
+          role:"Buyer"
       }
 
       axios.post('http://localhost:8000/api/buyer/',newBuyer)
           .then((res)=>{
-              alert(res.json());
-              alert('Request Sent')
+              //alert(res.json());
+              toast.success("New buyer added!", {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+              });
           })
-          .catch((err)=>{
-              alert(err);
+          .catch(()=>{
+              toast.error("Something went wrong!", {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+              });
           })
     }
 
@@ -53,6 +71,7 @@ export default function AddBuyer() {
             <FormWithConstraints>
             <div>
                 <FormWrapper>
+                    <ToastContainer />
                     <div>
                         <form className="space-y-8 divide-y divide-gray-200">
                             <div className="space-y-8 divide-y divide-gray-200">
