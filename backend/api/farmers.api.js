@@ -3,7 +3,7 @@ const { save, getAll, getById, updateById, removeById } = require('../dal/farmer
 
 const createFarmer = async (req, res) => {
     console.log(req.body);
-    const{fullName,NIC,gender, address,province, district,  email, contactNumber,   userName, password, categories, hectare} = req.body;
+    const{fullName,NIC,gender, address,province, district,  email, contactNumber,   userName, password, categories, hectare,role} = req.body;
     console.log(fullName,NIC,gender, address,province, district,  email, contactNumber, categories, hectare);
     try {
         if(!userName || !password){
@@ -24,7 +24,8 @@ const createFarmer = async (req, res) => {
             userName,
             password,
             categories: [categories],
-            hectare
+            hectare,
+            role
         });
         res.status(201).json(farmer);
     } catch (err) {

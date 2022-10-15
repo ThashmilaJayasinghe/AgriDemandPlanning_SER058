@@ -1,7 +1,7 @@
 const Farmer = require('./farmer.model');
 const bcrypt = require('bcrypt')
 
-const save = async ({fullName,NIC,gender, address,province, district,  email, contactNumber,userName,password, categories, hectare}) => {
+const save = async ({fullName,NIC,gender, address,province, district,  email, contactNumber,userName,password, categories, hectare,role}) => {
     const farmer = await Farmer({
         fullName,
         NIC,
@@ -14,7 +14,8 @@ const save = async ({fullName,NIC,gender, address,province, district,  email, co
         userName,
         password,
         categories,
-        hectare
+        hectare,
+        role:"Farmer"
     });
     bcrypt.hash(password,7, async (err,hash)=>{
         farmer.password = hash
