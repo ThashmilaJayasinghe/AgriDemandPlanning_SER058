@@ -20,7 +20,7 @@ export default function SendMessage() {
     const [creatorId, setCreatorId] = useState('631af5e2f2ba9b53e15e6218');
     const [messageBody, setMessageBody] = useState('');
     // const [parentMessageId, setParentMessageId] = useState('');
-    const [status, setStatus] = useState('sent');
+    const [status, setStatus] = useState('unread');
 
     const navigate = useNavigate();
 

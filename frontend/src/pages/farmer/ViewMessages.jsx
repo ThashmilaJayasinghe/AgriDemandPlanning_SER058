@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 export default function ViewMessages() {
 
     const [suggestions, setSuggestions] = useState([]);
+    const [suggestion, setSuggestion] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [id, setId] = useState('630e177910470806f04c70ad');
 
@@ -15,6 +16,7 @@ export default function ViewMessages() {
         async function viewSuggestions() {
             await getSuggestions(id, setSuggestions).then(() => {
                 console.log('Suggestions retrieved successfully');
+                setSuggestion(suggestions[0]);
                 setIsLoading(false);
             });
         }
@@ -54,7 +56,7 @@ export default function ViewMessages() {
                             {/* Start main area*/}
                             <div className="relative h-full" style={{ minHeight: '36rem' }}>
                                 <div className="absolute inset-0 border-2 border-gray-200 border-dashed rounded-lg" />
-                                <SuggestionDetails />
+                                <SuggestionDetails suggestion={suggestion}/>
                             </div>
                             {/* End main area */}
                         </div>
