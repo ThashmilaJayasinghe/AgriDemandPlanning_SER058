@@ -29,7 +29,9 @@ import AddBuyer from "../../pages/AddBuyer";
 import AddFarmer from "../../pages/AddFarmer";
 import UpdateBuyer from "../../pages/UpdateBuyer";
 import AddCropType from "../../pages/admin/AddCropType";
-
+import AllAnnouncements from "../../pages/AllAnnouncements";
+import AddAnnouncement from "../../pages/AddAnnouncement";
+import UpdateAnnouncement from "../../pages/UpdateAnnouncement";
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
@@ -37,7 +39,7 @@ const navigation = [
     { name: 'All Buyers', href: '/admin/all-buyers', icon: FolderIcon, current: false },
     { name: 'Seed Requests', href: '/admin/all-seed-requests', icon: ClipboardCheckIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
-    { name: 'Announcements', href: '#', icon: SpeakerphoneIcon, current: false },
+    { name: 'Announcements', href: '/admin/all-announcements', icon: SpeakerphoneIcon, current: false },
     { name: 'Add New Crop', href: '/admin/add-crop', icon: PlusCircleIcon, current: false },
 ]
 
@@ -201,6 +203,9 @@ export default function AdminLayout() {
                                 <Route path="/update-buyer" element={<UpdateBuyer/>}/>
 
                                 <Route path="/add-crop" element={<AddCropType />} />
+                                <Route path="/all-announcements" element={<AllAnnouncements/>}/>
+                                <Route path="/all-announcements/add" element={<AddAnnouncement/>}/>
+                                <Route path="/update-announcement"element={<UpdateAnnouncement/>}/>
                             </Routes>
                         </div>
                     </div>

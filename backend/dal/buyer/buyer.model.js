@@ -45,6 +45,10 @@ const buyerSchema = mongoose.Schema({
     type: String,
     required: [true, "please enter password"],
   },
+  role:{
+    type:String,
+    required: [true]
+  },
   profileImg: {
     type: String,
     required: false,

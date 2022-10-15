@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import axios from "axios";
 import {FormWithConstraints,FieldFeedback, FieldFeedbacks} from "react-form-with-constraints";
+import {toast, ToastContainer} from "react-toastify";
 
 export default function AddFarmer() {
 
@@ -34,21 +35,40 @@ export default function AddFarmer() {
             contactNumber,
             hectare,
             userName,
-            password
+            password,
+            role:"Farmer"
         }
 
         axios.post('http://localhost:8000/api/farmers/',newFarmer)
             .then(()=>{
-                alert('Request Sent')
+                //alert('Request Sent')
+                toast.success("New Farmer Added", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
-            .catch((err)=>{
-                alert(err);
+            .catch(()=>{
+                toast.error("Something went wrong!", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
     }
         return (
             <FormWithConstraints>
             <div>
                 <FormWrapper>
+                    <ToastContainer />
                     <div>
                         <form className="space-y-8 divide-y divide-gray-200">
                             <div className="space-y-8 divide-y divide-gray-200">

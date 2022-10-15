@@ -17,7 +17,7 @@ const navigation = [
 ];
 
 function Dashboard() {
-  const [clickedItem, setClickedItem] = useState("sign-in");
+  const [clickedItem, setClickedItem] = useState("sign-up");
 
   return (
     <div className="relative bg-emerald-800 overflow-hidden">
@@ -130,24 +130,24 @@ function Dashboard() {
                         Sign Up
                       </a>
                     </li>
-                    <li class="mr-2 w-1/3 ">
-                      <a
-                        href="#"
-                        className={classNames(
-                          clickedItem == "sign-in"
-                            ? "border-b border-emerald-300 text-green-700"
-                            : "text-emerald-500 hover:text-green-700",
-                          "inline-block py-2 px-12"
-                        )}
-                        onClick={() => setClickedItem("sign-in")}
-                      >
-                        Sign In
-                      </a>
-                    </li>
+                    {/*<li class="mr-2 w-1/3 ">*/}
+                    {/*  <a*/}
+                    {/*    href="#"*/}
+                    {/*    className={classNames(*/}
+                    {/*      clickedItem == "sign-in"*/}
+                    {/*        ? "border-b border-emerald-300 text-green-700"*/}
+                    {/*        : "text-emerald-500 hover:text-green-700",*/}
+                    {/*      "inline-block py-2 px-12"*/}
+                    {/*    )}*/}
+                    {/*    onClick={() => setClickedItem("sign-in")}*/}
+                    {/*  >*/}
+                    {/*    Sign In*/}
+                    {/*  </a>*/}
+                    {/*</li>*/}
                   </ul>
                   <hr className="mt-2" />
 
-                  {clickedItem == "sign-in" && <SignIn />}
+                  {/*{clickedItem == "sign-in" && <SignIn />}*/}
                   {clickedItem == "sign-up" && <SignUp />}
 
                   <div className="px-4 py-6 bg-gray-50 border-t-2 border-gray-200 sm:px-10">
