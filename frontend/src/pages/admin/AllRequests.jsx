@@ -1,19 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import CircularProgress from "@mui/material/CircularProgress";
-
 import { getSeedRequestsWithFarmer } from "../../api/SeedRequestAPI";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 
 export default function AllRequests() {
 
     const [requests, setRequests] = useState([]);
+    const [sortedRequests, setSortedRequests] = useState([]);
     const [search, setSearch] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
     const setRequest = (request) => {
         localStorage.setItem('Request', JSON.stringify(request));
     };
+
+    const printReport = () => {
+        const unit = "pt";
+        const size = "A4";
+        const orientation = "portrait";
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "Seed Requests";
+        const headers = [["Farmer", "Category", "Land Size (Hectare)", "Status"]];
+
+        const data = requests.map(request=> [
+            request.farmerName, request.category, request.sizeOfLand, request.status]);
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data,
+            headStyles :{fillColor : [37, 183, 76]}
+        };
+
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("All_Seed_Requests_Report.pdf")
+    }
 
     useEffect(() => {
         async function viewAllRequests() {
@@ -46,14 +76,14 @@ export default function AllRequests() {
                     <p
                         className="inline-flex items-center justify-center text-sm font-style: italic text-red-500 sm:w-auto"
                     >
-                        View Report of Past Seasonal Requests:
+                        View Report of All Seasonal Requests:
                     </p>
-                    <a
+                    <button
                         className="ml-4 inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                        href="/admin/dashboard"
+                        onClick={printReport}
                     >
-                        Past Requests
-                    </a>
+                        All Requests
+                    </button>
                 </div>
             </div>
 
