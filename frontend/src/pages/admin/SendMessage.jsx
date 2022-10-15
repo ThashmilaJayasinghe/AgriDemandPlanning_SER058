@@ -37,7 +37,7 @@ export default function SendMessage() {
 
             await createMessage(message, setIsSuccess)
                 .then(() => {
-                    toast.success("Message Sent", {
+                    toast.success("Suggestion Sent", {
                         position: "top-right",
                         autoClose: 3000,
                         hideProgressBar: false,
@@ -139,9 +139,9 @@ export default function SendMessage() {
                     <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
                 </svg>
                 <div className="text-center">
-                    <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Send Message</h2>
+                    <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Send Suggestion</h2>
                     <p className="mt-4 text-lg leading-6 text-gray-500">
-                        Suggest a crop that lacks supply to be cultivated.
+                        Suggest a crop that has a lack of supply.
                     </p>
                 </div>
                 <div className="mt-12">

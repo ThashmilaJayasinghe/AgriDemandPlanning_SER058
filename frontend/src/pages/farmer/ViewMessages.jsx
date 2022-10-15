@@ -8,7 +8,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 export default function ViewMessages() {
 
     const [suggestions, setSuggestions] = useState([]);
-    const [suggestion, setSuggestion] = useState({});
+    const [suggestion, setSuggestion] = useState({
+    creatorId: "631af5e2f2ba9b53e15e6218",
+    messageBody: "Is it possible to provided 200 kg of naadu?",
+    recipientId: "630e177910470806f04c70ad",
+    status: "unread",
+    subject: "Naadu rice needed ",
+    _id: "63485e1c604123b4ad09645c"
+    });
     const [isLoading, setIsLoading] = useState(true);
     const [id, setId] = useState('630e177910470806f04c70ad');
 
@@ -16,7 +23,7 @@ export default function ViewMessages() {
         async function viewSuggestions() {
             await getSuggestions(id, setSuggestions).then(() => {
                 console.log('Suggestions retrieved successfully');
-                setSuggestion(suggestions[0]);
+                // setSuggestion(suggestions[0]);
                 setIsLoading(false);
             });
         }
@@ -44,7 +51,7 @@ export default function ViewMessages() {
                         <div className="h-full pl-4 pr-6 pt-6 sm:pl-6 lg:pl-8 xl:pl-0">
                             {/* Start left column area */}
                             <div className="h-full relative" style={{ minHeight: '12rem' }}>
-                                <SuggestionTitle suggestions={suggestions}/>
+                                <SuggestionTitle suggestions={suggestions} setSuggestion={setSuggestion}/>
                                 {/*<div className="absolute inset-0 border-2 border-gray-200 border-dashed rounded-lg" />*/}
                             </div>
                             {/* End left column area */}

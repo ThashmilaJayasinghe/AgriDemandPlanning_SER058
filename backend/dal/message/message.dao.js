@@ -37,8 +37,21 @@ const receiveMessages = async (id) => {
     return messages;
 };
 
+const updateById = async (id, {recipientId, subject, creatorId, messageBody, parentMessageId, status}) => {
+    const message = await Message.findByIdAndUpdate(id, {
+        recipientId,
+        subject,
+        creatorId,
+        messageBody,
+        parentMessageId,
+        status
+    },{new: true})
+    return message;
+};
+
 
 module.exports = {
     saveMessage,
     receiveMessages,
+    updateById,
 }

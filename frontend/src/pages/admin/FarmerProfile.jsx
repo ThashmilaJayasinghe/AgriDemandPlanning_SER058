@@ -54,7 +54,7 @@ export default function FarmerProfile() {
 
     //navigates to send message page
     const onSendMessage = (farmerId) => {
-        console.log('Send message to ' + farmerId);
+        console.log('Send suggestion to ' + farmerId);
         navigate('/admin/send-message', { state: {recipientId: farmerId} });
     };
 
@@ -191,7 +191,7 @@ export default function FarmerProfile() {
                                         className="mt-0 mr-0 md:mt-1 md:mr-1"
                                         size={18}
                                     />
-                                    <p className="hidden md:block">Send Message</p>
+                                    <p className="hidden md:block">Send Suggestion</p>
                                 </button>
                             </div>
                         </div>
