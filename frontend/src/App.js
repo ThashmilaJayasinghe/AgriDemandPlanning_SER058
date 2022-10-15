@@ -10,6 +10,10 @@ import {useEffect, useState} from "react";
 function App() {
 
     const[isCorrectRoute, setIsCorrectRoute] = useState(false)
+    const [isFarmer, setIsFarmer] = useState(localStorage.getItem('userRole') == 'Farmer')
+    const [isBuyer, setIsBuyer] = useState(localStorage.getItem('userRole') == 'Buyer')
+    const [isAdmin, setIsAdmin] = useState(localStorage.getItem('userRole') == 'Admin')
+
     console.log(window.location.pathname)
 
     useEffect(() => {
@@ -21,6 +25,9 @@ function App() {
             console.log("Buyer - correct route")
         }
 
+
+
+
     }, [])
 
   return (
@@ -29,7 +36,7 @@ function App() {
         <div>
           {/*<Routes>*/}
             {
-                localStorage.getItem('userRole') == 'Farmer' && (
+                !localStorage.getItem('userRole') && (
                     <Routes>
                         <Route path="/" element={<Login />} />
                     </Routes>
