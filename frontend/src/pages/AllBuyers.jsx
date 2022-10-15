@@ -144,13 +144,13 @@ export default function AllBuyers(){
 
             const getBuyerDemands = (id)=>{
                 axios.get("http://localhost:8000/api/seller/"+id)
-                    .then((getBuyerDemands)=>{
-                        if(!getBuyerDemands){
+                    .then((res)=>{
+                        if(!res){
                             alert("Demands have not set yet.")
                             console.log("empty");
                         }else {
-                            setBuyerDemands(getBuyerDemands.data.demands)
-                            console.log(getBuyerDemands.data.demands);
+                            setBuyerDemands(res.data.demands)
+                            console.log(res.data.demands);
                         }
                 })
 
@@ -181,7 +181,8 @@ export default function AllBuyers(){
                         />
                     </button>
                     <Link to="/admin/update-buyer">
-                    <button className="mr-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-amber-800 focus:outline-none bg-amber-600" onClick={()=>setData(buyer)}>
+                    <button className="mr-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-sm font-medium text-white shadow-sm hover:bg-amber-800 focus:outline-none bg-amber-600"
+                            onClick={()=>setData(buyer)}>
                         <AiOutlineEdit
                         size={18}
                     /></button>

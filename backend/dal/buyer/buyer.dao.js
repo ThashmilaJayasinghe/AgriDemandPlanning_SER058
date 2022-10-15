@@ -1,4 +1,5 @@
 const Buyer = require("./buyer.model");
+const Farmer = require("../farmer/farmer.model")
 const bcrypt = require("bcrypt");
 
 const save = async ({
@@ -13,6 +14,7 @@ const save = async ({
   contactNumber,
   userName,
   password,
+    role
 }) => {
   const buyer = await Buyer({
     fullName,
@@ -26,6 +28,7 @@ const save = async ({
     contactNumber,
     userName,
     password,
+    role:"Buyer"
   });
 
   bcrypt.hash(password, 7, async (err, hash) => {
@@ -45,11 +48,41 @@ const save = async ({
         contactNumber,
         userName,
         password,
+        role
       });
       return buyer;
     }
   });
 };
+
+const login = async ({userName,password}) => {
+  const buyer = await Buyer.findOne({userName:userName})
+  const farmer = await Farmer.findOne({userName:userName})
+
+  if(buyer){
+    if(bcrypt.compareSync(password, buyer.password) === true){
+      console.log("matches")
+      return [true, {user:buyer}]
+    }
+    else{
+      console.log("mis-matches")
+      return [false, {user: null}]
+    }
+  }else if(farmer){
+    if(bcrypt.compareSync(password, farmer.password) === true){
+      console.log("matches")
+      return [true, {user:farmer}]
+    }
+    else{
+      console.log("mis-matches")
+      return [false, {user: null}]
+    }
+  }
+  else{
+    return [false, {user: null}]
+  }
+}
+
 
 const getAll = async () => {
   const buyers = await Buyer.find();
@@ -101,4 +134,5 @@ module.exports = {
   getById,
   updateById,
   removeById,
+  login
 };

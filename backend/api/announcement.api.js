@@ -37,7 +37,7 @@ const updateAnnouncement = async (req,res)=>{
             DeadLine,
             viewer
         })
-        return res.status(201).json({msg:"Announcement updated"},announcement);
+        return res.status(201).json(announcement);
     }catch (err){
         console.log(err);
         res.json(err);

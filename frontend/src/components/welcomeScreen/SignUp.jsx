@@ -1,12 +1,56 @@
 import React, { useState } from 'react'
+import axios from "axios";
+import navigate, {useNavigate} from "react-router-dom";
 
 const SignUp = () => {
 
-  const [email, setEmail] = useState('')
+  const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
+  const [role,setRole] = useState('');
+
+  const [isSuccess,setIsSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const onSignUp = () => {
-    console.log(email, password)
+    const user = {
+      userName, password
+    }
+    console.log(userName, password)
+    axios.post('http://localhost:8000/api/login/login', {userName, password})
+        .then((res)=>{
+
+          console.log(res.data)
+          setIsSuccess(res.data[0]);
+          // if(isSuccess===true){
+          //   setRole(res.data[1].role)
+          //   console.log(role);
+          //   if(role==="Buyer"){
+          //     localStorage.setItem("user",res.data[1])
+          //     navigate('/buyer')
+          //   }else if(role==="Farmer"){
+          //     localStorage.setItem("user",res.data[1])
+          //     navigate('/farmer')
+          //   }
+          // }
+
+          if(res.data[0] === true){
+            setRole(res.data[1].role)
+
+          }
+          if(res.data[1].user.role == 'Buyer'){
+            localStorage.setItem("user",res.data[1].user._id)
+            localStorage.setItem("userRole", res.data[1].user.role)
+            navigate('/buyer')
+          }
+          else if(res.data[1].user.role == 'Farmer'){
+            localStorage.setItem("user",res.data[1].user._id)
+            localStorage.setItem("userRole", res.data[1].user.role)
+            navigate('/farmer/home')
+          }
+
+        }).catch((err)=>{
+          alert(err);
+    })
   }
 
   return (
@@ -92,17 +136,17 @@ const SignUp = () => {
       <div className="space-y-6">
         <div>
           <label htmlFor="email" className="sr-only">
-            Email address
+            User Name
           </label>
           <input
             type="text"
-            name="email"
-            id="email"
-            autoComplete="email"
-            placeholder="Email address"
+            name="username"
+            id="username"
+            autoComplete="username"
+            placeholder="User name"
             required
             className="block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm border-gray-300 rounded-md"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUserName(e.target.value)}
           />
         </div>
 

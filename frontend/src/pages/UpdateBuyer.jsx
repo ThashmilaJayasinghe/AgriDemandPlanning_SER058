@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import FormWrapper from "../components/wrappers/FormWrapper";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {toast, ToastContainer} from "react-toastify";
 
 export default function UpdateBuyer() {
 
@@ -45,16 +46,33 @@ export default function UpdateBuyer() {
 
         axios.put('http://localhost:8000/api/buyer/'+id,updateBuyer)
             .then(()=>{
-                alert('Buyer is Updated')
+                toast.success("Buyer is Updated", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .catch((err)=>{
-                alert(err);
+                toast.error("Something went wrong!", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
     }
 
     return (
         <div>
             <FormWrapper>
+                <ToastContainer />
                 <div>
                     <form className="space-y-8 divide-y divide-gray-200">
                         <div className="space-y-8 divide-y divide-gray-200">
@@ -121,30 +139,70 @@ export default function UpdateBuyer() {
                                         </label>
                                         <div className="mt-4 space-y-4 ">
                                             <div className="flex items-center">
-                                                <input
-                                                    id="push-male"
-                                                    name="push-gender"
-                                                    type="radio"
-                                                    className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                                    value={gender}
-                                                    onChange={(e)=>(setGender(e.target.value))}
-                                                />
-                                                <label className="ml-3 block text-sm font-medium text-gray-700">
-                                                    Male
-                                                </label>
+                                                {gender == 'Male' ?
+                                                    <>
+                                                        <input
+                                                            id="push-male"
+                                                            name="push-gender"
+                                                            type="radio"
+                                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                            onChange={(e) => (setGender(e.target.value))}
+                                                            checked={true}
+                                                        />
+                                                        <label className="ml-3 block text-sm font-medium text-gray-700">
+                                                            Male
+                                                        </label>
+                                                    </>
+                                                    :
+                                                    (
+                                                        <>
+                                                            <input
+                                                                id="push-male"
+                                                                name="push-gender"
+                                                                type="radio"
+                                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                                onChange={(e) => (setGender(e.target.value))}
+                                                            />
+                                                            <label
+                                                                className="ml-3 block text-sm font-medium text-gray-700">
+                                                                Male
+                                                            </label>
+                                                        </>
+                                                    )
+                                                }
                                             </div>
                                             <div className="flex items-center">
-                                                <input
-                                                    id="push-female"
-                                                    name="push-gender"
-                                                    type="radio"
-                                                    className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                                    value={gender}
-                                                    onChange={(e)=>(setGender(e.target.value))}
-                                                />
-                                                <label className="ml-3 block text-sm font-medium text-gray-700">
-                                                    Female
-                                                </label>
+                                                {gender == 'Female' ?
+                                                    <>
+                                                        <input
+                                                            id="push-male"
+                                                            name="push-gender"
+                                                            type="radio"
+                                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                            onChange={(e) => (setGender(e.target.value))}
+                                                            checked={true}
+                                                        />
+                                                        <label className="ml-3 block text-sm font-medium text-gray-700">
+                                                            Female
+                                                        </label>
+                                                    </>
+                                                    :
+                                                    (
+                                                        <>
+                                                            <input
+                                                                id="push-male"
+                                                                name="push-gender"
+                                                                type="radio"
+                                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                                onChange={(e) => (setGender(e.target.value))}
+                                                            />
+                                                            <label
+                                                                className="ml-3 block text-sm font-medium text-gray-700">
+                                                                Female
+                                                            </label>
+                                                        </>
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </fieldset>
@@ -302,7 +360,7 @@ export default function UpdateBuyer() {
                                         Cancel
                                     </button>
                                 </Link >
-                                <Link to="/admin/all-buyers/add">
+                                <Link to="/admin/all-buyers">
                                 <button
                                     type="submit"
                                     className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
