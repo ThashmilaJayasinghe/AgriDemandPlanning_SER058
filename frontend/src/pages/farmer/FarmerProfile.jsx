@@ -34,6 +34,9 @@ export default function FarmerProfile() {
       district,
       hectare,
       profileImg,
+      email,
+      gender,
+      province,
     } = data;
     localStorage.setItem("id", _id);
     localStorage.setItem("fullName", fullName);
@@ -43,6 +46,9 @@ export default function FarmerProfile() {
     localStorage.setItem("district", district);
     localStorage.setItem("hectare", hectare);
     localStorage.setItem("profileImg", profileImg);
+    localStorage.setItem("email", email);
+    localStorage.setItem("gender", gender);
+    localStorage.setItem("province", province);
   }
 
   return (
@@ -105,18 +111,27 @@ export default function FarmerProfile() {
               </div>
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
-                  Address
+                  Gender
                 </p>
                 <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
-                  : &nbsp;&nbsp; {user.address}
+                  : &nbsp;&nbsp; {user.gender}
                 </p>
               </div>
+
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
                   NIC
                 </p>
                 <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
                   : &nbsp;&nbsp; {user.NIC}
+                </p>
+              </div>
+              <div className="mt-2 grid grid-cols-2 ">
+                <p className="flex col-span-1 items-center text-m text-gray-500 ">
+                  Email
+                </p>
+                <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
+                  : &nbsp;&nbsp; {user.email}
                 </p>
               </div>
               <div className="mt-2 grid grid-cols-2 ">
@@ -129,10 +144,27 @@ export default function FarmerProfile() {
               </div>
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
+                  Address
+                </p>
+                <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
+                  : &nbsp;&nbsp; {user.address}
+                </p>
+              </div>
+
+              <div className="mt-2 grid grid-cols-2 ">
+                <p className="flex col-span-1 items-center text-m text-gray-500 ">
                   District
                 </p>
                 <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
                   : &nbsp;&nbsp; {user.district}
+                </p>
+              </div>
+              <div className="mt-2 grid grid-cols-2 ">
+                <p className="flex col-span-1 items-center text-m text-gray-500 ">
+                  Province
+                </p>
+                <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
+                  : &nbsp;&nbsp; {user.province}
                 </p>
               </div>
               <div className="mt-2 grid grid-cols-2 ">
