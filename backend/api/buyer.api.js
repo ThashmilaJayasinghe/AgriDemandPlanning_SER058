@@ -1,13 +1,17 @@
-const {save, getAll, getById,updateById, removeById} = require("../dal/buyer/buyer.dao");
+const {save, getAll, getById,updateById, removeById, login} = require("../dal/buyer/buyer.dao");
 
 const createBuyer = async (req,res)=>{
-    const {fullName,NIC,ShopName,gender, address,province, district,  email, contactNumber,userName,password} = req.body;
+    const {fullName,NIC,ShopName,gender, address,province, district,  email, contactNumber,userName,password,role} = req.body;
     try {
         if(!userName || !password){
-           return res.status(400).json({msg:'Password and email are required'})
+           return res.status(400).json({
+               success: false,
+               msg:'Password and email are required'})
         }
         if(password.length<8){
-            return res.status(400).json({ msg: 'Password should be at least 8 characters long' })
+            return res.status(400).json({
+                success: false,
+                msg: 'Password should be at least 8 characters long' })
         }
 
         const buyer = await save({
@@ -21,10 +25,22 @@ const createBuyer = async (req,res)=>{
             email,
             contactNumber,
             userName,
-            password
+            password,
+            role
         });
        return res.status(201).json({msg:"New buyer added"},buyer);
     } catch (err) {
+        console.log(err);
+        res.json(err);
+    }
+}
+
+const userLogin = async (req,res)=>{
+    const {userName,password} = req.body;
+    try {
+        const user = await login({userName,password})
+        return res.status(201).json(user);
+    }catch (err){
         console.log(err);
         res.json(err);
     }
@@ -86,5 +102,6 @@ module.exports = {
     getBuyers,
     getBuyer,
     updateBuyer,
-    deleteBuyer
+    deleteBuyer,
+    userLogin
 }
