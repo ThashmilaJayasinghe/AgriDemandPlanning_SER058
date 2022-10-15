@@ -1,15 +1,5 @@
-/* This example requires Tailwind CSS v2.0+ */
-const faqs = [
-    {
-        id: 1,
-        question: "What's the best thing about Switzerland?",
-        answer:
-            "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
-    },
-    // More questions...
-]
 
-export default function Example() {
+export default function SuggestionDetails(props) {
     return (
         <section aria-labelledby="faq-heading" className="bg-white">
             <div className="max-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
