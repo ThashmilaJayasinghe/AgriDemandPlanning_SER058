@@ -34,7 +34,8 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-    const farmer = await Farmer.findById(id);
+    console.log(`ID passed : ${id}`)
+    const farmer = await Farmer.findById({_id:id});
     return farmer;
 };
 
@@ -55,6 +56,13 @@ const updateById = async (id, {fullName,NIC,gender, address,province, district, 
     return farmer;
 };
 
+const updateProfilePicById = async (id, {profileImg}) => {
+    const farmer = await Farmer.findByIdAndUpdate(id, {
+        profileImg
+    },{new: true})
+    return farmer;
+};
+
 const removeById = async (id) => {
     await Farmer.findByIdAndDelete(id)
 };
@@ -66,4 +74,5 @@ module.exports = {
     getById,
     updateById,
     removeById,
+    updateProfilePicById
 }

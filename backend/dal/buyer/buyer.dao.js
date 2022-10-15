@@ -128,11 +128,19 @@ const removeById = async (id) => {
   await Buyer.findByIdAndDelete(id);
 };
 
+const updateProfilePicById = async (id, {profileImg}) => {
+  const buyer = await Buyer.findByIdAndUpdate(id, {
+    profileImg
+  },{new: true})
+  return buyer;
+};
+
 module.exports = {
   save,
   getAll,
   getById,
   updateById,
   removeById,
-  login
+  login,
+  updateProfilePicById
 };

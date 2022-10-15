@@ -7,26 +7,31 @@ import { AiOutlineEdit } from "react-icons/ai";
 
 export default function FarmerProfile() {
   const [user, setUSer] = useState("");
-  const [id, setID] = useState("630e177910470806f04c70ad");
+  const [id, setID] = useState(localStorage.getItem("user"));
+  const [profileImg, setProfileImg] = useState()
+
+  console.log(`local user ID - ${id}`)
 
   useEffect(() => {
+
     function getUser() {
       axios
-        .get("http://localhost:8000/api/farmers/" + id)
+        .get("http://localhost:8000/api/farmers/"+id)
         .then((res) => {
           setUSer(res.data);
-          console.log(res.data);
+          console.log("this one ",res.data);
+          setProfileImg(res.data.profileImg);
         })
         .catch((err) => {
           alert(err.message);
         });
     }
     getUser();
-  }, []);
+  }, [profileImg]);
 
   function passValue(data) {
     let {
-      _id,
+
       fullName,
       address,
       NIC,
@@ -38,7 +43,7 @@ export default function FarmerProfile() {
       gender,
       province,
     } = data;
-    localStorage.setItem("id", _id);
+
     localStorage.setItem("fullName", fullName);
     localStorage.setItem("address", address);
     localStorage.setItem("NIC", NIC);
