@@ -36,3 +36,19 @@ export const getSuggestions = async (id, seSuggestions) => {
     }
 };
 
+export const updateStatusMessage = async (id, { recipientId, subject, creatorId, messageBody, status }) => {
+    try {
+        console.log(recipientId, subject, creatorId, messageBody, status);
+        await axios
+            .put(`${BACKEND_URL}/` + id, {
+                recipientId,
+                subject,
+                creatorId,
+                messageBody,
+                status,
+            })
+    } catch (err) {
+        console.log(err);
+    }
+};
+

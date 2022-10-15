@@ -1,9 +1,25 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { updateStatusMessage } from '../../api/MessageAPI';
 import { HiOutlineMail, HiOutlineMailOpen } from "react-icons/hi";
+import {toast} from "react-toastify";
 
 export default function SuggestionTitle(props) {
 
     const {suggestions, setSuggestion} = props;
+    const [statusChange, setStatusChange] = useState({});
+
+    //change status of message to read
+    const onViewMessage = async (id, suggestion) => {
+
+        await updateStatusMessage(id, suggestion)
+            .then(() => {
+                console.log('status changed!');
+            })
+            .catch(() => {
+                console.log('Something went wrong!');
+            });
+        // };
+    };
 
     return (
         <>
@@ -31,8 +47,9 @@ export default function SuggestionTitle(props) {
                         <button
                             className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             onClick={() => {
-                                // setShow(false)
+                                suggestion.status = 'read';
                                 setSuggestion(suggestion);
+                                onViewMessage(suggestion._id, suggestion);
                             }}
                         >
                             View
