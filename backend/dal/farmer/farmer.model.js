@@ -42,7 +42,7 @@ const farmerSchema = mongoose.Schema({
         required: [true, 'please enter password']
     },
     categories: [{
-        type: Array,
+        type: String,
         // required: [true, 'please enter category']
     }],
     hectare: {

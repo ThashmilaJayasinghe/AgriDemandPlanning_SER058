@@ -148,7 +148,7 @@ export default function FarmerProfile() {
                                 Categories
                             </p>
                             <p className="mt-2 col-span-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                : {farmer.categories}
+                                : {farmer.categories?.join(", ")}
                             </p>
                         </div>
                         <div className="grid grid-cols-5 ">
