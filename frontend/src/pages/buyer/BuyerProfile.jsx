@@ -34,6 +34,9 @@ export default function BuyerProfile() {
       district,
       ShopName,
       profileImg,
+      email,
+      gender,
+      province,
     } = data;
     localStorage.setItem("id", _id);
     localStorage.setItem("fullName", fullName);
@@ -43,6 +46,9 @@ export default function BuyerProfile() {
     localStorage.setItem("district", district);
     localStorage.setItem("ShopName", ShopName);
     localStorage.setItem("profileImg", profileImg);
+    localStorage.setItem("email", email);
+    localStorage.setItem("gender", gender);
+    localStorage.setItem("province", province);
   }
 
   return (
@@ -105,10 +111,10 @@ export default function BuyerProfile() {
               </div>
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
-                  Address
+                  Gender
                 </p>
                 <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
-                  : &nbsp;&nbsp; {user.address}
+                  : &nbsp;&nbsp; {user.gender}
                 </p>
               </div>
               <div className="mt-2 grid grid-cols-2 ">
@@ -121,10 +127,27 @@ export default function BuyerProfile() {
               </div>
               <div className="mt-2 grid grid-cols-2 ">
                 <p className="flex col-span-1 items-center text-m text-gray-500 ">
+                  Email
+                </p>
+                <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
+                  : &nbsp;&nbsp; {user.email}
+                </p>
+              </div>
+              <div className="mt-2 grid grid-cols-2 ">
+                <p className="flex col-span-1 items-center text-m text-gray-500 ">
                   Telephone
                 </p>
                 <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
                   : &nbsp;&nbsp; 0{user.contactNumber}
+                </p>
+              </div>
+
+              <div className="mt-2 grid grid-cols-2 ">
+                <p className="flex col-span-1 items-center text-m text-gray-500 ">
+                  Address
+                </p>
+                <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
+                  : &nbsp;&nbsp; {user.address}
                 </p>
               </div>
               <div className="mt-2 grid grid-cols-2 ">
@@ -133,6 +156,14 @@ export default function BuyerProfile() {
                 </p>
                 <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
                   : &nbsp;&nbsp; {user.district}
+                </p>
+              </div>
+              <div className="mt-2 grid grid-cols-2 ">
+                <p className="flex col-span-1 items-center text-m text-gray-500 ">
+                  Province
+                </p>
+                <p className="mt-2 col-span-1 flex items-center text-m text-gray-500 sm:mt-0">
+                  : &nbsp;&nbsp; {user.province}
                 </p>
               </div>
               <div className="mt-2 grid grid-cols-2 ">

@@ -43,45 +43,72 @@ const SeedRequest = () => {
   const [location, setLocation] = useState("");
   const [isCreationSuccess, setIsCreationSuccess] = useState(false);
   const [userId, setUserId] = useState("63177a60b7f1ef5842d83319");
+  const [isSizeError, setIsSizeError] = useState(false);
+  const [isWeightError, setIsWeightError] = useState(false);
 
   useEffect(() => {
     setSelectedType(selectedCategory.types[0]);
   }, [selectedCategory]);
 
   const handleSubmit = async () => {
-    await createSeedRequest(
-      {
-        farmerId: userId,
-        category: selectedCategory.title,
-        type: selectedType,
-        sizeOfLand: size,
-        weight,
-        location,
-      },
-      setIsCreationSuccess
-    )
-      .then(() => {
-        toast.success("Data added successfully !", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+    if (size <= 0) {
+      setIsSizeError(true);
+    } else {
+      setIsSizeError(false);
+    }
+
+    if (weight <= 0) {
+      setIsWeightError(true);
+    } else {
+      setIsWeightError(false);
+    }
+
+    if (size > 0 && weight > 0) {
+      await createSeedRequest(
+        {
+          farmerId: userId,
+          category: selectedCategory.title,
+          type: selectedType,
+          sizeOfLand: size,
+          weight,
+          location,
+        },
+        setIsCreationSuccess
+      )
+        .then(() => {
+          toast.success("Data added successfully !", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        })
+        .catch(() => {
+          toast.error("Something went wrong!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
-      })
-      .catch(() => {
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+    }
+    else{
+      toast.error("Something went wrong!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
+    }
   };
 
   return (
@@ -224,7 +251,15 @@ const SeedRequest = () => {
             onChange={(event) => {
               setSize(event.target.value);
             }}
+            required
           />
+
+          {isSizeError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Size must have positive value
+            </div>
+          )}
+
           <label
             htmlFor="weight"
             className="block text-base font-medium text-gray-700 mt-6"
@@ -240,7 +275,15 @@ const SeedRequest = () => {
             onChange={(event) => {
               setWeight(event.target.value);
             }}
+            required
           />
+
+          {isWeightError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Weight must have positive value
+            </div>
+          )}
+
           <label
             htmlFor="location"
             className="block text-base font-medium text-gray-700 mt-6"
