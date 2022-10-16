@@ -22,7 +22,57 @@ export default function AddFarmer() {
     const [password, setPassword] = useState("");
 
 
-    const handleSubmit = () => {
+    const [isNICError, setIsNICError] = useState(false);
+    const [isAgeError, setAgeError] = useState(false);
+    const [isContactNumberError, setIsContactNumberError] = useState(false);
+    const[isEmailError, setIsEmailError] = useState(false)
+    const[isPasswordError, setIsPasswordError] = useState(false)
+
+    const handleSubmit = (event) => {
+
+        let emailValidation = false;
+        // let mobileValidation = false;
+        event.preventDefault();
+        if(nic.length < 10 && nic.length > 12){
+            setIsNICError(true);
+        }else{
+            setIsNICError(false)
+        }
+
+        // let mobileNoRegex = /^([0-9]{9,10})$/
+        // if(!contactNumber.match(mobileNoRegex)){
+        //     setIsContactNumberError(true);
+        //     mobileValidation = true;
+        // }
+        // else {
+        //     setIsContactNumberError(false)
+        //     mobileValidation = false;
+        // }
+
+        if(age<0||age>150){
+            setAgeError(true)
+        }else {
+            setAgeError(false)
+        }
+        let validEmailRegrex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if(!email.match(validEmailRegrex)){
+            setIsEmailError(true)
+            emailValidation = false
+        }else{
+            setIsEmailError(false)
+            emailValidation = true
+        }
+
+        if(password.length < 8){
+            setIsPasswordError(true)
+        }
+        else{
+            setIsPasswordError(false)
+        }
+
+        if(nic.length >= 10 && password.length >= 8 && emailValidation == true &&(age>0 && age<100)) {
+            // if(nic.length > 10 && contactNumber.length < 11) {
+            console.log(isEmailError)
         const newFarmer = {
             fullName,
             NIC:nic,
@@ -38,7 +88,8 @@ export default function AddFarmer() {
             password,
             role:"Farmer"
         }
-
+console
+    .log(newFarmer)
         axios.post('http://localhost:8000/api/farmers/',newFarmer)
             .then(()=>{
                 //alert('Request Sent')
@@ -63,6 +114,19 @@ export default function AddFarmer() {
                     progress: undefined,
                 });
             })
+        }
+
+        else{
+            toast.error("Something went wrong!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
     }
         return (
             <FormWithConstraints>
@@ -70,7 +134,7 @@ export default function AddFarmer() {
                 <FormWrapper>
                     <ToastContainer />
                     <div>
-                        <form className="space-y-8 divide-y divide-gray-200">
+                        <div className="space-y-8 divide-y divide-gray-200">
                             <div className="space-y-8 divide-y divide-gray-200">
                                 <div className="pt-8">
                                     <h1 className="text-lg leading-8 font-medium text-blue-900">Farmer Registration Form</h1>
@@ -114,6 +178,12 @@ export default function AddFarmer() {
                                                 />
                                             </div>
                                         </div>
+                                        {isNICError && (
+                                            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                                                NIC Should be more that 10 characters
+                                            </div>
+                                        )
+                                        }
 
                                         <div className="sm:col-span-6">
                                             <label className="block text-sm font-medium text-gray-700">
@@ -130,6 +200,12 @@ export default function AddFarmer() {
                                                 />
                                             </div>
                                         </div>
+                                        {isAgeError && (
+                                            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                                                Age Should between 0 and 150 characters
+                                            </div>
+                                        )
+                                        }
 
                                         <fieldset className="sm:col-span-6">
                                             <label className="block text-sm font-medium text-gray-700">
@@ -287,6 +363,12 @@ export default function AddFarmer() {
                                                 <FieldFeedbacks for="email">
                                                     <FieldFeedback when="*" />
                                                 </FieldFeedbacks>
+                                                {isEmailError && (
+                                                    <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                                                        Please insert a valid email address
+                                                    </div>
+                                                )
+                                                }
                                             </div>
                                         </div>
 
@@ -307,6 +389,13 @@ export default function AddFarmer() {
                                                 <FieldFeedbacks for="phone">
                                                     <FieldFeedback when="*" />
                                                 </FieldFeedbacks>
+
+                                                {/*{isContactNumberError && (*/}
+                                                {/*    <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">*/}
+                                                {/*        Contact Number Should be more than 10 numbers*/}
+                                                {/*    </div>*/}
+                                                {/*)*/}
+                                                {/*}*/}
                                             </div>
                                         </div>
 
@@ -349,6 +438,12 @@ export default function AddFarmer() {
                                                     onChange={(e)=>(setPassword(e.target.value))}
                                                 />
                                             </div>
+                                            {isPasswordError && (
+                                                <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                                                    Password Should be more than 8 numbers
+                                                </div>
+                                            )
+                                            }
                                         </div>
 
                                         {/*<div className="sm:col-span-6">*/}
@@ -388,7 +483,7 @@ export default function AddFarmer() {
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </FormWrapper>
             </div>

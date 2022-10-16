@@ -26,12 +26,12 @@ export default function AllAnnouncements(){
                 </div>
             <div className="mt-4 sm:mt-0 sm:flex-none">
             <Link to="/admin/all-announcements/add">
-                <button type="button" className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 sm:w-auto bg-green-600">
+                <button type="button" className="inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
                     +Add new
                 </button></Link>
                 {/*<ToastContainer />*/}
             </div>
-                <div className="pb-4 pt-4">
+                <div className="pb-4">
                     <input
                         type="text"
                         name="searchRequests"
@@ -49,7 +49,7 @@ export default function AllAnnouncements(){
                     .filter((announcement)=>{
                         if(search == ""){
                             return announcement
-                        }else if (announcement.DeadLine.toLowerCase().includes(search.toLocaleString())){
+                        }else if (announcement.viewer.toLowerCase().includes(search.toLocaleString())){
                             return announcement
                         }
                     })

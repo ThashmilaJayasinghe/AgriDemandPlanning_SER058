@@ -29,7 +29,7 @@ function App() {
         <div>
           {/*<Routes>*/}
             {
-                localStorage.getItem('userRole') == 'Farmer' && (
+                localStorage.getItem('userRole') == null && (
                     <Routes>
                         <Route path="/" element={<Login />} />
                     </Routes>

@@ -3,8 +3,6 @@ import React, {useState} from 'react';
 import {FormWithConstraints,
     FieldFeedbacks,
     FieldFeedback} from 'react-form-with-constraints'
-
-
 import FormWrapper from "../components/wrappers/FormWrapper";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -20,51 +18,116 @@ export default function AddBuyer() {
     const [district, setDistrict] = useState("");
     const [province, setProvince] = useState("");
     const [email, setEmail] = useState("");
-    const [contactNumber, setContactNumber] = useState("");
+    const [contactNumber, setContactNumber] = useState(0);
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
+    const [isNICError, setIsNICError] = useState(false);
+    const [isContactNumberError, setIsContactNumberError] = useState(false);
+    const[isEmailError, setIsEmailError] = useState(false)
+    const[isPasswordError, setIsPasswordError] = useState(false)
 
-    const handleSubmit = () => {
-      const newBuyer = {
-          fullName,
-          NIC:nic,
-          ShopName:shopName,
-          gender,
-          address,
-          district,
-          province,
-          email,
-          contactNumber,
-          userName,
-          password,
-          role:"Buyer"
-      }
 
-      axios.post('http://localhost:8000/api/buyer/',newBuyer)
-          .then((res)=>{
-              //alert(res.json());
-              toast.success("New buyer added!", {
-                  position: "top-right",
-                  autoClose: 3000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-              });
-          })
-          .catch(()=>{
-              toast.error("Something went wrong!", {
-                  position: "top-right",
-                  autoClose: 3000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-              });
-          })
+    const handleSubmit = (event) => {
+
+        let emailValidation = false;
+        // let mobileValidation = false;
+        event.preventDefault();
+        if(nic.length < 10 && nic.length > 12){
+            setIsNICError(true);
+        }else{
+            setIsNICError(false)
+        }
+
+        // let mobileNoRegex = /^([0-9]{9,10})$/
+        // if(!contactNumber.match(mobileNoRegex)){
+        //     setIsContactNumberError(true);
+        //     mobileValidation = true;
+        // }
+        // else {
+        //     setIsContactNumberError(false)
+        //     mobileValidation = false;
+        // }
+
+        // const phoneRegex = /^([0-9]{10})$/
+        // if(contactNumber.match(phoneRegex)){
+        //     setIsContactNumberError(false);
+        //     console.log("Called ")
+        // }else{
+        //     setIsContactNumberError(true);
+        // }
+        // console.log(contactNumber)
+        let validEmailRegrex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if(!email.match(validEmailRegrex)){
+            setIsEmailError(true)
+            emailValidation = false
+        }else{
+            setIsEmailError(false)
+            emailValidation = true
+        }
+
+        if(password.length < 8){
+            setIsPasswordError(true)
+        }
+        else{
+            setIsPasswordError(false)
+        }
+
+        if(nic.length >= 10 && password.length >= 8 && emailValidation == true) {
+            // if(nic.length > 10 && contactNumber.length < 11) {
+            // console.log(isEmailError)
+
+            const newBuyer = {
+                fullName,
+                NIC: nic,
+                ShopName: shopName,
+                gender,
+                address,
+                district,
+                province,
+                email,
+                contactNumber,
+                userName,
+                password,
+                role: "Buyer"
+            }
+
+            axios.post('http://localhost:8000/api/buyer/', newBuyer)
+                .then(() => {
+                    toast.success("New buyer added!", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                })
+                .catch(() => {
+                    toast.error("Something went wrong!", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                })
+        }
+
+        else{
+            toast.error("Something went wrong!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
     }
 
         return (
@@ -73,7 +136,7 @@ export default function AddBuyer() {
                 <FormWrapper>
                     <ToastContainer />
                     <div>
-                        <form className="space-y-8 divide-y divide-gray-200">
+                        <div className="space-y-8 divide-y divide-gray-200">
                             <div className="space-y-8 divide-y divide-gray-200">
                                 <div className="pt-8">
                                     <h1 className="text-lg leading-8 font-medium text-blue-900">Buyer Registration Form</h1>
@@ -124,6 +187,12 @@ export default function AddBuyer() {
                                                     onChange={(e)=>(setNic(e.target.value))}
                                                 />
                                             </div>
+                                            {isNICError && (
+                                                <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                                                    NIC Should be more that 10 characters
+                                                </div>
+                                            )
+                                            }
                                         </div>
 
                                         <div className="sm:col-span-6">
@@ -299,6 +368,12 @@ export default function AddBuyer() {
                                                 <FieldFeedbacks for="email">
                                                     <FieldFeedback when="*" />
                                                 </FieldFeedbacks>
+                                                {isEmailError && (
+                                                    <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                                                        Please insert a valid email address
+                                                    </div>
+                                                )
+                                                }
                                             </div>
                                         </div>
 
@@ -319,6 +394,13 @@ export default function AddBuyer() {
                                                 <FieldFeedbacks for="phone">
                                                     <FieldFeedback when="*" />
                                                 </FieldFeedbacks>
+
+                                                {/*{isContactNumberError && (*/}
+                                                {/*    <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">*/}
+                                                {/*        Contact Number Should be more than 10 numbers*/}
+                                                {/*    </div>*/}
+                                                {/*)*/}
+                                                {/*}*/}
                                             </div>
                                         </div>
 
@@ -361,29 +443,20 @@ export default function AddBuyer() {
                                                     onChange={(e)=>(setPassword(e.target.value))}
                                                 />
                                             </div>
+                                            {isPasswordError && (
+                                                <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+                                                    Password Should be more than 8 numbers
+                                                </div>
+                                            )
+                                            }
                                         </div>
-
-                                        {/*<div className="sm:col-span-6">*/}
-                                        {/*    <label className="block text-sm font-medium text-gray-700">*/}
-                                        {/*        Conform Password*/}
-                                        {/*    </label>*/}
-                                        {/*    <div className="mt-1">*/}
-                                        {/*        <input*/}
-                                        {/*            type="password"*/}
-                                        {/*            name="password"*/}
-                                        {/*            id="password"*/}
-                                        {/*            placeholder="Buyer's Conform Password"*/}
-                                        {/*            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"*/}
-                                        {/*        />*/}
-                                        {/*    </div>*/}
-                                        {/*</div>*/}
                                     </div>
                                 </div>
                             </div>
 
                             <div className="pt-5">
                                 <div className="flex justify-end">
-                                    <Link to="/admin/all-buyers/add">
+                                    <Link to="/admin/all-buyers">
                                     <button
                                         type="button"
                                         className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -391,6 +464,7 @@ export default function AddBuyer() {
                                         Cancel
                                     </button>
                                     </Link>
+                                    <Link to="/admin/all-buyers">
                                     <button
                                         type="submit"
                                         className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -398,9 +472,10 @@ export default function AddBuyer() {
                                     >
                                         Save
                                     </button>
+                                        </Link>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </FormWrapper>
             </div>
