@@ -1,4 +1,5 @@
-const {save, getAll, getById,updateById, removeById, login} = require("../dal/buyer/buyer.dao");
+const {save, getAll, getById,updateById, removeById, login, updateProfilePicById} = require("../dal/buyer/buyer.dao");
+
 
 const createBuyer = async (req,res)=>{
     const {fullName,NIC,ShopName,gender, address,province, district,  email, contactNumber,userName,password,role} = req.body;
@@ -88,6 +89,19 @@ const updateBuyer = async (req, res) => {
     }
 };
 
+const updateBuyerProfile = async (req, res) => {
+    const {profileImg} = req.body;
+    try {
+        const buyer = await updateProfilePicById(req.params.id, {
+            profileImg
+        });
+        res.status(200).json(buyer);
+    } catch (err) {
+        console.log(err);
+        res.json(err);
+    }
+};
+
 const deleteBuyer = async (req, res) => {
     try {
         await removeById(req.params.id);
@@ -104,5 +118,6 @@ module.exports = {
     getBuyer,
     updateBuyer,
     deleteBuyer,
-    userLogin
+    userLogin,
+    updateBuyerProfile
 }

@@ -28,7 +28,7 @@ export const getCropTypes = async (setCategories, setCrops) => {
 
     try {
         await axios
-            .get(`${BACKEND_URL}/crops/`, {})
+            .get(`${BACKEND_URL}/crops/`)
             .then((res) => {
                 setCategories(res.data);
                 setCrops(res.data);

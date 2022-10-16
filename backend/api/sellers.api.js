@@ -50,13 +50,11 @@ const addDemand = async (req, res) => {
       });
     }
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Demand is not added and not crop demand updated",
-        data: null,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Demand is not added and not crop demand updated",
+      data: null,
+    });
   }
 };
 

@@ -103,7 +103,7 @@ const FarmerHeader = () => {
   const [isLoggedIn, IsLoggedIn] = useState(true);
   const [farmerPic, setFarmerPic] = useState("");
   const [user, setUSer] = useState("");
-  const [id, setID] = useState("630e177910470806f04c70ad");
+  const [id, setID] = useState(localStorage.getItem("user"));
   const [clickedItem, setClickedItem] = useState("");
 
   useEffect(() => {
@@ -301,12 +301,24 @@ const FarmerHeader = () => {
               {isLoggedIn === true ? (
                 <>
                   {/* User profile icon here */}
-                  <div>
+                  <div className="flex">
+                    <Link to={'/farmer/profile'}>
                     <img
                       src={user.profileImg}
                       alt="Profile image"
-                      className="rounded-full w-10 h-10"
+                      className="rounded-full w-10 h-10 text-sm mr-4"
                     />
+                    </Link>
+                    <button
+                      className="-mr-3 text-gray-500 hover:text-gray-600 hover:scale-105"
+                      onClick={() => {
+                        localStorage.removeItem("user");
+                        localStorage.removeItem("userRole");
+                        window.location.href = "/";
+                      }}
+                    >
+                      Logout
+                    </button>
                   </div>
                 </>
               ) : (
@@ -352,9 +364,7 @@ const FarmerHeader = () => {
             <div className="rounded-lg shadow-lg ring-1 ring-emerald-500 ring-opacity-5 bg-white divide-y-2 divide-gray-50">
               <div className="pt-5 pb-6 px-5 sm:pb-8">
                 <div className="flex items-center justify-between">
-                  <div>
-                    
-                  </div>
+                  <div></div>
                   <div className="-mr-2">
                     <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                       <span className="sr-only">Close menu</span>

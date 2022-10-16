@@ -1,4 +1,4 @@
-const { save, getAll, getById, updateById, removeById } = require('../dal/farmer/farmers.dao');
+const { save, getAll, getById, updateById, removeById, updateProfilePicById} = require('../dal/farmer/farmers.dao');
 
 
 const createFarmer = async (req, res) => {
@@ -70,7 +70,21 @@ const updateFarmer = async (req, res) => {
             hectare,
             userName,
             password,
-            profileImg,
+            profileImg
+        });
+        res.status(200).json(farmer);
+    } catch (err) {
+        console.log(err);
+        res.json(err);
+    }
+};
+
+const updateFarmerProfile = async (req, res) => {
+    const profileImg = req.body.url;
+    console.log(`Image URl ${profileImg}`)
+    try {
+        const farmer = await updateProfilePicById(req.params.id, {
+            profileImg
         });
         res.status(200).json(farmer);
     } catch (err) {
@@ -95,4 +109,5 @@ module.exports = {
     getFarmer,
     updateFarmer,
     deleteFarmer,
+    updateFarmerProfile
 };
