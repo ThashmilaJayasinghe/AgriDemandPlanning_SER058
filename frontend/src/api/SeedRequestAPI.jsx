@@ -75,6 +75,20 @@ export const updateSeedRequest = async (
     console.log(err);
     setIsCreationSuccess(false);
   }
+
+    try {
+        await axios
+            .post(`${BACKEND_URL}/crops/updateSupply`, {
+                category,
+                type,
+                supply: weight
+            })
+            .then((result) => {
+                console.log(result.data.success);
+            });
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 export const deleteSeedRequest = async (requestId, setIsDeleteSuccess) => {

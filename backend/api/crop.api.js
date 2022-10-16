@@ -2,6 +2,7 @@ const {
   addCrop,
   getAllCrops,
   addDemandForCrop,
+  addSupplyForCrop,
 } = require("../dal/crop/crops.dao");
 
 const createCrop = async (req, res) => {
@@ -80,8 +81,42 @@ const updateDemandForCrop = async (req, res) => {
   }
 };
 
+const updateSupplyForCrop = async (req, res) => {
+  try {
+    const { category, type, supply } = req.body;
+    const cropSupply = await addSupplyForCrop({
+      category,
+      type,
+      supply,
+    });
+
+    if (cropSupply) {
+      res.status(201).json({
+        success: true,
+        message: "Crop supply updated",
+        data: cropSupply,
+      });
+    } else {
+      console.log("Something went wrong!");
+      res.status(500).json({
+        success: false,
+        message: "Crop supply is not updated",
+        data: cropSupply,
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({
+      success: false,
+      message: "Crop supply is not updated",
+      data: err,
+    });
+  }
+};
+
 module.exports = {
   createCrop,
   getCrops,
   updateDemandForCrop,
+  updateSupplyForCrop
 };
