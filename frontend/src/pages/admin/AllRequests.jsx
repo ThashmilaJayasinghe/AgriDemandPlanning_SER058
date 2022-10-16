@@ -9,7 +9,6 @@ import "jspdf-autotable";
 export default function AllRequests() {
 
     const [requests, setRequests] = useState([]);
-    const [sortedRequests, setSortedRequests] = useState([]);
     const [search, setSearch] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
@@ -120,7 +119,7 @@ export default function AllRequests() {
                             scope="col"
                             className="hidden px-3 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                         >
-                            Land Size (Hectare)
+                            Projected Supply (kg)
                         </th>
                         <th
                             scope="col"
@@ -154,8 +153,8 @@ export default function AllRequests() {
                                         <dd className="mt-1 truncate text-gray-900">{request.category}</dd>
                                     </dl>
                                     <dl className="font-normal lg:hidden">
-                                        <dt className="sr-only">Land Size</dt>
-                                        <dd className="mt-1 truncate text-gray-900">{request.sizeOfLand}</dd>
+                                        <dt className="sr-only">Projected Supply</dt>
+                                        <dd className="mt-1 truncate text-gray-900">{request.weight}</dd>
                                     </dl>
                                     <dl className="font-normal lg:hidden">
                                         <dt className="sr-only">Status</dt>
@@ -163,7 +162,7 @@ export default function AllRequests() {
                                     </dl>
                                 </td>
                                 <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.category}</td>
-                                <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.sizeOfLand}</td>
+                                <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.weight}</td>
                                 <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.status}</td>
                                 <td className="py-4 px-3 text-right text-sm font-medium sm:pr-6">
                                     <a

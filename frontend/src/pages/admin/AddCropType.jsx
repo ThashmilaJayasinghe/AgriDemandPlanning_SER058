@@ -150,6 +150,7 @@ const AddCropType = () => {
     let counter = true;
     let newCrop = {};
 
+
     const handleSubmit = async () => {
 
         if(selectedCategory._id === 'new-category-1234') {
