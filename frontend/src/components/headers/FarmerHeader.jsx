@@ -103,7 +103,7 @@ const FarmerHeader = () => {
   const [isLoggedIn, IsLoggedIn] = useState(true);
   const [farmerPic, setFarmerPic] = useState("");
   const [user, setUSer] = useState("");
-  const [id, setID] = useState("630e177910470806f04c70ad");
+  const [id, setID] = useState(localStorage.getItem("user"));
   const [clickedItem, setClickedItem] = useState("");
 
   useEffect(() => {
@@ -302,11 +302,13 @@ const FarmerHeader = () => {
                 <>
                   {/* User profile icon here */}
                   <div className="flex">
+                    <Link to={'/farmer/profile'}>
                     <img
                       src={user.profileImg}
                       alt="Profile image"
                       className="rounded-full w-10 h-10 text-sm"
                     />
+                    </Link>
                     <button
                       className="-mr-3 text-gray-500 hover:text-gray-600 hover:scale-105"
                       onClick={() => {
