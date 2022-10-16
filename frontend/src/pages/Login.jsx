@@ -20,7 +20,7 @@ function Dashboard() {
   const [clickedItem, setClickedItem] = useState("sign-up");
 
   return (
-    <div className="relative bg-emerald-800 overflow-hidden">
+    <div className="relative h-full bg-emerald-800 overflow-hidden">
       <div
         className="hidden sm:block sm:absolute sm:inset-0"
         aria-hidden="true"
@@ -122,7 +122,7 @@ function Dashboard() {
                           clickedItem == "sign-up"
                             ? "border-b border-emerald-300 text-green-700"
                             : "text-emerald-500 hover:text-green-700",
-                          "inline-block py-2 px-12 "
+                          "inline-block py-2 px-12 md:mt-8"
                         )}
                         aria-current="page"
                         onClick={() => setClickedItem("sign-up")}
@@ -150,30 +150,10 @@ function Dashboard() {
                   {/*{clickedItem == "sign-in" && <SignIn />}*/}
                   {clickedItem == "sign-up" && <SignUp />}
 
-                  <div className="px-4 py-6 bg-gray-50 border-t-2 border-gray-200 sm:px-10">
+                  <div className="px-4 py-6 md:mt-6 bg-gray-50 border-t-2 border-gray-200 sm:px-10">
                     <p className="text-xs leading-5 text-gray-500">
-                      By signing up, you agree to our{" "}
-                      <a
-                        href="#"
-                        className="font-medium text-gray-900 hover:underline"
-                      >
-                        Terms
-                      </a>
-                      ,{" "}
-                      <a
-                        href="#"
-                        className="font-medium text-gray-900 hover:underline"
-                      >
-                        Data Policy
-                      </a>{" "}
-                      and{" "}
-                      <a
-                        href="#"
-                        className="font-medium text-gray-900 hover:underline"
-                      >
-                        Cookies Policy
-                      </a>
-                      .
+                      By signing up, you agree to our Terms , Data Policy and{" "}
+                      Cookies Policy .
                     </p>
                   </div>
                 </div>
