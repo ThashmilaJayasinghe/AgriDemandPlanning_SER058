@@ -306,7 +306,7 @@ const FarmerHeader = () => {
                     <img
                       src={user.profileImg}
                       alt="Profile image"
-                      className="rounded-full w-10 h-10 text-sm"
+                      className="rounded-full w-10 h-10 text-sm mr-4"
                     />
                     </Link>
                     <button
