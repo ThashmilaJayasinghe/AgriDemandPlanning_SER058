@@ -15,17 +15,38 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BsArrowRightCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const SeedRequestList = () => {
   const [myRequests, setMyRequests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userId, setUserId] = useState("630e177910470806f04c70ad");
+  const [userId, setUserId] = useState(localStorage.getItem("user"));
   const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
   const [isSearchResultExists, setIsSearchResultExists] = useState(false);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [deadline, setDeadline] = useState("2022-10-15T16:57:14.503+00:00");
+  const [deadline, setDeadline] = useState("2022-10-17T16:57:14.503+00:00");
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
+  const [announcements, setAnnouncements] = useState()
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/announcement/").then((res) => {
+      res.data.map((item, idx) => {
+        if (item.viewer === "Farmer") {
+          setAnnouncements(item);
+        }
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    if(announcements){
+      setDeadline(announcements.DeadLine)
+    }
+    
+  }, [announcements])
+
+  console.log(announcements)
 
   useEffect(() => {
     async function getRequests() {
@@ -121,7 +142,6 @@ const SeedRequestList = () => {
       console.log("Time greater");
       setIsDeadlinePassed(true);
     }
-
   }, []);
 
   return (
@@ -140,7 +160,7 @@ const SeedRequestList = () => {
             <div className="ml-1">
               Deadline for your requests is{" "}
               <i className="text-red-600">
-                <u>{moment(deadline).format('L')}</u>
+                <u>{moment(deadline).format("L")}</u>
               </i>
             </div>
           </div>

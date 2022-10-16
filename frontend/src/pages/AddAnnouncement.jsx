@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import {FormWithConstraints,
-    FieldFeedbacks,
-    FieldFeedback} from 'react-form-with-constraints'
+import {FormWithConstraints} from 'react-form-with-constraints'
 import FormWrapper from "../components/wrappers/FormWrapper";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import {toast, ToastContainer} from "react-toastify";
 
 export default function AddAnnouncement(){
     const [heading,setHeading] = useState("");
@@ -15,7 +14,8 @@ export default function AddAnnouncement(){
     const [DeadLine,setDeadLine] = useState("");
     const [viewer,setViewer] = useState("");
     
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
       const newAnnouncement = {
           heading,
           message,
@@ -25,19 +25,36 @@ export default function AddAnnouncement(){
       }
 
       axios.post('http://localhost:8000/api/announcement/', newAnnouncement)
-          .then((res)=>{
-              alert('Request sent')
+          .then(()=>{
+              toast.success("New Announcement Added", {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+              });
           })
-          .catch((err)=>{
-              alert(err)
+          .catch(()=>{
+              toast.error("Something went wrong!", {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+              });
           })
     }
     return(
         <FormWithConstraints>
             <div>
                 <FormWrapper>
+                    <ToastContainer />
                     <div>
-                <form className="space-y-8 divide-y divide-gray-200">
+                <div className="space-y-8 divide-y divide-gray-200">
                     <div className="space-y-8 divide-y divide-gray-200">
                         <div className="pt-8">
                             <h1 className="text-lg leading-8 font-medium text-blue-900">Add Announcement</h1>
@@ -160,7 +177,7 @@ export default function AddAnnouncement(){
                     </div>
                     <div className="pt-5">
                         <div className="flex justify-end">
-                            <Link to="/admin/all-announcement/add">
+                            <Link to="/admin/all-announcements">
                                 <button
                                     type="button"
                                     className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -168,6 +185,7 @@ export default function AddAnnouncement(){
                                     Cancel
                                 </button>
                             </Link>
+                            <Link to="/admin/all-announcements">
                             <button
                                 type="submit"
                                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
@@ -175,9 +193,10 @@ export default function AddAnnouncement(){
                             >
                                 Post Announcement
                             </button>
+                            </Link>
                         </div>
                     </div>
-                </form>
+                </div>
                     </div>
                 </FormWrapper>
             </div>

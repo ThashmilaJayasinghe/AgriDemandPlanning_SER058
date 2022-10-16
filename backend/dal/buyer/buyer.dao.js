@@ -1,5 +1,6 @@
 const Buyer = require("./buyer.model");
 const Farmer = require("../farmer/farmer.model")
+const Admin = require('../admin/admin.model')
 const bcrypt = require("bcrypt");
 
 const save = async ({
@@ -58,6 +59,7 @@ const save = async ({
 const login = async ({userName,password}) => {
   const buyer = await Buyer.findOne({userName:userName})
   const farmer = await Farmer.findOne({userName:userName})
+  const admin = await Admin.findOne({userName:userName})
 
   if(buyer){
     if(bcrypt.compareSync(password, buyer.password) === true){
@@ -74,6 +76,14 @@ const login = async ({userName,password}) => {
       return [true, {user:farmer}]
     }
     else{
+      console.log("mis-matches")
+      return [false, {user: null}]
+    }
+  }else if(admin) {
+    if (bcrypt.compareSync(password, admin.password) === true) {
+      console.log("matches")
+      return [true, {user: admin}]
+    } else {
       console.log("mis-matches")
       return [false, {user: null}]
     }

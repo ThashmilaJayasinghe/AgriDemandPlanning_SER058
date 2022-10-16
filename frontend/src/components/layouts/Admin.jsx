@@ -33,7 +33,6 @@ import AllAnnouncements from "../../pages/AllAnnouncements";
 import AddAnnouncement from "../../pages/AddAnnouncement";
 import UpdateAnnouncement from "../../pages/UpdateAnnouncement";
 
-
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
     { name: 'All Farmers', href: '/admin/all-farmers', icon: UsersIcon, current: false },
@@ -99,12 +98,11 @@ export default function AdminLayout() {
                                 </div>
                             </Transition.Child>
                             <div className="flex-shrink-0 flex items-center px-4">
-                                <img
-                                    className="h-8 w-auto"
-                                    src="/dm_image.png"
-                                    alt="Admin Panel"
-                                />
-                                <p className="text-xl font-semibold tracking-tight text-white sm:text-3xl">admin panel</p>
+                                {/*<img*/}
+                                {/*    className="h-8 w-auto"*/}
+                                {/*    //src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"*/}
+                                {/*    alt="Workflow"*/}
+                                {/*/>*/}
                             </div>
                             <div className="mt-5 flex-1 h-0 overflow-y-auto">
                                 <nav className="px-2 space-y-1">
@@ -142,12 +140,11 @@ export default function AdminLayout() {
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
                     <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
-                        <img
-                            className="h-8 w-auto"
-                            src="/dm_image.png"
-                            alt="Admin Panel"
-                        />
-                        <p className="text-xl font-semibold tracking-tight text-white sm:text-3xl">admin panel</p>
+                        {/*<img*/}
+                        {/*    className="h-8 w-auto"*/}
+                        {/*    src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"*/}
+                        {/*    alt="Workflow"*/}
+                        {/*/>*/}
                     </div>
                     <div className="flex-1 flex flex-col overflow-y-auto">
                         <nav className="flex-1 px-2 py-4 space-y-1">
@@ -209,7 +206,6 @@ export default function AdminLayout() {
                                 <Route path="/all-announcements" element={<AllAnnouncements/>}/>
                                 <Route path="/all-announcements/add" element={<AddAnnouncement/>}/>
                                 <Route path="/update-announcement"element={<UpdateAnnouncement/>}/>
-
                             </Routes>
                         </div>
                     </div>
