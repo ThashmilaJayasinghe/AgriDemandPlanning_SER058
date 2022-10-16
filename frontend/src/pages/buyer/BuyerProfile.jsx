@@ -7,7 +7,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 
 export default function BuyerProfile() {
   const [user, setUSer] = useState("");
-  const [id, setID] = useState("631a817bcd0b1fec7e413ec6");
+  const [id, setID] = useState(localStorage.getItem("user"));
 
   useEffect(() => {
     function getUser() {

@@ -48,7 +48,7 @@ const SeedRequestList = () => {
     await deleteSeedRequest(requestId, setIsDeleteSuccess)
       .then(() => {
         toast.success("Request deleted!", {
-          position: "--right",
+          position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,

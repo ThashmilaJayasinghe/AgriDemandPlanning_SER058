@@ -18,6 +18,7 @@ app.use('/api/seed-request', require('./routes/seedRequest.routes'));
 app.use('/api/message', require('./routes/message.routes'));
 app.use('/api/crops', require('./routes/crops.routes'));
 app.use('/api/announcement',require('./routes/announcement.routes'))
+app.use('/api/login',require('./routes/buyers.routes'))
 
 
 app.listen(port, ()=>console.log(`Server is running on port no : ${port}`))

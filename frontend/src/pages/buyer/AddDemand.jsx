@@ -43,42 +43,68 @@ const AddDemand = () => {
   const [remarks, setRemarks] = useState("");
   const [isCreationSuccess, setIsCreationSuccess] = useState(false);
   const [userId, setUserId] = useState("6316e8f38ec2b4c57b170a34");
+  const [isSellingError, setIsSellingError] = useState(false);
+  const [isPriceError, setIsPriceError] = useState(false);
 
   const handleSubmit = async () => {
-    await createProductDemand(
-      {
-        buyerID: userId,
-        category: selectedCategory.title,
-        type: selectedType,
-        // type: "Samba",
-        sellings,
-        unitPrice,
-        remarks,
-      },
-      setIsCreationSuccess
-    )
-      .then(() => {
-        toast.success("Data added successfully !", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+    if (sellings <= 0) {
+      setIsSellingError(true);
+    } else {
+      setIsSellingError(false);
+    }
+
+    if (unitPrice <= 0) {
+      setIsPriceError(true);
+    } else {
+      setIsPriceError(false);
+    }
+
+    if (sellings > 0 && unitPrice > 0) {
+      await createProductDemand(
+        {
+          buyerID: userId,
+          category: selectedCategory.title,
+          type: selectedType,
+          // type: "Samba",
+          sellings,
+          unitPrice,
+          remarks,
+        },
+        setIsCreationSuccess
+      )
+        .then(() => {
+          toast.success("Data added successfully !", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        })
+        .catch(() => {
+          toast.error("Something went wrong!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
-      })
-      .catch(() => {
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+    }else{
+      toast.error("Something went wrong!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
+    }
   };
 
   useEffect(() => {
@@ -228,6 +254,12 @@ const AddDemand = () => {
               setSellings(event.target.value);
             }}
           />
+          {isSellingError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Selling units must have positive value
+            </div>
+          )}
+
           <label
             htmlFor="price"
             className="block text-base font-medium text-gray-700 mt-6"
@@ -244,6 +276,11 @@ const AddDemand = () => {
               setUnitPrice(event.target.value);
             }}
           />
+          {isPriceError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Price must have positive value
+            </div>
+          )}
           <label
             htmlFor="remarks"
             className="block text-base font-medium text-gray-700 mt-6"

@@ -48,6 +48,8 @@ const EditSeedRequest = () => {
   const [location, setLocation] = useState("");
   const [isCreationSuccess, setIsCreationSuccess] = useState(false);
   const [userId, setUserId] = useState("");
+  const [isSizeError, setIsSizeError] = useState(false);
+  const [isWeightError, setIsWeightError] = useState(false);
 
   useEffect(() => {
     setSelectedType(selectedCategory.types[0]);
@@ -61,8 +63,7 @@ const EditSeedRequest = () => {
   useEffect(() => {
     // setSelectedCategory(RequestData);
 
-
-    setUserId(RequestData.farmerId)
+    setUserId(RequestData.farmerId);
     setSelectedType(RequestData.type);
     setSize(RequestData.sizeOfLand);
     setWeight(RequestData.weight);
@@ -72,40 +73,54 @@ const EditSeedRequest = () => {
   console.log(userId, selectedCategory, selectedType, size, weight, location);
 
   const handleSubmit = async () => {
-    await updateSeedRequest(
-      {
-        RequestId: RequestData._id,
-        farmerId: userId,
-        category: selectedCategory.title,
-        type: selectedType,
-        sizeOfLand: size,
-        weight,
-        location,
-      },
-      setIsCreationSuccess
-    )
-      .then(() => {
-        toast.success("Data Updated successfully !", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+    if (size <= 0) {
+      setIsSizeError(true);
+    } else {
+      setIsSizeError(false);
+    }
+
+    if (weight <= 0) {
+      setIsWeightError(true);
+    } else {
+      setIsWeightError(false);
+    }
+
+    if (size > 0 && weight > 0) {
+      await updateSeedRequest(
+        {
+          RequestId: RequestData._id,
+          farmerId: userId,
+          category: selectedCategory.title,
+          type: selectedType,
+          sizeOfLand: size,
+          weight,
+          location,
+        },
+        setIsCreationSuccess
+      )
+        .then(() => {
+          toast.success("Data Updated successfully !", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        })
+        .catch(() => {
+          toast.error("Something went wrong!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
-      })
-      .catch(() => {
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      });
+    }
   };
 
   return (
@@ -252,6 +267,11 @@ const EditSeedRequest = () => {
               setSize(event.target.value);
             }}
           />
+          {isSizeError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Size must have positive value
+            </div>
+          )}
           <label
             htmlFor="weight"
             className="block text-base font-medium text-gray-700 mt-6"
@@ -269,6 +289,11 @@ const EditSeedRequest = () => {
               setWeight(event.target.value);
             }}
           />
+          {isWeightError && (
+            <div className="text-red-500 mt-1 text-sm bg-red-100 pl-2 p-1 font-medium rounded-sm">
+              Weight must have positive value
+            </div>
+          )}
           <label
             htmlFor="location"
             className="block text-base font-medium text-gray-700 mt-6"

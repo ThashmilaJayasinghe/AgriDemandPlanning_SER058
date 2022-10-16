@@ -29,8 +29,9 @@ import AddBuyer from "../../pages/AddBuyer";
 import AddFarmer from "../../pages/AddFarmer";
 import UpdateBuyer from "../../pages/UpdateBuyer";
 import AddCropType from "../../pages/admin/AddCropType";
-import ViewSuggestions from "../../pages/farmer/ViewMessages";
-
+import AllAnnouncements from "../../pages/AllAnnouncements";
+import AddAnnouncement from "../../pages/AddAnnouncement";
+import UpdateAnnouncement from "../../pages/UpdateAnnouncement";
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
@@ -38,9 +39,8 @@ const navigation = [
     { name: 'All Buyers', href: '/admin/all-buyers', icon: FolderIcon, current: false },
     { name: 'Seed Requests', href: '/admin/all-seed-requests', icon: ClipboardCheckIcon, current: false },
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
-    { name: 'Announcements', href: '#', icon: SpeakerphoneIcon, current: false },
+    { name: 'Announcements', href: '/admin/all-announcements', icon: SpeakerphoneIcon, current: false },
     { name: 'Add New Crop', href: '/admin/add-crop', icon: PlusCircleIcon, current: false },
-    { name: 'View Suggestions', href: '/admin/view-suggestions', icon: PlusCircleIcon, current: false },
 ]
 
 function classNames(...classes) {
@@ -100,10 +100,9 @@ export default function AdminLayout() {
                             <div className="flex-shrink-0 flex items-center px-4">
                                 <img
                                     className="h-8 w-auto"
-                                    src="/dm_image.png"
-                                    alt="Admin Dashboard"
+                                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+                                    alt="Workflow"
                                 />
-                                <p className="ml-3 text-lg font-semibold tracking-tight text-white sm:text-3xl">admin panel</p>
                             </div>
                             <div className="mt-5 flex-1 h-0 overflow-y-auto">
                                 <nav className="px-2 space-y-1">
@@ -143,10 +142,9 @@ export default function AdminLayout() {
                     <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
                         <img
                             className="h-8 w-auto"
-                            src="/dm_image.png"
-                            alt="Admin Dashboard"
+                            src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+                            alt="Workflow"
                         />
-                        <p className="ml-3 text-lg font-semibold tracking-tight text-white sm:text-3xl">admin panel</p>
                     </div>
                     <div className="flex-1 flex flex-col overflow-y-auto">
                         <nav className="flex-1 px-2 py-4 space-y-1">
@@ -203,8 +201,11 @@ export default function AdminLayout() {
                                 <Route path="/all-buyers/add" element={<AddBuyer/>}/>
                                 <Route path="/all-farmers/add" element={<AddFarmer/>}/>
                                 <Route path="/update-buyer" element={<UpdateBuyer/>}/>
+
                                 <Route path="/add-crop" element={<AddCropType />} />
-                                <Route path="/view-suggestions" element={<ViewSuggestions />} />
+                                <Route path="/all-announcements" element={<AllAnnouncements/>}/>
+                                <Route path="/all-announcements/add" element={<AddAnnouncement/>}/>
+                                <Route path="/update-announcement"element={<UpdateAnnouncement/>}/>
                             </Routes>
                         </div>
                     </div>

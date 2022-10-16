@@ -1,7 +1,7 @@
 const Farmer = require('./farmer.model');
 const bcrypt = require('bcrypt')
 
-const save = async ({fullName,NIC,gender, address,province, district,  email, contactNumber,userName,password, categories, hectare}) => {
+const save = async ({fullName,NIC,gender, address,province, district,  email, contactNumber,userName,password, categories, hectare,role}) => {
     const farmer = await Farmer({
         fullName,
         NIC,
@@ -14,7 +14,8 @@ const save = async ({fullName,NIC,gender, address,province, district,  email, co
         userName,
         password,
         categories,
-        hectare
+        hectare,
+        role:"Farmer"
     });
     bcrypt.hash(password,7, async (err,hash)=>{
         farmer.password = hash
@@ -33,7 +34,8 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-    const farmer = await Farmer.findById(id);
+    console.log(`ID passed : ${id}`)
+    const farmer = await Farmer.findById({_id:id});
     return farmer;
 };
 
@@ -54,6 +56,13 @@ const updateById = async (id, {fullName,NIC,gender, address,province, district, 
     return farmer;
 };
 
+const updateProfilePicById = async (id, {profileImg}) => {
+    const farmer = await Farmer.findByIdAndUpdate(id, {
+        profileImg
+    },{new: true})
+    return farmer;
+};
+
 const removeById = async (id) => {
     await Farmer.findByIdAndDelete(id)
 };
@@ -65,4 +74,5 @@ module.exports = {
     getById,
     updateById,
     removeById,
+    updateProfilePicById
 }
