@@ -183,12 +183,13 @@ export default function FarmerProfile() {
             </div>
 
             <div className="flex items-center justify-center mt-10">
-              <div
+              <a
                 className="px-4 py-2 border border-transparent rounded-md shadow-sm
                     text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors cursor-pointer"
+                href="/farmer/viewSuggestions"
               >
-                Back
-              </div>
+                View Seed Suggestions
+              </a>
             </div>
           </div>
         </div>

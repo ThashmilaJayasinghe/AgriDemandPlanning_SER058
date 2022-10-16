@@ -32,7 +32,7 @@ import AddCropType from "../../pages/admin/AddCropType";
 import AllAnnouncements from "../../pages/AllAnnouncements";
 import AddAnnouncement from "../../pages/AddAnnouncement";
 import UpdateAnnouncement from "../../pages/UpdateAnnouncement";
-import ViewSuggestions from "../../pages/farmer/ViewMessages"
+
 
 const navigation = [
     { name: 'Dashboard', href: '/admin/dash', icon: HomeIcon, current: true },
@@ -42,7 +42,6 @@ const navigation = [
     { name: 'Buyer Requests', href: '#', icon: InboxIcon, current: false },
     { name: 'Announcements', href: '/admin/all-announcements', icon: SpeakerphoneIcon, current: false },
     { name: 'Add New Crop', href: '/admin/add-crop', icon: PlusCircleIcon, current: false },
-    { name: 'View Suggestions', href: '/farmer/viewSuggestions', icon: PlusCircleIcon, current: false },
 ]
 
 function classNames(...classes) {
@@ -210,7 +209,7 @@ export default function AdminLayout() {
                                 <Route path="/all-announcements" element={<AllAnnouncements/>}/>
                                 <Route path="/all-announcements/add" element={<AddAnnouncement/>}/>
                                 <Route path="/update-announcement"element={<UpdateAnnouncement/>}/>
-                                <Route path="/view-suggestions"element={<ViewSuggestions/>}/>
+
                             </Routes>
                         </div>
                     </div>

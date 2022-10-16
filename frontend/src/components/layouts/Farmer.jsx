@@ -9,6 +9,7 @@ import FarmerHeader from "../headers/FarmerHeader";
 import FarmerProfile from "../../pages/farmer/FarmerProfile";
 import UpdateFarmerProfile from "../../pages/farmer/UpdateFarmerProfile";
 import FarmerHome from "../../pages/farmer/FarmerHome";
+import ViewSuggestions from "../../pages/farmer/ViewMessages"
 
 function FarmerLayout() {
   return (
@@ -26,6 +27,8 @@ function FarmerLayout() {
         <Route path="/profile" element={<FarmerProfile />} />
         <Route path="/profileEdit" element={<UpdateFarmerProfile />} />
         <Route path="/home" element={<FarmerHome />} />
+        <Route path="/view-suggestions"element={<ViewSuggestions/>}/>
+
       </Routes>
     </div>
   );
