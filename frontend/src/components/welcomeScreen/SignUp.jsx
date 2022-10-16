@@ -63,6 +63,10 @@ const SignUp = () => {
             localStorage.setItem("userRole", res.data[1].user.role);
             // navigate('/farmer/home')
             window.location.href = "/farmer/home";
+          }else if(res.data[1].user.role == 'Admin'){
+            localStorage.setItem("user",res.data[1].user._id)
+            localStorage.setItem("userRole", res.data[1].user.role)
+            window.location.href = ('/admin/dash')
           }
           
         }else if(res.data[0] === false){
