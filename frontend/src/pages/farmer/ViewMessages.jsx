@@ -18,6 +18,7 @@ export default function ViewMessages() {
     });
     const [isLoading, setIsLoading] = useState(true);
     const [id, setId] = useState('630e177910470806f04c70ad');
+    // const [id, setId] = useState(localStorage.getItem("user"));
 
     useEffect(() => {
         async function viewSuggestions() {
