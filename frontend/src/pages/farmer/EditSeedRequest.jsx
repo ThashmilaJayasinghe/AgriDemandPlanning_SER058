@@ -10,7 +10,8 @@ import {
 } from "../../api/SeedRequestAPI";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getCropTypes } from "../../api/AddCropTypeAPI";
 
 const staticCategories = [
   {
@@ -40,8 +41,8 @@ function classNames(...classes) {
 }
 
 const EditSeedRequest = () => {
-  const [categories, setCategories] = useState(staticCategories);
-  const [selectedCategory, setSelectedCategory] = useState(staticCategories[0]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState({category: "Select"});
   const [selectedType, setSelectedType] = useState("Select type . . .");
   const [size, setSize] = useState(0.0);
   const [weight, setWeight] = useState(0.0);
@@ -50,9 +51,14 @@ const EditSeedRequest = () => {
   const [userId, setUserId] = useState("");
   const [isSizeError, setIsSizeError] = useState(false);
   const [isWeightError, setIsWeightError] = useState(false);
+  const [crops, setCrops] = useState();
+
+  const navigate = useNavigate()
 
   useEffect(() => {
-    setSelectedType(selectedCategory.types[0]);
+    if (selectedCategory.types) {
+      setSelectedType(selectedCategory.types[0].name);
+    }
   }, [selectedCategory]);
 
   // get Data from backend and display it in here
@@ -61,7 +67,7 @@ const EditSeedRequest = () => {
 
   console.log(RequestData);
   useEffect(() => {
-    // setSelectedCategory(RequestData);
+    setSelectedCategory({category:RequestData.category});
 
     setUserId(RequestData.farmerId);
     setSelectedType(RequestData.type);
@@ -70,7 +76,7 @@ const EditSeedRequest = () => {
     setLocation(RequestData.location);
   }, []);
 
-  console.log(userId, selectedCategory, selectedType, size, weight, location);
+  // console.log(userId, selectedCategory, selectedType, size, weight, location);
 
   const handleSubmit = async () => {
     if (size <= 0) {
@@ -90,7 +96,7 @@ const EditSeedRequest = () => {
         {
           RequestId: RequestData._id,
           farmerId: userId,
-          category: selectedCategory.title,
+          category: selectedCategory.category,
           type: selectedType,
           sizeOfLand: size,
           weight,
@@ -108,6 +114,9 @@ const EditSeedRequest = () => {
             draggable: true,
             progress: undefined,
           });
+
+          navigate('/farmer/mySeedRequests')
+
         })
         .catch(() => {
           toast.error("Something went wrong!", {
@@ -122,6 +131,17 @@ const EditSeedRequest = () => {
         });
     }
   };
+
+  // get categories and type of the crops
+  useEffect(() => {
+    async function getData() {
+      await getCropTypes(setCategories, setCrops).then(() =>
+        console.log("Execution success")
+      );
+    }
+
+    getData();
+  }, []);
 
   return (
     <FormWrapper>
@@ -147,7 +167,7 @@ const EditSeedRequest = () => {
             <div>
               <Menu.Button className="inline-flex py-2 px-5 border border-gray-300 md:mr-0 md:pr-0 w-full rounded-md text-sm font-medium text-gray-700 active:ring-2 active:ring-emerald-400 active:border-0 focus:ring-2 focus:ring-emerald-400 focus:border-0">
                 <div className="text-gray-500 font-normal">
-                  {selectedCategory.title}
+                  {selectedCategory.category}
                 </div>
                 <ChevronDownIcon
                   color="#a3a3a3"
@@ -168,25 +188,29 @@ const EditSeedRequest = () => {
             >
               <Menu.Items className="absolute mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-emerald-400 ring-opacity-5 focus:outline-none overflow-visible z-50">
                 <div className="py-1">
-                  {categories.map((item, idx) => {
-                    return (
-                      <Menu.Item key={item.id}>
-                        {({ active }) => (
-                          <a
-                            onClick={() => setSelectedCategory(item)}
-                            className={classNames(
-                              active
-                                ? "bg-emerald-50 text-gray-700"
-                                : "text-gray-700",
-                              "block px-4 py-2 text-sm"
+                  {categories && (
+                    <>
+                      {categories.map((item, idx) => {
+                        return (
+                          <Menu.Item key={item}>
+                            {({ active }) => (
+                              <a
+                                onClick={() => setSelectedCategory(item)}
+                                className={classNames(
+                                  active
+                                    ? "bg-emerald-50 text-gray-700"
+                                    : "text-gray-700",
+                                  "block px-4 py-2 text-sm"
+                                )}
+                              >
+                                {item.category}
+                              </a>
                             )}
-                          >
-                            {item.title}
-                          </a>
-                        )}
-                      </Menu.Item>
-                    );
-                  })}
+                          </Menu.Item>
+                        );
+                      })}
+                    </>
+                  )}
                 </div>
               </Menu.Items>
             </Transition>
@@ -226,12 +250,15 @@ const EditSeedRequest = () => {
             >
               <Menu.Items className="absolute mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-emerald-400 ring-opacity-5 focus:outline-none overflow-visible z-50">
                 <div className="py-1">
+
+                {selectedCategory.types && (
+                  <>
                   {selectedCategory.types.map((item, idx) => {
                     return (
-                      <Menu.Item key={item}>
+                      <Menu.Item key={item.name}>
                         {({ active }) => (
                           <a
-                            onClick={() => setSelectedType(item)}
+                            onClick={() => setSelectedType(item.name)}
                             className={classNames(
                               active
                                 ? "bg-emerald-50 text-gray-700"
@@ -239,12 +266,15 @@ const EditSeedRequest = () => {
                               "block px-4 py-2 text-sm"
                             )}
                           >
-                            {item}
+                            {item.name}
                           </a>
                         )}
                       </Menu.Item>
                     );
                   })}
+                  </>
+                )}
+
                 </div>
               </Menu.Items>
             </Transition>
