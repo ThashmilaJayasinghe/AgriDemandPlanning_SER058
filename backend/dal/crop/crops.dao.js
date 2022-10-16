@@ -35,10 +35,9 @@ const getAllCrops = async () => {
 };
 
 const addDemandForCrop = async ({ category, type, demand }) => {
-
+  console.log(category);
   try {
     const crop = await Crop.find({ category: category });
-
     if (crop.length === 0) {
       console.log("No Categories matches");
       return null;

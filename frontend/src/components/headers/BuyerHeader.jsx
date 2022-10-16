@@ -166,14 +166,24 @@ const BuyerHeader = () => {
                 <>
                   {/* User profile icon here */}
 
-                  <div>
+                  <div className="flex">
                     <Link to="/buyer/profile">
                       <img
                           src={user.profileImg}
                           alt="Profile image"
-                          className="rounded-full w-10 h-10"
+                          className="rounded-full w-10 h-10 mr-4"
                       />
                     </Link>
+                    <button
+                      className="-mr-3 text-gray-500 hover:text-gray-600 hover:scale-105"
+                      onClick={() => {
+                        localStorage.removeItem("user");
+                        localStorage.removeItem("userRole");
+                        window.location.href = "/";
+                      }}
+                    >
+                      Logout
+                    </button>
                   </div>
                 </>
               ) : (
