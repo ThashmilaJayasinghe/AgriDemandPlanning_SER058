@@ -84,7 +84,7 @@ export const updateSeedRequest = async (
                 supply: weight
             })
             .then((result) => {
-                console.log(result.data.success);
+                console.log(result.data.data);
             });
     } catch (err) {
         console.log(err);

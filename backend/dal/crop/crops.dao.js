@@ -74,7 +74,7 @@ const addDemandForCrop = async ({ category, type, demand }) => {
 };
 
 
-const addSuppplyForCrop = async ({ category, type, demand }) => {
+const addSupplyForCrop = async ({ category, type, supply }) => {
 
   try {
     const crop = await Crop.find({ category: category });
@@ -92,8 +92,8 @@ const addSuppplyForCrop = async ({ category, type, demand }) => {
         let previousSupply = 0;
 
         typeExists.types.map((item, index) => {
-          if (item.name == type) {
-            previousSupply = item.demand;
+          if (item.name === type) {
+            previousSupply = item.supply;
           }
         });
 
@@ -115,4 +115,4 @@ const addSuppplyForCrop = async ({ category, type, demand }) => {
 };
 
 
-module.exports = { addCrop, getAllCrops, addDemandForCrop, addSuppplyForCrop };
+module.exports = { addCrop, getAllCrops, addDemandForCrop, addSupplyForCrop };
