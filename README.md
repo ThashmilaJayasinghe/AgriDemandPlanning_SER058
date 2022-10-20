@@ -29,10 +29,10 @@ npm start
 
 ## Authors
 
-* Thashmila Jayasinghe
-* Kenuri Wickramasinghe
-* Suboda Dabarera
-* Ramath Manjitha
+* Thashmila Jayasinghe - IT19051758
+* Kenuri Wickramasinghe - IT20114312
+* Suboda Dabarera - IT20253462
+* Ramath Manjitha - IT20275860
 
 [//]: # (### Deployed at,)
 
