@@ -11,6 +11,11 @@ const messageSchema = mongoose.Schema(
         ref: 'Farmer',
         require: [true, "Please add id of creator"],
     },
+    recipientId: {
+        type: mongoose.Schema.Types.ObjectId,
+        require: [true, "Please add recipient"],
+        ref: 'Farmer'
+    },
     messageBody: {
       type: String,
       require: [true, "Please add message"],

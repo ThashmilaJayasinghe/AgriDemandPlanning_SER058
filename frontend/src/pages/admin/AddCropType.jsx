@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import CropModal from '../../components/CropModal';
+import { useForm } from "react-hook-form";
 
 const staticCategories = [
     {
@@ -150,7 +151,9 @@ const AddCropType = () => {
     let counter = true;
     let newCrop = {};
 
-    const handleSubmit = async () => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const onSubmit = async () => {
 
         if(selectedCategory._id === 'new-category-1234') {
             newCrop = {category: newCategory, type: newType, supply, demand};
@@ -295,14 +298,19 @@ const AddCropType = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    name="location"
-                                    id="location"
+                                    {...register("newCategory", {
+                                        required: true,
+                                        pattern: /^[A-Za-z]+$/
+                                    })}
+                                    name="newCategory"
+                                    id="newCategory"
                                     autoComplete="given-name"
                                     className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
                                     onChange={(event) => {
                                         setNewCategory(event.target.value);
                                     }}
                                 />
+                                {errors.newType && <p className='text-red-600'>Please check name of new type!</p>}
                             </div>
                         ) : (
                             <div/>
@@ -317,18 +325,22 @@ const AddCropType = () => {
                     </label>
                     <input
                         type="text"
-                        name="location"
-                        id="location"
+                        {...register("newType", {
+                            required: true, pattern: /^[A-Za-z]+$/
+                        })}
+                        name="newType"
+                        id="newType"
                         autoComplete="given-name"
                         className="mt-2 focus:ring-1 focus:ring-emerald-400 focus:border-emerald-400 block w-full shadow-sm sm:text-sm text-gray-600 border-gray-300 rounded-md"
                         onChange={(event) => {
                             setNewType(event.target.value);
                         }}
                     />
+                    {errors.newType && <p className='text-red-600'>Please check name of new type!</p>}
                     <div className="flex items-center justify-center mt-10">
                         <div
                             className="px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors cursor-pointer"
-                            onClick={handleSubmit}
+                            onClick={handleSubmit(onSubmit)}
                         >
                             Submit
                         </div>

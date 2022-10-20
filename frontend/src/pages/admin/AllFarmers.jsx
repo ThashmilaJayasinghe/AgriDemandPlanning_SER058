@@ -57,7 +57,7 @@ export default function AllFarmers() {
                     <Link to="/admin/all-farmers/add">
                     <a
                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                        href="/admin/dashboard"
+                        href="/admin/all-farmers/add"
                     >
                         + Add Farmer
                     </a></Link>
@@ -144,7 +144,7 @@ export default function AllFarmers() {
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"
                                             size={18}
                                         />
-                                        <p className="hidden md:block">Send Message</p>
+                                        <p className="hidden md:block">Send Suggestion</p>
                                     </button>
                                 </td>
                             </tr>

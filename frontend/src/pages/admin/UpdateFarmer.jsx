@@ -5,35 +5,139 @@ import FormWrapper from "../../components/wrappers/FormWrapper";
 import {MdOutlineCancel} from "react-icons/md";
 import {AiOutlineEdit, AiOutlineEye} from "react-icons/ai";
 import {RiDeleteBin6Line} from "react-icons/ri";
-import {toast} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import {Redirect} from 'react-router-dom';
-
-import { getFarmer, updateFarmer } from '../../api/FarmerAPI';
+import {RiAddLine} from 'react-icons/ri';
+import { updateFarmer } from '../../api/FarmerAPI';
+import {ChevronDownIcon} from "@heroicons/react/outline";
 
 
 const staticCategories = [
     {
-        id: "7c1a427f-6318-48f9-a256-91b2fd924aab",
-        title: "Seeds",
-        types: ["Melon", "Pumpkin", "Black papper", "Sunflower"],
+        _id: "bc022097-96e1-475a-b3dd-09255580036e",
+        category: "Rice",
+        types: [
+            {
+                name: "Naadu",
+                supply: 20,
+                demand: 50,
+                _id: "633fe8af557cda83f8574ae1"
+            },
+            {
+                name: "Samba",
+                supply: 10,
+                demand: 30,
+                _id: "633fef5a5be70cc623e8d593"
+            },
+            {
+                name: "Basmati",
+                supply: 20,
+                demand: 20,
+                _id: "633fefb2437df192068e69ae"
+            },
+        ],
     },
     {
-        id: "bc022097-96e1-475a-b3dd-09255580036e",
-        title: "Rise",
-        types: ["Kalu Heenati", "Keeri Samba", "Pachchaperumal", "Suwandal"],
+        _id: "7c1a427f-6318-48f9-a256-91b2fd924aab",
+        category: "Grains",
+        types: [
+            {
+                name: "Green gram",
+                supply: 30,
+                demand: 20,
+                _id: "633fe8af12345a83f8574ae1"
+            },
+            {
+                name: "Black gram",
+                supply: 5,
+                demand: 40,
+                _id: "633fef5a5be70cc623e8d593"
+            },
+            {
+                name: "Corn",
+                supply: 5,
+                demand: 40,
+                _id: "633fefb2437df192068e69ae"
+            },
+        ],
     },
     {
-        id: "baf1cf1b-30e7-42d8-a8d3-fb81720a360c",
-        title: "Vegitables",
-        types: ["Beetroot", "Carrot", "Kohila", "Potato", "Radish", "Lotus root"],
+        _id: "7c1a412p-6318-48f9-a256-91b2fd924aab",
+        category: "Vegetables(L)",
+        types: [
+            {
+                name: "Pumpkin",
+                supply: 10,
+                demand: 30,
+                _id: "633fe8af12345a83f8574ae1"
+            },
+            {
+                name: "Bitter gourd",
+                supply: 10,
+                demand: 40,
+                _id: "633fef5a5be70cc623e8d593"
+            },
+            {
+                name: "Ladies fingers",
+                supply: 20,
+                demand: 30,
+                _id: "633fefb2437df192068e69ae"
+            },
+        ],
     },
     {
-        id: "a1f6d244-3e91-48ef-b104-08b1328607e9",
-        title: "Fruits",
-        types: ["Mango", "Papaya", "Pineapple", "Avacado", "Banana"],
+        _id: "7c1a427f-6124-48f9-a256-91b2fd924aab",
+        category: "Vegetables(H)",
+        types: [
+            {
+                name: "Carrot",
+                supply: 10,
+                demand: 40,
+                _id: "633fe8af12345a8123454ae1"
+            },
+            {
+                name: "Cabbage",
+                supply: 20,
+                demand: 20,
+                _id: "6976ef5a5be70cc623e8d593"
+            },
+            {
+                name: "Cauliflower",
+                supply: 30,
+                demand: 40,
+                _id: "633fefb2437df193654e69ae"
+            },
+        ],
+    },
+    {
+        _id: "7c1a427f-6318-48f9-n678-91b2fd924aab",
+        category: "Fruits",
+        types: [
+            {
+                name: "Watermelon",
+                supply: 10,
+                demand: 40,
+                _id: "633fe8af12345a987f574ae1"
+            },
+            {
+                name: "Mango",
+                supply: 30,
+                demand: 50,
+                _id: "633f89ty5be70cc623e8d593"
+            },
+            {
+                name: "Papaya",
+                supply: 40,
+                demand: 10,
+                _id: "633568r2437df192068e69ae"
+            },
+        ],
     },
 ];
 
+function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+}
 
 export default function UpdateFarmer() {
 
@@ -49,16 +153,14 @@ export default function UpdateFarmer() {
     const [email, setEmail] = useState("");
     const [contactNumber, setContactNumber] = useState("");
     const [hectare,setHectare] = useState("");
-    const [categories,setCategories] = useState(staticCategories);
-    const [types, setTypes] = useState(staticCategories[0].types[0]);
+    const [categories,setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(staticCategories[0]);
-    const [selectedType, setSelectedType] = useState("");
-    const [newCategory,setNewCategory] = useState("");
+
 
     const navigate = useNavigate;
 
     const onUpdate = async (farmerId) => {
-        // if (window.confirm("Do you wish to update farmer?")) {
+        if (window.confirm("Do you wish to update farmer?")) {
 
             const updatedFarmer = {
                 fullName,
@@ -75,18 +177,18 @@ export default function UpdateFarmer() {
 
             await updateFarmer(farmerId, updatedFarmer, setFarmer)
                 .then(() => {
-                    // toast.success("Farmer updated", {
-                    //     position: "top-right",
-                    //     autoClose: 3000,
-                    //     hideProgressBar: false,
-                    //     closeOnClick: true,
-                    //     pauseOnHover: true,
-                    //     draggable: true,
-                    //     progress: undefined,
-                    // });
-                    // setIsSuccess(true);
-                    // navigate('/admin/farmer-profile');
-                    alert('updated!');
+                    toast.success("Farmer updated", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    setIsSuccess(true);
+                    alert('farmer updated!');
+                    // navigate('/admin/all-farmers');
                 })
                 .catch(() => {
                     toast.error("Something went wrong!", {
@@ -99,57 +201,18 @@ export default function UpdateFarmer() {
                         progress: undefined,
                     });
                 });
-        // };
+        };
     };
 
     const onAddCategory = async() => {
-        // await addQualification(email, newQualification)
-        //     .then(async() => {
-        //         console.log("new qualification added")
-        //
-        //         toast.success('New qualification added!', {
-        //             position: "top-right",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //         });
-        //
-        //         await getStaff(email, setStaffDetails)
-        //             .then((res) => {
-        //                 console.log("staff data retrieved")
-        //             })
-        //     })
 
-        setCategories([...categories, newCategory]) //simple value
+        setCategories([...categories, selectedCategory.category])
+        console.log(categories);
     }
 
-    const onDeleteCategory = async(arrItem) => {
-        // await deleteQualification(email, arrItem)
-        //     .then(async() =>
-        //     {
-        //         console.log("Delete success")
-        //
-        //         toast.info('Qualification removed!', {
-        //             position: "top-right",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //         });
-        //
-        //
-        //
-        //         await getStaff(email, setStaffDetails)
-        //             .then((res) => {
-        //                 console.log("staff data retrieved")
-        //             })
-        //     })
+    const onDeleteCategory = async() => {
 
+        setCategories([...categories].pop());
     }
 
 
@@ -167,8 +230,8 @@ export default function UpdateFarmer() {
         setCategories(farmer.categories);
 
         if(isSuccess){
-            navigate('/admin/farmer-profile')
-        }
+            navigate('/admin/all-farmers')
+        };
 
     }, [isSuccess, navigate]);
 
@@ -407,78 +470,151 @@ export default function UpdateFarmer() {
                                     </div>
                                 </div>
                                 {/*Category Section*/}
-                                {/*<div className="sm:col-span-6">*/}
-                                {/*    <label  className="block text-sm font-medium text-gray-700">*/}
-                                {/*        Categories*/}
-                                {/*    </label>*/}
-                                {/*    <table className="min-w-full divide-y divide-gray-300 shadow-sm border-gray-300 rounded-md">*/}
-                                {/*        <tbody className="divide-y divide-gray-200 bg-white">*/}
-                                {/*        {categories ? (<>*/}
-                                {/*            {categories*/}
-                                {/*                .map((category) => (*/}
-                                {/*                    <tr key={farmer._id}>*/}
-                                {/*                        <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">*/}
-                                {/*                            {category}*/}
-                                {/*                        </td>*/}
-                                {/*                        <td className="py-4 px-3 text-right text-sm font-medium sm:pr-6">*/}
-                                {/*                            <button*/}
-                                {/*                                className="flex w-fit text-white bg-red-500 py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"*/}
-                                {/*                                onClick={() => onDeleteCategory()}*/}
-                                {/*                            >*/}
-                                {/*                                <RiDeleteBin6Line*/}
-                                {/*                                    className="mt-0 mr-0 md:mt-1 md:mr-1"*/}
-                                {/*                                    size={18}*/}
-                                {/*                                />*/}
-                                {/*                            </button>*/}
-                                {/*                        </td>*/}
-                                {/*                    </tr>*/}
-                                {/*                ))}*/}
-                                {/*        </>) : (<>*/}
-                                {/*            <tr key={farmer._id}>*/}
-                                {/*                <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">*/}
-                                {/*                    No categories added yet*/}
-                                {/*                </td>*/}
-                                {/*            </tr>*/}
-                                {/*        </>)}*/}
-                                {/*        {isAddCategory ? (<>*/}
-                                {/*            <div className="sm:col-span-6">*/}
-                                {/*                <label  className="block text-sm font-medium text-gray-700">*/}
-                                {/*                    New Category*/}
-                                {/*                </label>*/}
-                                {/*                <div className="mt-1">*/}
-                                {/*                    <input*/}
-                                {/*                        type="text"*/}
-                                {/*                        name="category"*/}
-                                {/*                        id="category"*/}
-                                {/*                        placeholder="category"*/}
-                                {/*                        className="shadow-sm focus:ring-emerald-400 focus:border-emerald-400 block w-full sm:text-sm border-gray-300 rounded-md"*/}
-                                {/*                        onChange={(e)=>(setEmail(e.target.value))}*/}
-                                {/*                    />*/}
-                                {/*                    <button*/}
-                                {/*                        className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-emerald-600 transition-colors"*/}
-                                {/*                        onClick={() => (setIsAddCategory(false), onAddCategory())}*/}
-                                {/*                    >*/}
-                                {/*                        <p className="hidden md:block">Add</p>*/}
-                                {/*                    </button>*/}
-                                {/*                    <button*/}
-                                {/*                        className="flex w-fit text-white bg-red-500 py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"*/}
-                                {/*                        onClick={() => (setIsAddCategory(false))}*/}
-                                {/*                    >*/}
-                                {/*                        <p className="hidden md:block">Cancel</p>*/}
-                                {/*                    </button>*/}
-                                {/*                </div>*/}
-                                {/*            </div>*/}
-                                {/*        </>) : (<>*/}
-                                {/*            <button*/}
-                                {/*                className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"*/}
-                                {/*                onClick={() => setIsAddCategory(true)}*/}
-                                {/*            >*/}
-                                {/*                <p className="hidden md:block">+ Add Category</p>*/}
-                                {/*            </button>*/}
-                                {/*        </>)}*/}
-                                {/*        </tbody>*/}
-                                {/*    </table>*/}
-                                {/*</div>*/}
+                                <div className="sm:col-span-6">
+                                    <label  className="block text-sm font-medium text-gray-700">
+                                        Categories
+                                    </label>
+                                    <table className="min-w-full divide-y rounded-md">
+                                        <thead className="bg-white">
+                                            <tr>
+                                                <th scope="col" className="relative pl-4 pr-3 sm:pr-6">
+                                                    <span className="sr-only">Category</span>
+                                                </th>
+                                                <th scope="col" className="relative pl-4 pr-3 sm:pr-6">
+                                                    <span className="sr-only">Action</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-200 bg-white">
+                                        {categories.length != 0 && (
+                                            categories
+                                                .map((category) => (
+                                                    <>
+                                                        <tr key={category}>
+                                                            <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+                                                                {category}
+                                                            </td>
+                                                            {/*<td className="text-right text-sm font-medium sm:pr-6">*/}
+                                                            {/*    <button*/}
+                                                            {/*        className="flex w-fit text-white bg-red-500 py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"*/}
+                                                            {/*        onClick={() => onDeleteCategory()}*/}
+                                                            {/*    >*/}
+                                                            {/*        <RiDeleteBin6Line*/}
+                                                            {/*            className="mt-0 mr-0 md:mt-1 md:mr-1"*/}
+                                                            {/*            size={18}*/}
+                                                            {/*        />*/}
+                                                            {/*    </button>*/}
+                                                            {/*</td>*/}
+                                                        </tr>
+                                                    </>
+                                                ))
+                                        )}
+                                        {categories.length === 0 && (
+                                            <Fragment>
+                                                <tr>
+                                                    <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+                                                        No categories added yet
+                                                    </td>
+                                                    <td className="w-full max-w-0 py-4 pl-4 pr-3 text-gray-500 text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+
+                                                    </td>
+                                                </tr>
+                                            </Fragment>
+                                        )}
+                                        {isAddCategory ? (<>
+                                            <tr key={farmer._id}>
+                                                <td>
+                                                    <div className="mt-1">
+                                                        {/* dropdown start */}
+                                                        <Menu
+                                                            as="div"
+                                                            className="relative inline-block text-left w-full mt-2 mr-3"
+                                                        >
+                                                            <div>
+                                                                <Menu.Button className="inline-flex py-2 px-5 border border-gray-300 md:mr-0 md:pr-0 w-full rounded-md text-sm font-medium text-gray-700 active:ring-2 active:ring-emerald-400 active:border-0 focus:ring-2 focus:ring-emerald-400 focus:border-0">
+                                                                    <div className="text-gray-500 font-normal">
+                                                                        {selectedCategory.category}
+                                                                    </div>
+                                                                    <ChevronDownIcon
+                                                                        color="#a3a3a3"
+                                                                        className=" ml-0.5 h-5 w-3 absolute right-6"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                </Menu.Button>
+                                                            </div>
+
+                                                            <Transition
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-100"
+                                                                enterFrom="transform opacity-0 scale-95"
+                                                                enterTo="transform opacity-100 scale-100"
+                                                                leave="transition ease-in duration-75"
+                                                                leaveFrom="transform opacity-100 scale-100"
+                                                                leaveTo="transform opacity-0 scale-95"
+                                                            >
+                                                                <Menu.Items className="absolute mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-emerald-400 ring-opacity-5 focus:outline-none overflow-visible z-50">
+                                                                    <div className="py-1">
+                                                                        {staticCategories.map((crop) => {
+                                                                            return (
+                                                                                <Menu.Item key={crop._id}>
+                                                                                    {({ active }) => (
+                                                                                        <a
+                                                                                            onClick={() => setSelectedCategory(crop)}
+                                                                                            className={classNames(
+                                                                                                active
+                                                                                                    ? "bg-emerald-50 text-gray-700"
+                                                                                                    : "text-gray-700",
+                                                                                                "block px-4 py-2 text-sm"
+                                                                                            )}
+                                                                                        >
+                                                                                            {crop.category}
+                                                                                        </a>
+                                                                                    )}
+                                                                                </Menu.Item>
+                                                                            );
+                                                                        })}
+                                                                    </div>
+                                                                </Menu.Items>
+                                                            </Transition>
+                                                        </Menu>
+                                                        {/* dropdown end */}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        className="ml-6 mb-2 flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-emerald-600 transition-colors"
+                                                        onClick={() => (setIsAddCategory(false), onAddCategory())}
+                                                    >
+                                                        <p className="hidden md:block">Add</p>
+                                                    </button>
+                                                    <button
+                                                        className="ml-6 flex w-fit text-white bg-red-500 py-1 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                                                        onClick={() => (setIsAddCategory(false))}
+                                                    >
+                                                        <p className="hidden md:block">Cancel</p>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </>) : (<>
+                                            <tr>
+                                                <td>
+                                                    <button
+                                                        className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
+                                                        onClick={() => setIsAddCategory(true)}
+
+                                                    >
+                                                        <RiAddLine
+                                                            className="mt-0 mr-0 md:mt-1 md:mr-1 text-white"
+                                                            size={18}
+                                                        />
+                                                        <p className="hidden md:block">Add Category</p>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </>)}
+                                        </tbody>
+                                    </table>
+                                </div>
 
                             </div>
                         </div>
@@ -500,7 +636,7 @@ export default function UpdateFarmer() {
                         </div>
                         {/*Button to update*/}
                         <div className="col-span-1 justify-center flex">
-                            <a
+                            <button
                                 className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-emerald-600 transition-colors"
                                 onClick={() => onUpdate(farmer._id)}
                             >
@@ -509,7 +645,7 @@ export default function UpdateFarmer() {
                                     size={18}
                                 />
                                 <p className="hidden md:block">Update</p>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </form>

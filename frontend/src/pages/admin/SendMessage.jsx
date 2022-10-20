@@ -6,7 +6,7 @@ import {toast} from "react-toastify";
 import {useLocation, useNavigate} from "react-router-dom";
 import {AiOutlineClear} from "react-icons/ai";
 import {AiOutlineEdit} from "react-icons/ai";
-import {BiMessageDetail} from "react-icons/bi";
+import { useForm } from "react-hook-form";
 
 
 export default function SendMessage() {
@@ -18,9 +18,11 @@ export default function SendMessage() {
     const [isLoading, setIsLoading] = useState(true);
     const [subject, setSubject] = useState('');
     const [creatorId, setCreatorId] = useState('631af5e2f2ba9b53e15e6218');
+    // const [creatorId, setCreatorId] = useState(localStorage.getItem("user"));
     const [messageBody, setMessageBody] = useState('');
     // const [parentMessageId, setParentMessageId] = useState('');
-    const [status, setStatus] = useState('sent');
+    const [status, setStatus] = useState('unread');
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
     const navigate = useNavigate();
 
@@ -37,7 +39,7 @@ export default function SendMessage() {
 
             await createMessage(message, setIsSuccess)
                 .then(() => {
-                    toast.success("Message Sent", {
+                    toast.success("Suggestion Sent", {
                         position: "top-right",
                         autoClose: 3000,
                         hideProgressBar: false,
@@ -139,9 +141,9 @@ export default function SendMessage() {
                     <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
                 </svg>
                 <div className="text-center">
-                    <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Send Message</h2>
+                    <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Send Suggestion</h2>
                     <p className="mt-4 text-lg leading-6 text-gray-500">
-                        Suggest a crop that lacks supply to be cultivated.
+                        Suggest a crop that has a lack of supply.
                     </p>
                 </div>
                 <div className="mt-12">
@@ -172,10 +174,14 @@ export default function SendMessage() {
                                     id="subject"
                                     name="subject"
                                     type="text"
+                                    {...register("subject", {
+                                        required: true,
+                                    })}
                                     autoComplete="subject"
                                     onChange={(e)=>(setSubject(e.target.value))}
                                     className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 border-gray-300 rounded-md"
                                 />
+                                {errors.subject && <p className='text-red-600'>Please enter subject for suggestion!</p>}
                             </div>
                         </div>
                         <div className="sm:col-span-2">
@@ -186,11 +192,15 @@ export default function SendMessage() {
                                 <textarea
                                     id="message"
                                     name="message"
+                                    {...register("messageBody", {
+                                        required: true,
+                                    })}
                                     rows={4}
                                     onChange={(e)=>(setMessageBody(e.target.value))}
                                     className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-400 focus:border-emerald-400 border border-gray-300 rounded-md"
                                     defaultValue={''}
                                 />
+                                {errors.messageBody && <p className='text-red-600'>Please enter message for suggestion!</p>}
                             </div>
                         </div>
                         <div className="sm:col-span-2">
@@ -212,7 +222,7 @@ export default function SendMessage() {
                                 <div className="col-span-1 justify-center flex">
                                     <button
                                         className="flex w-fit text-white bg-emerald-500 py-1 px-4 rounded-lg hover:bg-green-600 transition-colors"
-                                        onClick={() => onSendMessage()}
+                                        onClick={handleSubmit(onSendMessage)}
                                     >
                                         <AiOutlineEdit
                                             className="mt-0 mr-0 md:mt-1 md:mr-1"

@@ -34,7 +34,6 @@ export const updateFarmer = async (id, farmer, setFarmer) => {
         await axios
             .put(`${BACKEND_URL}/farmers/` + id, farmer)
             .then((res) => {
-                console.log(res.data);
                 localStorage.setItem('Farmer', JSON.stringify(farmer));
                 setFarmer(res.data);
             });

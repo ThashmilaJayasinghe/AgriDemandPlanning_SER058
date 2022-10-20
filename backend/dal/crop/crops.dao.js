@@ -73,4 +73,46 @@ const addDemandForCrop = async ({ category, type, demand }) => {
   }
 };
 
-module.exports = { addCrop, getAllCrops, addDemandForCrop };
+
+const addSupplyForCrop = async ({ category, type, supply }) => {
+
+  try {
+    const crop = await Crop.find({ category: category });
+
+    if (crop.length === 0) {
+      console.log("No Categories matches");
+      return null;
+    } else {
+      const typeExists = await Crop.findOne({
+        category: category,
+        "types.name": type,
+      });
+
+      if (typeExists) {
+        let previousSupply = 0;
+
+        typeExists.types.map((item, index) => {
+          if (item.name === type) {
+            previousSupply = item.supply;
+          }
+        });
+
+        const updatedCrop = await Crop.findOneAndUpdate(
+            { category: category, "types.name": type },
+            { $set: { "types.$.supply": supply + previousSupply } }
+        );
+
+        return updatedCrop;
+      } else {
+        console.log("No types matches");
+        return null;
+      }
+    }
+  } catch (err) {
+    console.log(err.message);
+    return null;
+  }
+};
+
+
+module.exports = { addCrop, getAllCrops, addDemandForCrop, addSupplyForCrop };

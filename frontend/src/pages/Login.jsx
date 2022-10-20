@@ -77,9 +77,7 @@ function Dashboard() {
                     </span>
                   </h1>
                   <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                    Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure
-                    qui lorem cupidatat commodo. Elit sunt amet fugiat veniam
-                    occaecat fugiat aliqua ad ad non deserunt sunt.
+                   A system to manage supply and demand of agricultural produce in Sri Lanka
                   </p>
                   <p className="mt-8 text-sm text-white uppercase tracking-wide font-semibold sm:mt-10">
                     Used by
@@ -127,7 +125,7 @@ function Dashboard() {
                         aria-current="page"
                         onClick={() => setClickedItem("sign-up")}
                       >
-                        Sign Up
+                        Sign In
                       </a>
                     </li>
                     {/*<li class="mr-2 w-1/3 ">*/}

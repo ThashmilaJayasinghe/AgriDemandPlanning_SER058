@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Barchart from "../../components/Barchart";
 import Piechart from "../../components/Piechart";
 import StatsDisplay from "../../components/StatsDisplay";
-
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const staticCategories = [
     {
@@ -129,6 +130,41 @@ const staticCategories = [
 
 export default function Dashboard() {
 
+    const printReport = () => {
+        const unit = "pt";
+        const size = "A4";
+        const orientation = "portrait";
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "Supply - Demand Relationship of Crops";
+        const headers = [["Category", "Type", "Supply (kg)", "Demand (kg)"]];
+
+
+        const cropData = staticCategories.reduce((r, {category: category, types}) =>
+            types.reduce((t, type) => [...t, {category, ...type}], r),
+            []
+        );
+
+        const data = cropData.map(crop=> [
+            crop.category, crop.name, crop.supply, crop.demand]);
+
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data,
+            headStyles :{fillColor : [37, 183, 76]}
+        };
+
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("Supply_Demand_Relationship_of_Crops_Report.pdf")
+    }
+
     return <>
         <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Dashboard</h1>
         <div className="w-7/8 lg:w-7/8 pr-0 lg:px-10 grid justify-items-center">
@@ -137,7 +173,7 @@ export default function Dashboard() {
             </div>
             {/*report section*/}
             <div className="w-full px-6 mt-3 center">
-                <button className="w-full p-1 rounded-lg text-sm text-gray-500 bg-stone-50 hover:bg-stone-200 transition-colors shadow">
+                <button onClick={printReport} className="w-full p-1 rounded-lg text-sm text-gray-500 bg-stone-50 hover:bg-stone-200 transition-colors shadow">
                     Report on Supply and Demand
                 </button>
             </div>

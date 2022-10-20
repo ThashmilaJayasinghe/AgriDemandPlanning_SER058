@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import CircularProgress from "@mui/material/CircularProgress";
-
 import { getSeedRequestsWithFarmer } from "../../api/SeedRequestAPI";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 
 export default function AllRequests() {
@@ -14,6 +15,34 @@ export default function AllRequests() {
     const setRequest = (request) => {
         localStorage.setItem('Request', JSON.stringify(request));
     };
+
+    const printReport = () => {
+        const unit = "pt";
+        const size = "A4";
+        const orientation = "portrait";
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "Seed Requests";
+        const headers = [["Farmer", "Category", "Land Size (Hectare)", "Status"]];
+
+        const data = requests.map(request=> [
+            request.farmerName, request.category, request.sizeOfLand, request.status]);
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data,
+            headStyles :{fillColor : [37, 183, 76]}
+        };
+
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("All_Seed_Requests_Report.pdf")
+    }
 
     useEffect(() => {
         async function viewAllRequests() {
@@ -46,14 +75,14 @@ export default function AllRequests() {
                     <p
                         className="inline-flex items-center justify-center text-sm font-style: italic text-red-500 sm:w-auto"
                     >
-                        View Report of Past Seasonal Requests:
+                        View Report of All Seasonal Requests:
                     </p>
-                    <a
+                    <button
                         className="ml-4 inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                        href="/admin/dashboard"
+                        onClick={printReport}
                     >
-                        Past Requests
-                    </a>
+                        All Requests
+                    </button>
                 </div>
             </div>
 
@@ -90,7 +119,7 @@ export default function AllRequests() {
                             scope="col"
                             className="hidden px-3 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                         >
-                            Land Size (Hectare)
+                            Projected Supply (kg)
                         </th>
                         <th
                             scope="col"
@@ -124,8 +153,8 @@ export default function AllRequests() {
                                         <dd className="mt-1 truncate text-gray-900">{request.category}</dd>
                                     </dl>
                                     <dl className="font-normal lg:hidden">
-                                        <dt className="sr-only">Land Size</dt>
-                                        <dd className="mt-1 truncate text-gray-900">{request.sizeOfLand}</dd>
+                                        <dt className="sr-only">Projected Supply</dt>
+                                        <dd className="mt-1 truncate text-gray-900">{request.weight}</dd>
                                     </dl>
                                     <dl className="font-normal lg:hidden">
                                         <dt className="sr-only">Status</dt>
@@ -133,7 +162,7 @@ export default function AllRequests() {
                                     </dl>
                                 </td>
                                 <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.category}</td>
-                                <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.sizeOfLand}</td>
+                                <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.weight}</td>
                                 <td className="hidden pl-3 pr-16 py-4 text-sm text-gray-500 lg:table-cell">{request.status}</td>
                                 <td className="py-4 px-3 text-right text-sm font-medium sm:pr-6">
                                     <a
