@@ -133,7 +133,7 @@ export default function ViewDemands() {
 
     printableObject.map((demand, idx) => {
       const ticketData = [demand.title, ":  " + demand.data];
-      tableRows.push(ticketData);
+      return tableRows.push(ticketData);
     });
 
     doc.autoTable(tableColumn, tableRows, {

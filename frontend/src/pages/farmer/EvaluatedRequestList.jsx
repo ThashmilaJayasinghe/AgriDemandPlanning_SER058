@@ -102,7 +102,7 @@ const EvaluatedRequests = () => {
 
     printableObject.map((request, idx) => {
       const ticketData = [request.title, request.data];
-      tableRows.push(ticketData);
+      return tableRows.push(ticketData);
     });
 
     doc.autoTable(tableColumn, tableRows, {
